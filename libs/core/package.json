@@ -1,0 +1,17 @@
+{
+  "name": "@formzk/core",
+  "version": "0.0.0",
+  "license": "MIT",
+  "description": "A powerful and flexible core library for form management in React applications, providing a headless form state management solution",
+  "author": "Louis Loo <louiskhenghao@gmail.com> (https://github.com/louiskhenghao)",
+  "homepage": "https://github.com/louiskhenghao/formzk#readme",
+  "keywords": [
+    "forms",
+    "react",
+    "form-management",
+    "form-builder",
+    "react-hook-form",
+    "validation",
+    "headless"
+  ]
+}
