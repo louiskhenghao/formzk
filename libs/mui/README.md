@@ -247,10 +247,10 @@ While developers can create their own input components, `@formzk/mui` comes with
 
 The following input components are included and optimized for use with `@formzk/mui`
 
-- Checkbox: A standard checkbox input. [(documentation)](<[here](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/Checkbox/props.ts)>)
-- CheckboxGroup: A group of checkboxes for selecting multiple options [(documentation)](<[here](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/CheckboxGroup/props.ts)>)
-- RadioGroup: A group of radio buttons for selecting one option from multiple choices [(documentation)](<[here](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/RadioGroup/props.ts)>)
-- Switch: A toggle switch input for binary choices [(documentation)](<[here](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/Switch/props.ts)>)
+- Checkbox: A standard checkbox input. [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/Checkbox/props.ts)
+- CheckboxGroup: A group of checkboxes for selecting multiple options [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/CheckboxGroup/props.ts)
+- RadioGroup: A group of radio buttons for selecting one option from multiple choices [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/RadioGroup/props.ts)
+- Switch: A toggle switch input for binary choices [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/Switch/props.ts)
 
 These components are designed to work effortlessly with `@formzk/mui`, ensuring consistency and ease of use. In the future, more input components will be added to expand the library's capabilities.
 
@@ -294,7 +294,7 @@ import TextField, { TextFieldProps } from '@mui/material/TextField';
     },
   ]}
 >
-  <Component {...pageProps} />
+  {/* ... your component */}
 </Formzk.Native.Provider>;
 ```
 
@@ -303,13 +303,8 @@ For module Augmentation
 ```ts
 import { ComponentPropsMap as LibraryComponentPropsMap } from '@formzk/core';
 import { CheckboxGroupProps, CheckboxProps, RadioGroupProps, SwitchProps } from '@formzk/mui';
-import { InputProps, TextFieldProps } from '@mui/material';
-
-declare module '*.svg' {
-  const content: any;
-  export const ReactComponent: any;
-  export default content;
-}
+import { InputProps } from '@mui/material/Input';
+import { TextFieldProps } from '@mui/material/TextField';
 
 declare module '@formzk/core' {
   export interface ComponentPropsMap extends LibraryComponentPropsMap {
@@ -326,7 +321,7 @@ declare module '@formzk/core' {
 
 In addition to input components, the package includes components focused on view rendering
 
-- GridRenderView: A component for rendering views in a grid layout. [(documentation)](<[here](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/views/GridRenderView/README.md)>)
-- StackRenderView: A component for rendering views in a stack layout. [(documentation)](<[here](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/views/StackRenderView/README.md)>)
+- GridRenderView: A component for rendering views in a grid layout. [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/views/GridRenderView/README.md)
+- StackRenderView: A component for rendering views in a stack layout. [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/views/StackRenderView/README.md)
 
 These view rendering components help structure and organize your form layouts effectively, providing flexibility in design.
