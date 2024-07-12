@@ -59,4 +59,4 @@ export const FormzkProvider: React.FC<
  * ===========================
  */
 export * from './props';
-export default FormzkContext;
+export default FormzkProvider;

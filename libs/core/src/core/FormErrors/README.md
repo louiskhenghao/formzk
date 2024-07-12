@@ -9,7 +9,7 @@ Component that show form validation errors
 ```TypeScript
 import { ReactNode } from 'react';
 
-export type FormErrorsProps = {
+export type FormzkFormErrorsProps = {
   /**
    * custom render function
    */

@@ -1,4 +1,12 @@
-import { Formzk as NativeFormZk } from '@formzk/core';
+import {
+  FormzkForm,
+  FormzkFormContext,
+  FormzkFormErrors,
+  FormzkFormInput,
+  FormzkFormReset,
+  FormzkFormSubmit,
+  FormzkProvider,
+} from '@formzk/core';
 
 import { FormzkFormMUI } from './core/Form';
 import { FormzkFormItemMUI } from './core/FormItem';
@@ -9,7 +17,15 @@ import { FormzkFormItemMUI } from './core/FormItem';
  * ===========================
  */
 export const Formzk = {
-  Native: NativeFormZk,
+  Native: {
+    Provider: FormzkProvider,
+    FormContext: FormzkFormContext,
+    Form: FormzkForm,
+    Input: FormzkFormInput,
+    Submit: FormzkFormSubmit,
+    Reset: FormzkFormReset,
+    Errors: FormzkFormErrors,
+  },
   MUI: {
     Form: FormzkFormMUI,
     Item: FormzkFormItemMUI,

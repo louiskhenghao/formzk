@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
  * MAIN
  * ===========================
  */
-export type FormErrorsProps = {
+export type FormzkFormErrorsProps = {
   /**
    * custom render function
    */
@@ -17,4 +17,4 @@ export type FormErrorsProps = {
  * EXPORTS
  * ===========================
  */
-export default FormErrorsProps;
+export default FormzkFormErrorsProps;

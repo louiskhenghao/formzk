@@ -10,7 +10,7 @@ Form submit action component
 import { ReactNode } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
-export type FormSubmitProps = {
+export type FormzkFormSubmitProps = {
   /**
    * custom render function
    */

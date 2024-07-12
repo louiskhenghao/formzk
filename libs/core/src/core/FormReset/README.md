@@ -10,7 +10,7 @@ Form reset action component
 import { ReactNode } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
-export type FormResetProps = {
+export type FormzkFormResetProps = {
   /**
    * custom render function
    */

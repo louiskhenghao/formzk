@@ -6,7 +6,7 @@ import { UseFormReturn } from 'react-hook-form';
  * MAIN
  * ===========================
  */
-export type FormResetProps = {
+export type FormzkFormResetProps = {
   /**
    * custom render function
    */
@@ -23,4 +23,4 @@ export type FormResetProps = {
  * EXPORTS
  * ===========================
  */
-export default FormResetProps;
+export default FormzkFormResetProps;

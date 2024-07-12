@@ -3,14 +3,14 @@ import reduce from 'lodash/reduce';
 
 import { useFormzkForm } from '../Form';
 
-import { FormErrorsProps } from './props';
+import { FormzkFormErrorsProps } from './props';
 
 /**
  * ===========================
  * MAIN
  * ===========================
  */
-export const FormErrors: React.FC<FormErrorsProps> = (props) => {
+export const FormzkFormErrors: React.FC<FormzkFormErrorsProps> = (props) => {
   const { render } = props;
 
   // ================ HOOKS
@@ -42,4 +42,4 @@ export const FormErrors: React.FC<FormErrorsProps> = (props) => {
  * ===========================
  */
 export * from './props';
-export default FormErrors;
+export default FormzkFormErrors;

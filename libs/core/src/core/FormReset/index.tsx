@@ -2,14 +2,14 @@ import React from 'react';
 
 import { useFormzkForm } from '../Form';
 
-import { FormResetProps } from './props';
+import { FormzkFormResetProps } from './props';
 
 /**
  * ===========================
  * MAIN
  * ===========================
  */
-export const FormReset: React.FC<FormResetProps> = (props) => {
+export const FormzkFormReset: React.FC<FormzkFormResetProps> = (props) => {
   const { render } = props;
 
   // ================ HOOKS
@@ -30,4 +30,4 @@ export const FormReset: React.FC<FormResetProps> = (props) => {
  * ===========================
  */
 export * from './props';
-export default FormReset;
+export default FormzkFormReset;

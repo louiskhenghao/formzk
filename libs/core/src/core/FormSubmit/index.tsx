@@ -2,14 +2,14 @@ import React from 'react';
 
 import { useFormzkForm } from '../Form';
 
-import { FormSubmitProps } from './props';
+import { FormzkFormSubmitProps } from './props';
 
 /**
  * ===========================
  * MAIN
  * ===========================
  */
-export const FormSubmit: React.FC<FormSubmitProps> = (props) => {
+export const FormzkFormSubmit: React.FC<FormzkFormSubmitProps> = (props) => {
   const { render } = props;
 
   // ================ HOOKS
@@ -30,4 +30,4 @@ export const FormSubmit: React.FC<FormSubmitProps> = (props) => {
  * ===========================
  */
 export * from './props';
-export default FormSubmit;
+export default FormzkFormSubmit;

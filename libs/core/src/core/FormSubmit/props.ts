@@ -6,7 +6,7 @@ import { UseFormReturn } from 'react-hook-form';
  * MAIN
  * ===========================
  */
-export type FormSubmitProps = {
+export type FormzkFormSubmitProps = {
   /**
    * custom render function
    */
@@ -23,4 +23,4 @@ export type FormSubmitProps = {
  * EXPORTS
  * ===========================
  */
-export default FormSubmitProps;
+export default FormzkFormSubmitProps;

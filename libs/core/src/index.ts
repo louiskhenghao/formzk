@@ -1,9 +1,9 @@
 import { FormzkProvider } from './core/Config';
-import { Form, FormzkFormContext } from './core/Form';
-import { FormErrors } from './core/FormErrors';
-import { FormInput } from './core/FormInput';
-import { FormReset } from './core/FormReset';
-import { FormSubmit } from './core/FormSubmit';
+import { FormzkForm, FormzkFormContext } from './core/Form';
+import { FormzkFormErrors } from './core/FormErrors';
+import { FormzkFormInput } from './core/FormInput';
+import { FormzkFormReset } from './core/FormReset';
+import { FormzkFormSubmit } from './core/FormSubmit';
 
 /**
  * ===========================
@@ -13,17 +13,18 @@ import { FormSubmit } from './core/FormSubmit';
 export const Formzk = {
   Provider: FormzkProvider,
   FormContext: FormzkFormContext,
-  Form: Form,
-  Input: FormInput,
-  Submit: FormSubmit,
-  Reset: FormReset,
-  Errors: FormErrors,
+  Form: FormzkForm,
+  Input: FormzkFormInput,
+  Submit: FormzkFormSubmit,
+  Reset: FormzkFormReset,
+  Errors: FormzkFormErrors,
 };
 export * from './@types';
 export * from './hooks';
 export * from './components';
-export { useFormzk } from './core/Config';
-export { useFormzkForm } from './core/Form';
-export type { FormzkFormInputProps } from './core/FormInput';
-export type { FormzkFormProps, FormzkFormRefProps } from './core/Form';
-export type { FormzkContextType, FormzkProviderProps } from './core/Config';
+export * from './core/Config';
+export * from './core/Form';
+export * from './core/FormInput';
+export * from './core/FormSubmit';
+export * from './core/FormReset';
+export * from './core/FormErrors';

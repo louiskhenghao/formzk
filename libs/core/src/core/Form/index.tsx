@@ -119,7 +119,7 @@ const FormView = <F extends FieldValues = FieldValues, T = any>(
  * ===========================
  */
 export * from './props';
-export const Form = forwardRef(FormView) as <
+export const FormzkForm = forwardRef(FormView) as <
   F extends FieldValues = FieldValues,
   T = any
 >(
@@ -127,4 +127,4 @@ export const Form = forwardRef(FormView) as <
     ref?: ForwardedRef<FormzkFormRefProps<F, T>>;
   }
 ) => ReturnType<typeof FormView>;
-export default Form;
+export default FormzkForm;

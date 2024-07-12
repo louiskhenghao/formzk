@@ -12,7 +12,7 @@ import { FormzkFormInputProps } from './props';
  * MAIN
  * ===========================
  */
-export const FormInput = <
+export const FormzkFormInput = <
   F extends FieldValues = FieldValues,
   K extends keyof ComponentPropsMap = keyof ComponentPropsMap
 >(
@@ -82,4 +82,4 @@ export const FormInput = <
  * ===========================
  */
 export * from './props';
-export default FormInput;
+export default FormzkFormInput;

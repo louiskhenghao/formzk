@@ -78,7 +78,7 @@ export function Index() {
             component="TextField"
             disabled={disabled}
             caption="Password must include 1234567890*!"
-            props={{ placeholder: 'Password' }}
+            props={{ type: 'password', placeholder: 'Password' }}
           />
 
           <Formzk.MUI.Item
