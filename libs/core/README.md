@@ -77,7 +77,8 @@ In your project, create a type definition file (e.g: index.d.ts). This file will
 
 ```ts
 import { ComponentPropsMap as LibraryComponentPropsMap } from '@formzk/core';
-import { InputProps, TextFieldProps } from '@mui/material';
+import { TextFieldProps } from '@mui/material';
+import { CheckboxProps } from '@mui/material/Checkbox';
 
 declare module '@formzk/core' {
   export interface ComponentPropsMap extends LibraryComponentPropsMap {
@@ -113,7 +114,6 @@ const schema = yup.object().shape({
 
 // create the form
 <Formzk.Form<InputPayload>
-  ref={ref}
   options={{
     resolver: yupResolver(schema),
     defaultValues: {
@@ -195,7 +195,7 @@ The `Errors` component displays a list of form validation errors. It provides a 
 
 # Quick Implementation
 
-For those who prefer to use Material-UI, we've created a companion package called `@formzk/mui`. This package provides pre-configured Material-UI components that seamlessly integrate with `@formzk/core`, making it quick and easy to implement forms with a consistent, beautiful design. Please check the [@formzk/mui](https://github.com/louiskhenghao/formzk/tree/main/libs/mui#readme) documentation for more details on how to get started
+For those who prefer to use Material-UI, we've created a companion package called `@formzk/mui`. This package provides pre-configured Material-UI components that seamlessly integrate with `@formzk/core`, making it quick and easy to implement forms with consistency. Do checkout the [@formzk/mui](https://github.com/louiskhenghao/formzk/tree/main/libs/mui#readme) documentation for more details on how to get started
 
 ---
 

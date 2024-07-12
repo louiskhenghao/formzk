@@ -1,6 +1,6 @@
 # @formzk/mui
 
-`@formzk/mui` was created to bridge the gap between headless form management and Material-UI's rich component library. While `@formzk/core` provides the foundation for flexible form logic, developers often need to invest additional effort to integrate UI components. `@formzk/mui` addresses this by offering a set of ready-to-use, pre-configured Material-UI components that work seamlessly with the `@formzk/core` architecture. This reduces the overhead of setting up forms and ensures that developers can leverage the full potential of Material-UI with the powerful form handling capabilities of `@formzk/core`
+`@formzk/mui` was created to bridge the gap between headless form management and Material-UI's rich component library. While `@formzk/core` provides the foundation for flexible form logic, developers often need to invest additional effort to integrate UI components. `@formzk/mui` addresses this by offering a set of ready-to-use, pre-configured Material-UI components that work seamlessly with the core architecture. This reduces the overhead of setting up forms and ensures that developers can leverage the full potential of Material-UI with the powerful form handling capabilities of `@formzk/core`
 
 ---
 
@@ -12,7 +12,7 @@
   - [Native Components](#native-components)
   - [Material-UI Components](#material-ui-components)
 - [Using Formzk.MUI.Form](#using-formzkmuiform)
-- [Custom Layouts](#custom-layouts)
+- [Custom Layout](#custom-layout)
 - [Available Components](#available-components)
   - [Input Components](#input-components)
   - [Other Components](#other-components)
@@ -31,9 +31,9 @@ npm install @formzk/core @formzk/mui react-hook-form lodash @mui/material
 
 ## Getting Started
 
-`@formzk/mui` enhances the capabilities of `@formzk/core` by integrating Material-UI components. This package allows you to seamlessly utilize both the native components from `@formzk/core` and the enriched Material-UI components, providing a robust toolkit for creating and managing forms with Material-UI's comprehensive component library
+`@formzk/mui` allows developer to seamlessly utilize both the native components from `@formzk/core` package and providing a robust toolkit for creating and managing forms with Material-UI's component library
 
-To begin using `@formzk/mui`, ensure that you have `@formzk/core` set up in your project. If you need guidance on the initial setup, please refer to the [@formzk/core documentation](https://github.com/louiskhenghao/formzk/blob/main/libs/core/README.md#getting-started)
+To begin using `@formzk/mui`, ensure that you have `@formzk/core` set up in your project. If you need guidance on the initial setup, please refer to the `@formzk/core` [documentation](https://github.com/louiskhenghao/formzk/blob/main/libs/core/README.md#getting-started)
 
 ---
 
@@ -41,7 +41,7 @@ To begin using `@formzk/mui`, ensure that you have `@formzk/core` set up in your
 
 ### Native Components
 
-Even when you only import `@formzk/mui`, you can still access the native components provided by `@formzk/core` without importing the core package separately. Use the `Formzk.Native` namespace to access these components:
+With `@formzk/mui` package, you can still access the native components provided by `@formzk/core` without importing the core package separately. Just use the `Formzk.Native` namespace to access these components:
 
 | Namespace              | Reference                                                                                        |
 | ---------------------- | ------------------------------------------------------------------------------------------------ |
@@ -71,7 +71,7 @@ To access the enhanced Material-UI components, use the `Formzk.MUI` namespace:
 Please refer the example below
 
 ```ts
-import { Formzk } from '@formzk/core';
+import { Formzk } from '@formzk/mui';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Button } from '@mui/material';
@@ -88,15 +88,11 @@ const schema = yup.object().shape({
 
 <Formzk.MUI.Form<InputPayload>
   name="login-form"
-  ref={ref}
   options={{
     resolver: yupResolver(schema),
     defaultValues: {
       email: 'xxxx@xyz.com',
       password: '',
-      rememberMe: false,
-      switch: false,
-      checkboxes: [],
     },
   }}
   onSubmit={(values) => {
@@ -119,7 +115,7 @@ const schema = yup.object().shape({
         label: 'Password',
         component: 'TextField',
         disabled: false,
-        props: { placeholder: 'Password' },
+        props: { type: 'password', placeholder: 'Password' },
       },
     ],
   ]}
@@ -129,7 +125,7 @@ const schema = yup.object().shape({
 </Formzk.MUI.Form>;
 ```
 
-To customize the width of each column, use the layoutProps property
+To customize the width for columns, please use the `layoutProps` [property](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/core/Form/README.md)
 
 ```ts
 config={[
@@ -167,7 +163,7 @@ In this example, the email input field occupies 4 columns in both small (sm) and
 
 ---
 
-## Custom Layouts
+## Custom Layout
 
 If you prefer to create your own layout without using the config props, you can structure your form in the traditional manner. Here’s an example:
 
@@ -185,7 +181,6 @@ const schema = yup.object().shape({
 
 <Formzk.MUI.Form
   name="login-form"
-  ref={ref}
   options={{
     resolver: yupResolver(schema),
     defaultValues: {
@@ -212,6 +207,7 @@ const schema = yup.object().shape({
     label="Password"
     component="TextField"
     props={{
+      type: 'password',
       placeholder: 'Password',
     }}
   />
@@ -258,7 +254,6 @@ To consume the component, can register components at the entry point of your app
 
 ```ts
 import { Checkbox, CheckboxGroup, CheckboxGroupProps, CheckboxProps, Formzk, RadioGroup, RadioGroupProps, Switch, SwitchProps } from '@formzk/mui';
-import Input, { InputProps } from '@mui/material/Input';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 
 <Formzk.Native.Provider
@@ -275,7 +270,7 @@ import TextField, { TextFieldProps } from '@mui/material/TextField';
     {
       name: 'Checkbox',
       component: Checkbox,
-      props: {} as SwitchProps,
+      props: {} as CheckboxProps,
     },
     {
       name: 'Switch',
@@ -303,7 +298,6 @@ For module Augmentation
 ```ts
 import { ComponentPropsMap as LibraryComponentPropsMap } from '@formzk/core';
 import { CheckboxGroupProps, CheckboxProps, RadioGroupProps, SwitchProps } from '@formzk/mui';
-import { InputProps } from '@mui/material/Input';
 import { TextFieldProps } from '@mui/material/TextField';
 
 declare module '@formzk/core' {

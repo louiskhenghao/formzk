@@ -111,7 +111,6 @@ import { Formzk } from '@formzk/core';
     name="password"
     component="MyTextField"
     field={{
-      disabled: true,
       defaultValue: '12345678910',
     }}
     render={(comp, { fieldState }) => {

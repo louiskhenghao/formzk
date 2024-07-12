@@ -5,6 +5,11 @@ import { BoxProps } from '@mui/material/Box';
 import { FormControlProps } from '@mui/material/FormControl';
 import { FormHelperTextProps } from '@mui/material/FormHelperText';
 
+/**
+ * ===========================
+ * EXPORTS
+ * ===========================
+ */
 export type FormzkFormItemMUIProps<
   F extends FieldValues = FieldValues,
   K extends keyof ComponentPropsMap = keyof ComponentPropsMap

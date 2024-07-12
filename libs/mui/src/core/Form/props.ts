@@ -9,7 +9,6 @@ import { FormzkFormItemMUIProps } from '../FormItem';
  * EXPORTS
  * ===========================
  */
-
 export type FormzkFormMUILayoutProps<
   F extends FieldValues = FieldValues,
   K extends keyof ComponentPropsMap = keyof ComponentPropsMap
