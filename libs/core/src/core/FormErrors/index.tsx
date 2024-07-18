@@ -20,6 +20,7 @@ export const FormzkFormErrors: React.FC<FormzkFormErrorsProps> = (props) => {
   // Read the formState before render to subscribe the form state through the Proxy
   // https://react-hook-form.com/api/useform/formstate
   const { formState } = form;
+
   const errors = formState.errors;
   const notices = useMemo(() => {
     return reduce(
@@ -33,7 +34,7 @@ export const FormzkFormErrors: React.FC<FormzkFormErrorsProps> = (props) => {
   }, [errors]);
 
   // ================ VIEWS
-  return <>{render(notices)}</>;
+  return <>{render(notices.length > 0, notices)}</>;
 };
 
 /**
