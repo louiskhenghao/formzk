@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { FormzkFormRefProps } from '@formzk/core';
 import { Formzk } from '@formzk/mui';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button } from '@mui/material';
+import { Alert, Box, Button } from '@mui/material';
 import * as yup from 'yup';
 
 type InputPayload = {
@@ -137,15 +137,46 @@ export function Index() {
                 },
               },
             ],
+            [
+              {
+                content: (
+                  <>
+                    <Formzk.Native.Errors
+                      render={(hasError, errors) => {
+                        if (!hasError) return null;
+                        return (
+                          <Box>
+                            {errors.map((e, i) => {
+                              return (
+                                <Alert key={i} severity="error">
+                                  {e}
+                                </Alert>
+                              );
+                            })}
+                          </Box>
+                        );
+                      }}
+                    />
+                  </>
+                ),
+              },
+            ],
+            [
+              {
+                content: (
+                  <>
+                    <Formzk.Native.Submit
+                      render={(e) => <Button type="submit">Submit</Button>}
+                    />
+                    <Formzk.Native.Reset
+                      render={(e) => <Button onClick={e}>Reset</Button>}
+                    />
+                  </>
+                ),
+              },
+            ],
           ]}
-        >
-          <Formzk.Native.Submit
-            render={(e) => <Button type="submit">Submit</Button>}
-          />
-          <Formzk.Native.Reset
-            render={(e) => <Button onClick={e}>Reset</Button>}
-          />
-        </Formzk.MUI.Form>
+        />
       </div>
     </div>
   );
