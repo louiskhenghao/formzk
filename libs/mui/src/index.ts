@@ -27,6 +27,7 @@ export const Formzk = {
     Errors: FormzkFormErrors,
   },
   MUI: {
+    Provider: FormzkProvider,
     Form: FormzkFormMUI,
     Item: FormzkFormItemMUI,
   },

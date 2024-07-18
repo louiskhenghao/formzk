@@ -60,7 +60,7 @@ To access the enhanced Material-UI components, use the `Formzk.MUI` namespace:
 | ------------------- | -------------------------------------------------------------------------------------------------- |
 | Formzk.MUI.Provider | [Checkout](https://github.com/louiskhenghao/formzk/blob/main/libs/core/README.md#formzkprovider)   |
 | Formzk.MUI.Form     | [Checkout](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/core/FormItem/README.md) |
-| Formzk.MUI.Input    | [Checkout](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/core/FormItem/README.md) |
+| Formzk.MUI.Item     | [Checkout](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/core/FormItem/README.md) |
 
 ---
 
@@ -118,8 +118,20 @@ const schema = yup.object().shape({
         props: { type: 'password', placeholder: 'Password' },
       },
     ],
+    [
+      {
+        // can do this to render custom component
+        content: (
+          <>
+            <Formzk.Native.Submit render={(e) => <Button type="submit">Submit</Button>} />
+            <Formzk.Native.Reset render={(e) => <Button onClick={e}>Reset</Button>} />
+          </>
+        ),
+      },
+    ],
   ]}
 >
+  {/* ANY CONTENT ADDED WILL SHOWS BELOW CONFIG */}
   <Formzk.Native.Submit render={(e) => <Button type="submit">Submit</Button>} />
   <Formzk.Native.Reset render={(e) => <Button onClick={e}>Reset</Button>} />
 </Formzk.MUI.Form>;

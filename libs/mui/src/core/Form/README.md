@@ -7,13 +7,21 @@ Form provider that has integrated with Material UI
 ## Props
 
 ```TypeScript
+import { ReactNode } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { ComponentPropsMap, FormzkFormProps } from '@formzk/core';
 import { GridProps } from '@mui/material/Grid';
-
 import { FormzkFormItemMUIProps } from '../FormItem';
 
-export type FormzkFormMUILayoutProps<
+export type FormzkFormMUILayoutItemCustom = {
+  content: ReactNode;
+  layoutProps?: Omit<
+    GridProps,
+    'item' | 'container' | 'spacing' | 'columns' | 'children'
+  >;
+};
+
+export type FormzkFormMUILayoutItemInput<
   F extends FieldValues = FieldValues,
   K extends keyof ComponentPropsMap = keyof ComponentPropsMap
 > = FormzkFormItemMUIProps<F, K> & {
@@ -22,6 +30,11 @@ export type FormzkFormMUILayoutProps<
     'item' | 'container' | 'spacing' | 'columns' | 'children'
   >;
 };
+
+export type FormzkFormMUILayoutProps<
+  F extends FieldValues = FieldValues,
+  K extends keyof ComponentPropsMap = keyof ComponentPropsMap
+> = FormzkFormMUILayoutItemInput<F, K> | FormzkFormMUILayoutItemCustom;
 
 export type FormzkFormMUIProps<
   F extends FieldValues = FieldValues,
@@ -33,6 +46,7 @@ export type FormzkFormMUIProps<
    */
   config?: FormzkFormMUILayoutProps<F, keyof ComponentPropsMap>[][];
 };
+
 ```
 
 ---
@@ -96,6 +110,11 @@ const schema = yup.object().shape({
 </Formzk.MUI.Form>;
 
 // dynamic layout
+
+import Alert from '@mui/material/Alert';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+
 <Formzk.MUI.Form<InputPayload>
   name="login-form"
   ref={ref}
@@ -172,9 +191,40 @@ const schema = yup.object().shape({
         },
       },
     ],
+    [
+      {
+        content: (
+          <>
+            <Formzk.Native.Errors
+              render={(errors, error) => {
+                if (!error) return null;
+                return (
+                  <Box>
+                    {errors.map((e, i) => {
+                      return (
+                        <Alert key={i} severity="error">
+                          {e}
+                        </Alert>
+                      );
+                    })}
+                  </Box>
+                );
+              }}
+            />
+          </>
+        ),
+      },
+    ],
+    [
+      {
+        content: (
+          <>
+            <Formzk.Native.Submit render={(e) => <Button type="submit">Submit</Button>} />
+            <Formzk.Native.Reset render={(e) => <Button onClick={e}>Reset</Button>} />
+          </>
+        ),
+      },
+    ],
   ]}
->
-  <Formzk.Native.Submit render={(e) => <Button type="submit">Submit</Button>} />
-  <Formzk.Native.Reset render={(e) => <Button onClick={e}>Reset</Button>} />
-</Formzk.MUI.Form>;
+/>;
 ```
