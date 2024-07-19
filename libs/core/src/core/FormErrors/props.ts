@@ -9,7 +9,7 @@ export type FormzkFormErrorsProps = {
   /**
    * custom render function
    */
-  render: (errors: string[]) => ReactNode;
+  render: (hasError: boolean, errors: string[]) => ReactNode;
 };
 
 /**

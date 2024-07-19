@@ -90,8 +90,8 @@ export function Index() {
           </div>
 
           <Formzk.Errors
-            render={(errors) => {
-              if (errors.length === 0) return null;
+            render={(hasError, errors) => {
+              if (!hasError) return null;
               return (
                 <div style={{ padding: '0.5rem', background: '#f87171' }}>
                   <ul>

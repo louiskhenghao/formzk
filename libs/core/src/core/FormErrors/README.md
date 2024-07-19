@@ -13,7 +13,7 @@ export type FormzkFormErrorsProps = {
   /**
    * custom render function
    */
-  render: (errors: string[]) => ReactNode;
+  render: (hasError: boolean, errors: string[]) => ReactNode;
 };
 ```
 
@@ -31,8 +31,8 @@ import { Formzk } from '@formzk/core';
 
   {/* SHOW FORM ERRORS */}
   <Formzk.Errors
-    render={(errors) => {
-      if (errors.length === 0) return null;
+    render={(hasError, errors) => {
+      if (!hasError) return null;
       return (
         <div style={{ padding: '0.5rem', background: '#f87171' }}>
           <ul>
