@@ -20,7 +20,7 @@
         "tsConfig": "libs/core/tsconfig.lib.json",
         "project": "libs/core/package.json",
         "entryFile": "libs/core/src/index.ts",
-        "format": ["cjs", "esm"],
+        "format": ["cjs"],
         "external": ["react", "react-hook-form", "lodash"],
         "rollupConfig": "@nx/react/plugins/bundle-rollup",
         "compiler": "babel",

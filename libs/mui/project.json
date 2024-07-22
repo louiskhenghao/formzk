@@ -20,7 +20,7 @@
         "tsConfig": "libs/mui/tsconfig.lib.json",
         "project": "libs/mui/package.json",
         "entryFile": "libs/mui/src/index.ts",
-        "format": ["cjs", "esm"],
+        "format": ["cjs"],
         "external": [
           "@formzk/core",
           "@mui/material",
