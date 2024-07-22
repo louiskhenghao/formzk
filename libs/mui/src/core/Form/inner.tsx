@@ -29,34 +29,32 @@ export const FormzkFormMUIInner = <
   const { nativeSubmit } = useFormzkForm();
 
   // ================ VARIABLES
-  const formConfig = useMemo(() => {
-    return map(config, (row) =>
-      map(row, (item) => {
-        const { layoutProps, ...restProps } = item;
+  const formConfig = map(config, (row) =>
+    map(row, (item) => {
+      const { layoutProps, ...restProps } = item;
 
-        // if have name then is input component
-        if ((item as FormzkFormMUILayoutItemInput<F>)?.name) {
-          return {
-            children: (
-              <FormzkFormItemMUI
-                {...(restProps as FormzkFormMUILayoutItemInput<F>)}
-              />
-            ),
-            ...layoutProps,
-          };
-        }
+      // if have name then is input component
+      if ((item as FormzkFormMUILayoutItemInput<F>)?.name) {
+        return {
+          children: (
+            <FormzkFormItemMUI
+              {...(restProps as FormzkFormMUILayoutItemInput<F>)}
+            />
+          ),
+          ...layoutProps,
+        };
+      }
 
-        // if custom component
-        if ((item as FormzkFormMUILayoutItemCustom).content) {
-          return {
-            children: (item as FormzkFormMUILayoutItemCustom).content,
-            ...layoutProps,
-          };
-        }
-        return <></>;
-      })
-    );
-  }, [config]);
+      // if custom component
+      if ((item as FormzkFormMUILayoutItemCustom).content) {
+        return {
+          children: (item as FormzkFormMUILayoutItemCustom).content,
+          ...layoutProps,
+        };
+      }
+      return <></>;
+    })
+  );
 
   // ================ VIEWS
   return (

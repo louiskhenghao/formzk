@@ -10,7 +10,7 @@ import { CheckboxProps } from './props';
  * ===========================
  */
 export const Checkbox: React.FC<CheckboxProps> = (props) => {
-  const { label, checked, onChange, ...restProps } = props;
+  const { label, checked = false, onChange, ...restProps } = props;
 
   // ================ STATE
 

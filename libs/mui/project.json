@@ -29,15 +29,9 @@
           "react-hook-form"
         ],
         "rollupConfig": "@nx/react/plugins/bundle-rollup",
-        "compiler": "babel",
-        "assets": [
-          {
-            "glob": "libs/mui/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ]
+        "compiler": "babel"
       }
     }
-  }
+  },
+  "implicitDependencies": ["core"]
 }

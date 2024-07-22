@@ -23,14 +23,7 @@
         "format": ["cjs"],
         "external": ["react", "react-hook-form", "lodash"],
         "rollupConfig": "@nx/react/plugins/bundle-rollup",
-        "compiler": "babel",
-        "assets": [
-          {
-            "glob": "libs/core/README.md",
-            "input": ".",
-            "output": "."
-          }
-        ]
+        "compiler": "babel"
       }
     }
   }
