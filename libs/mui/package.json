@@ -1,6 +1,6 @@
 {
   "name": "@formzk/mui",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
   "description": "A powerful form management library integrating Material-UI components with @formzk/core, providing seamless form creation and management with enhanced UI elements.",
   "author": "Louis Loo <louiskhenghao@gmail.com> (https://github.com/louiskhenghao)",

@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.4](https://github.com/louiskhenghao/formzk/compare/formzk@0.0.3...formzk@0.0.4) (2024-07-22)
+
+
+### Features
+
+* **core:** make use of lodash & reuse variable ([f1fe501](https://github.com/louiskhenghao/formzk/commit/f1fe50191f9c643237151968e9e88bb11335b474))
+* **core:** use Controller instead of useController hook ([a871bc5](https://github.com/louiskhenghao/formzk/commit/a871bc57691e5e20fd42bf709e9e84e82e1cecae))
+* **mui:** make use of lodash & separate view from form ([bb34c09](https://github.com/louiskhenghao/formzk/commit/bb34c09749efeee029d3c9349b9622d31104ce6f))
+
 ## [0.0.3](https://github.com/louiskhenghao/formzk/compare/formzk@0.0.2...formzk@0.0.3) (2024-07-19)
 
 
