@@ -32,8 +32,8 @@ export const Formzk = {
     Item: FormzkFormItemMUI,
   },
 };
-export * from './components';
-export * from './views';
+
 export { useFormzk, useFormzkForm } from '@formzk/core';
-export type { FormzkFormMUIProps } from './core/Form';
-export type { FormzkFormItemMUIProps } from './core/FormItem';
+export * from './components';
+export * from './core';
+export * from './views';

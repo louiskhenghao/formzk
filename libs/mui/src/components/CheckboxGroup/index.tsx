@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDeepCompareEffect } from '@formzk/core';
 import MuiCheckbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import MuiFormGroup from '@mui/material/FormGroup';
+import filter from 'lodash/filter';
+import some from 'lodash/some';
 import toString from 'lodash/toString';
 
 import { CheckboxGroupProps } from './props';
@@ -26,7 +28,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
   const [innerValue, setInnerValue] = useState<string[]>(value);
 
   // ================ HELPERS
-  const triggerUpdate = (updates: string[]) => {
+  const triggerUpdate = (updates: string[] = []) => {
     setInnerValue(updates);
     onChange?.(updates);
   };
@@ -34,10 +36,10 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
   // ================ EVENTS
   const onHandleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event.target.value;
-    let updates = innerValue;
-    const found = updates.some((e) => e === target);
+    let updates = innerValue || [];
+    const found = some(updates, (e) => e === target);
     if (found) {
-      updates = updates.filter((v) => v !== target);
+      updates = filter(updates, (v) => v !== target);
     } else {
       updates.push(target);
     }
@@ -53,7 +55,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
   return (
     <MuiFormGroup {...restProps}>
       {options.map((e) => {
-        const isSelected = innerValue.some((v) => v === e.value.toString());
+        const isSelected = some(innerValue, (v) => v === toString(e.value));
         return (
           <FormControlLabel
             key={`checkbox-${e.value}`}
