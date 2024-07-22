@@ -16,6 +16,8 @@ The vision of `@formzk` is to simplify form management in modern applications by
 
 `@formzk/core` was born out of the necessity to overcome the limitations of existing form solutions that often tightly couple form logic with UI components. This coupling can lead to duplicated code and hinder the flexibility needed to adapt to different use cases. By leveraging the power of react-hook-form and introducing a headless architecture, @formzk/core allows developers to register and manage form components globally, ensuring consistency and reducing redundancy. This results in cleaner, more maintainable code and a more efficient development process.
 
+Please refer to [documentation](./libs/core/README.md)
+
 ### @formzk/mui
 
 `@formzk/mui` was created to bridge the gap between headless form management and Material-UI's rich component library. While @formzk/core provides the foundation for flexible form logic, developers often need to invest additional effort to integrate UI components. @formzk/mui addresses this by offering a set of ready-to-use, pre-configured Material-UI components that work seamlessly with the @formzk/core architecture. This reduces the overhead of setting up forms and ensures that developers can leverage the full potential of Material-UI with the powerful form handling capabilities of @formzk/core.

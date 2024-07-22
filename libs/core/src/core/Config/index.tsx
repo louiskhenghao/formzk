@@ -1,4 +1,6 @@
 import React, { createContext, PropsWithChildren, useContext } from 'react';
+import find from 'lodash/find';
+import some from 'lodash/some';
 
 import { FormzkContextType, FormzkProviderProps } from './props';
 import { defaultConfig } from './settings';
@@ -24,7 +26,7 @@ export const useFormzk = (): FormzkContextType => {
 export const FormzkProvider: React.FC<
   PropsWithChildren<FormzkProviderProps>
 > = (props) => {
-  const { config, children } = props;
+  const { config = [], children } = props;
 
   // ================ HELPERS
   const listComponents: FormzkContextType['listComponents'] = () => {
@@ -32,11 +34,11 @@ export const FormzkProvider: React.FC<
   };
 
   const getComponent: FormzkContextType['getComponent'] = (name) => {
-    return config.find((e) => e.name === name) ?? undefined;
+    return find(config, (e) => e.name === name) ?? undefined;
   };
 
   const isRegistered: FormzkContextType['isRegistered'] = (name) => {
-    return config.some((e) => e.name === name);
+    return some(config, (e) => e.name === name);
   };
 
   // ================ VIEWS

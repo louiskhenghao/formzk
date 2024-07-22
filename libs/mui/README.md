@@ -25,6 +25,11 @@
 yarn add @formzk/core @formzk/mui react-hook-form lodash @mui/material
 # or
 npm install @formzk/core @formzk/mui react-hook-form lodash @mui/material
+
+# install yup validation (optional)
+yarn add yup @hookform/resolvers
+# or
+npm install yup @hookform/resolvers
 ```
 
 ---

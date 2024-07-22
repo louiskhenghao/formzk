@@ -1,5 +1,4 @@
-import React from 'react';
-import { FieldValues, useController } from 'react-hook-form';
+import { Controller, FieldValues } from 'react-hook-form';
 
 import { ComponentPropsMap } from '../../@types';
 import { useFormzk } from '../Config';
@@ -32,12 +31,6 @@ export const FormzkFormInput = <
   // ================ HOOKS
   const { getComponent } = useFormzk();
   const { form } = useFormzkForm<F>();
-  const { field, fieldState, formState } = useController<F>({
-    name,
-    control: form?.control,
-    disabled,
-    ...fieldProps,
-  });
 
   // ================ VARIABLES
   const Component = getComponent(component);
@@ -48,30 +41,38 @@ export const FormzkFormInput = <
     return null;
   }
 
-  // if has custom render
-  if (render) {
-    return render(
-      <Component.component
-        {...inputProps}
-        {...Component.props}
-        disabled={disabled}
-        {...{ [`${valueKey}`]: field.value }}
-        {...{ [`${eventKey}`]: field.onChange }}
-      />,
-      {
-        field,
-        formState,
-        fieldState,
-      }
-    );
-  }
   return (
-    <Component.component
-      {...inputProps}
-      {...Component.props}
+    <Controller
+      name={name}
+      control={form?.control}
       disabled={disabled}
-      {...{ [`${valueKey}`]: field.value }}
-      {...{ [`${eventKey}`]: field.onChange }}
+      {...fieldProps}
+      render={({ field, fieldState, formState }) => {
+        // reusable view variable
+        const view = (
+          <Component.component
+            {...inputProps}
+            {...Component.props}
+            disabled={disabled}
+            {...{ [`${valueKey}`]: field.value }}
+            {...{ [`${eventKey}`]: field.onChange }}
+          />
+        );
+        // if not custom view
+        if (!render) {
+          return <>{view}</>;
+        }
+        // if custom view
+        return (
+          <>
+            {render(view, {
+              field,
+              formState,
+              fieldState,
+            })}
+          </>
+        );
+      }}
     />
   );
 };
