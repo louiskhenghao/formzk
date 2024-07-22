@@ -29,6 +29,11 @@
 yarn add @formzk/core react-hook-form lodash
 # or
 npm install @formzk/core react-hook-form lodash
+
+# install yup validation (optional)
+yarn add yup @hookform/resolvers
+# or
+npm install yup @hookform/resolvers
 ```
 
 ---

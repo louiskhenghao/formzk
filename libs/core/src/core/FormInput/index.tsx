@@ -48,24 +48,8 @@ export const FormzkFormInput = <
     return null;
   }
 
-  // if has custom render
-  if (render) {
-    return render(
-      <Component.component
-        {...inputProps}
-        {...Component.props}
-        disabled={disabled}
-        {...{ [`${valueKey}`]: field.value }}
-        {...{ [`${eventKey}`]: field.onChange }}
-      />,
-      {
-        field,
-        formState,
-        fieldState,
-      }
-    );
-  }
-  return (
+  // reusable view variable
+  const view = (
     <Component.component
       {...inputProps}
       {...Component.props}
@@ -74,6 +58,16 @@ export const FormzkFormInput = <
       {...{ [`${eventKey}`]: field.onChange }}
     />
   );
+
+  // if has custom render
+  if (render) {
+    return render(view, {
+      field,
+      formState,
+      fieldState,
+    });
+  }
+  return <>{view}</>;
 };
 
 /**
