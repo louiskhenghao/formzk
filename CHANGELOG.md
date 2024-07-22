@@ -2,6 +2,8 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.5](https://github.com/louiskhenghao/formzk/compare/formzk@0.0.4...formzk@0.0.5) (2024-07-22)
+
 ## [0.0.4](https://github.com/louiskhenghao/formzk/compare/formzk@0.0.3...formzk@0.0.4) (2024-07-22)
 
 
