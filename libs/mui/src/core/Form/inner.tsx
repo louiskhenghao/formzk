@@ -36,8 +36,9 @@ export const FormzkFormMUIInner = <
 
         // if custom component
         if ((item as FormzkFormMUILayoutItemCustom).content) {
+          const content = (item as FormzkFormMUILayoutItemCustom).content;
           return {
-            children: (item as FormzkFormMUILayoutItemCustom).content,
+            children: typeof content === 'function' ? content() : content,
             ...layoutProps,
           };
         }

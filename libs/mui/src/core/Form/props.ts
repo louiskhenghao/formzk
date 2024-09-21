@@ -14,7 +14,12 @@ import { FormzkFormItemMUIProps } from '../FormItem';
  * ===========================
  */
 export type FormzkFormMUILayoutItemCustom = {
-  content: ReactNode;
+  /**
+   * Updated 1.0.1
+   *
+   * Allow custom render
+   */
+  content: (() => ReactNode) | ReactNode;
   layoutProps?: GridFlexItemType;
 };
 
