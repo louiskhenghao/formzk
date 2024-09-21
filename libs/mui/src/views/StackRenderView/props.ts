@@ -8,7 +8,7 @@ import { StackProps } from '@mui/material/Stack';
  */
 export type StackRenderViewProps = StackProps & {
   /**
-   * the breadcrumb items configuration
+   * the items configuration
    */
   items?: {
     key: string;
