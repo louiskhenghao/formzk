@@ -1,0 +1,17 @@
+{
+  "name": "formzk",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "targets": {
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "skipProjectChangelog": true,
+        "allowEmptyRelease": true,
+        "syncVersions": true,
+        "tagPrefix": "${projectName}@"
+      }
+    }
+  },
+  "tags": []
+}
