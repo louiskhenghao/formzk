@@ -10,25 +10,23 @@ Form provider that has integrated with Material UI
 import { ReactNode } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { ComponentPropsMap, FormzkFormProps } from '@formzk/core';
-import { GridProps } from '@mui/material/Grid';
+
+import {
+  GridFlexItemType,
+  GridRenderViewProps,
+} from '../../views/GridRenderView';
 import { FormzkFormItemMUIProps } from '../FormItem';
 
 export type FormzkFormMUILayoutItemCustom = {
   content: ReactNode;
-  layoutProps?: Omit<
-    GridProps,
-    'item' | 'container' | 'spacing' | 'columns' | 'children'
-  >;
+  layoutProps?: GridFlexItemType;
 };
 
 export type FormzkFormMUILayoutItemInput<
   F extends FieldValues = FieldValues,
   K extends keyof ComponentPropsMap = keyof ComponentPropsMap
 > = FormzkFormItemMUIProps<F, K> & {
-  layoutProps?: Omit<
-    GridProps,
-    'item' | 'container' | 'spacing' | 'columns' | 'children'
-  >;
+  layoutProps?: GridFlexItemType;
 };
 
 export type FormzkFormMUILayoutProps<
@@ -45,6 +43,12 @@ export type FormzkFormMUIProps<
    * the config that used to build form layout
    */
   config?: FormzkFormMUILayoutProps<F, keyof ComponentPropsMap>[][];
+  /**
+   * Added 1.0.1
+   *
+   * the config grid layout props
+   */
+  configLayoutProps?: Omit<GridRenderViewProps, 'items' | 'className'>;
 };
 
 ```
@@ -131,6 +135,10 @@ import Button from '@mui/material/Button';
   onSubmit={(values) => {
     console.log('Formzk.MUI.Form submission ---->', values);
   }}
+  configLayoutProps={{
+    containerProps: { spacing: 1 },
+    itemProps: { xs: 6 }, // example of enforce always 6 for each item in xs (can be override through config item)
+  }}
   config={[
     [
       {
@@ -139,7 +147,6 @@ import Button from '@mui/material/Button';
         component: 'TextField',
         disabled: disabled,
         props: {
-          required: true,
           placeholder: 'Email Address',
         },
         layoutProps: {

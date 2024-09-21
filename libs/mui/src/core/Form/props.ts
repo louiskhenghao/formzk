@@ -2,7 +2,10 @@ import { ReactNode } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { ComponentPropsMap, FormzkFormProps } from '@formzk/core';
 
-import { GridFlexItemType } from '../../views/GridRenderView';
+import {
+  GridFlexItemType,
+  GridRenderViewProps,
+} from '../../views/GridRenderView';
 import { FormzkFormItemMUIProps } from '../FormItem';
 
 /**
@@ -36,4 +39,10 @@ export type FormzkFormMUIProps<
    * the config that used to build form layout
    */
   config?: FormzkFormMUILayoutProps<F, keyof ComponentPropsMap>[][];
+  /**
+   * Added 1.0.1
+   *
+   * the config grid layout props
+   */
+  configLayoutProps?: Omit<GridRenderViewProps, 'items' | 'className'>;
 };

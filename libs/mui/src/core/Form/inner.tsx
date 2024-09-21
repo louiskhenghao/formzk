@@ -23,7 +23,7 @@ export const FormzkFormMUIInner = <
 >(
   props: PropsWithChildren<FormzkFormMUIProps<F, T>>
 ) => {
-  const { name, config, children } = props;
+  const { name, config, configLayoutProps, children } = props;
 
   // ================ HOOKS
   const { nativeSubmit } = useFormzkForm();
@@ -63,7 +63,7 @@ export const FormzkFormMUIInner = <
   // ================ VIEWS
   return (
     <form name={name} onSubmit={nativeSubmit}>
-      <GridRenderView items={formConfig} />
+      <GridRenderView {...configLayoutProps} items={formConfig} />
       {children}
     </form>
   );
