@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { Controller, FieldValues } from 'react-hook-form';
 
 import { ComponentPropsMap } from '../../@types';
@@ -60,17 +61,17 @@ export const FormzkFormInput = <
         );
         // if not custom view
         if (!render) {
-          return <>{view}</>;
+          return <Fragment>{view}</Fragment>;
         }
         // if custom view
         return (
-          <>
+          <Fragment>
             {render(view, {
               field,
               formState,
               fieldState,
             })}
-          </>
+          </Fragment>
         );
       }}
     />

@@ -1,4 +1,4 @@
-import React, { createElement } from 'react';
+import React, { createElement, Fragment } from 'react';
 
 import { FallbackViewProps } from './props';
 
@@ -19,12 +19,18 @@ export const FallbackView = <T = any,>(props: FallbackViewProps<T>): any => {
   // =============== VIEW
   if (!view && !fallback && !customRenderView) return null;
   if (customRenderView) {
-    return <>{customRenderView({ ...viewProps, children })}</>;
+    return <Fragment>{customRenderView({ ...viewProps, children })}</Fragment>;
   }
-  if (view) return <>{createElement(view as any, viewProps, children)}</>;
+  if (view) {
+    return (
+      <Fragment>{createElement(view as any, viewProps, children)}</Fragment>
+    );
+  }
   if (!fallback && children) return children;
   if (!fallback) return null;
-  return <>{createElement(fallback as any, viewProps, children)}</>;
+  return (
+    <Fragment>{createElement(fallback as any, viewProps, children)}</Fragment>
+  );
 };
 
 /**

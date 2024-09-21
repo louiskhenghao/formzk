@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { useFormzkForm } from '../Form';
 
@@ -21,7 +21,7 @@ export const FormzkFormSubmit: React.FC<FormzkFormSubmitProps> = (props) => {
   const { formState } = form;
 
   // ================ VIEWS
-  return <>{render(submit, { formState })}</>;
+  return <Fragment>{render(submit, { formState })}</Fragment>;
 };
 
 /**

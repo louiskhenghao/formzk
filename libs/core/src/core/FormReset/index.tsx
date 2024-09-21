@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { useFormzkForm } from '../Form';
 
@@ -21,7 +21,7 @@ export const FormzkFormReset: React.FC<FormzkFormResetProps> = (props) => {
   const { formState } = form;
 
   // ================ VIEWS
-  return <>{render(reset, { formState })}</>;
+  return <Fragment>{render(reset, { formState })}</Fragment>;
 };
 
 /**
