@@ -59,6 +59,10 @@ export function Index() {
               JSON.stringify(values, null, 2)
             );
           }}
+          configLayoutProps={{
+            containerProps: { spacing: 1 },
+            itemProps: { xs: 6 },
+          }}
           config={[
             [
               {
@@ -67,12 +71,10 @@ export function Index() {
                 component: 'TextField',
                 disabled: disabled,
                 props: {
-                  required: true,
                   placeholder: 'Email Address',
                 },
                 layoutProps: {
-                  sm: 4,
-                  md: 4,
+                  sm: 3,
                 },
               },
               {
@@ -82,8 +84,7 @@ export function Index() {
                 disabled: disabled,
                 props: { placeholder: 'Password' },
                 layoutProps: {
-                  sm: 8,
-                  md: 8,
+                  sm: 9,
                 },
               },
             ],
@@ -139,25 +140,10 @@ export function Index() {
             ],
             [
               {
-                content: (
-                  <>
-                    <Formzk.Native.Errors
-                      render={(hasError, errors) => {
-                        if (!hasError) return null;
-                        return (
-                          <Box>
-                            {errors.map((e, i) => {
-                              return (
-                                <Alert key={i} severity="error">
-                                  {e}
-                                </Alert>
-                              );
-                            })}
-                          </Box>
-                        );
-                      }}
-                    />
-                  </>
+                content: () => (
+                  <Formzk.MUI.Errors
+                    containerProps={{ sx: { marginTop: 2, marginBottom: 2 } }}
+                  />
                 ),
               },
             ],
@@ -165,12 +151,8 @@ export function Index() {
               {
                 content: (
                   <>
-                    <Formzk.Native.Submit
-                      render={(e) => <Button type="submit">Submit</Button>}
-                    />
-                    <Formzk.Native.Reset
-                      render={(e) => <Button onClick={e}>Reset</Button>}
-                    />
+                    <Formzk.MUI.Submit />
+                    <Formzk.MUI.Reset />
                   </>
                 ),
               },
