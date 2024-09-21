@@ -32,23 +32,22 @@ export type StackRenderViewProps = StackProps & {
 
 ```ts
 import { StackRenderView } from '@formzk/mui';
-import HomeIcon from '@mui/icons-material/Home';
-import Button from '@mui/material/Button;
+import Button from '@mui/material/Button';
 
 <StackRenderView
   direction="row"
   items={[
     {
-      key: "create",
+      key: 'button-one',
       content: () => {
-        return <Button>Create Button</Button>
-      }
+        return <Button>Button One</Button>;
+      },
     },
     {
-      key: "icon",
+      key: 'button-two',
       content: () => {
-        return <HomeIcon />
-      }
+        return <Button>Button Two</Button>;
+      },
     },
   ]}
 />;
