@@ -8,6 +8,8 @@ import {
   RadioGroupProps,
   Switch,
   SwitchProps,
+  Select,
+  SelectProps,
 } from '@formzk/mui';
 import Input, { InputProps } from '@mui/material/Input';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
@@ -76,6 +78,11 @@ function CustomApp({ Component, pageProps }: AppProps) {
               name: 'CheckboxGroup',
               component: CheckboxGroup,
               props: {} as CheckboxGroupProps,
+            },
+            {
+              name: 'Select',
+              component: Select,
+              props: {} as SelectProps,
             },
           ]}
         >

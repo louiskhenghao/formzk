@@ -3,6 +3,7 @@ import {
   CheckboxGroupProps,
   CheckboxProps,
   RadioGroupProps,
+  SelectProps,
   SwitchProps,
 } from '@formzk/mui';
 import { InputProps, TextFieldProps } from '@mui/material';
@@ -23,5 +24,6 @@ declare module '@formzk/core' {
     Switch: SwitchProps;
     RadioGroup: RadioGroupProps;
     CheckboxGroup: CheckboxGroupProps;
+    Select: SelectProps;
   }
 }
