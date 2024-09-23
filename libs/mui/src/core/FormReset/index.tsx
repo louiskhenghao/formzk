@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormzkFormReset as FormzkFormCoreReset } from '@formzk/core';
-import LoadingButton from '@mui/lab/LoadingButton';
+import Button from '@mui/material/Button';
 
 import { FormResetButtonProps } from './props';
 
@@ -16,9 +16,9 @@ export const FormResetButton: React.FC<FormResetButtonProps> = (props) => {
   return (
     <FormzkFormCoreReset
       render={(e) => (
-        <LoadingButton type="reset" {...restProps} onClick={e}>
+        <Button type="reset" {...restProps} onClick={e}>
           {text}
-        </LoadingButton>
+        </Button>
       )}
     />
   );

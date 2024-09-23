@@ -2,23 +2,28 @@
 
 Added on 1.0.1
 
-Material UI Submit button with loading state handle
+Material UI Submit button that handle form submission
 
 ---
 
 ## Props
 
 ```TypeScript
-import { LoadingButtonProps } from '@mui/lab/LoadingButton';
+import { ReactNode } from 'react';
+import { ButtonProps } from '@mui/material/Button';
 
-export type FormSubmitButtonProps = LoadingButtonProps & {
+/**
+ * ===========================
+ * MAIN
+ * ===========================
+ */
+export type FormSubmitButtonProps = Omit<ButtonProps, "type"> & {
   /**
    * the button text
    * default to "Submit"
    */
-  text?: string;
+  text?: ReactNode;
 };
-
 ```
 
 ---

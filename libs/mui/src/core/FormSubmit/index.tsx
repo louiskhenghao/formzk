@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormzkFormSubmit as FormzkFormCoreSubmit } from '@formzk/core';
-import LoadingButton from '@mui/lab/LoadingButton';
+import Button from '@mui/material/Button';
 
 import { FormSubmitButtonProps } from './props';
 
@@ -16,14 +16,14 @@ export const FormSubmitButton: React.FC<FormSubmitButtonProps> = (props) => {
   return (
     <FormzkFormCoreSubmit
       render={(e, { formState: { isLoading, isSubmitting, isValidating } }) => (
-        <LoadingButton
+        <Button
           type="submit"
-          variant="outlined"
-          loading={isLoading || isSubmitting || isValidating}
+          variant="contained"
+          disabled={isLoading || isSubmitting || isValidating}
           {...restProps}
         >
           {text}
-        </LoadingButton>
+        </Button>
       )}
     />
   );
