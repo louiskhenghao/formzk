@@ -14,12 +14,16 @@ const FormzkFormMUIView = <F extends FieldValues = FieldValues, T = any>(
   props: PropsWithChildren<FormzkFormMUIProps<F, T>>,
   ref: ForwardedRef<FormzkFormRefProps<F, T>>
 ) => {
-  const { name, config, children, ...restProps } = props;
+  const { name, config, configLayoutProps, children, ...restProps } = props;
 
   // ================ VIEWS
   return (
     <Formzk.Form<F, T> ref={ref} {...restProps}>
-      <FormzkFormMUIInner name={name} config={config}>
+      <FormzkFormMUIInner
+        name={name}
+        config={config}
+        configLayoutProps={configLayoutProps}
+      >
         {children}
       </FormzkFormMUIInner>
     </Formzk.Form>

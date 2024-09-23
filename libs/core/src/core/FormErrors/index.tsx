@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import reduce from 'lodash/reduce';
 
 import { useFormzkForm } from '../Form';
@@ -34,7 +34,7 @@ export const FormzkFormErrors: React.FC<FormzkFormErrorsProps> = (props) => {
   }, [errors]);
 
   // ================ VIEWS
-  return <>{render(notices.length > 0, notices)}</>;
+  return <Fragment>{render(notices.length > 0, notices)}</Fragment>;
 };
 
 /**

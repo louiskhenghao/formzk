@@ -28,9 +28,6 @@ export const GridRenderView: React.FC<GridRenderViewProps> = (props) => {
           item
           xs={12}
           sm={itemLength}
-          md={itemLength}
-          lg={itemLength}
-          xl={itemLength}
           {...itemProps}
           {...item}
         />
@@ -53,11 +50,11 @@ export const GridRenderView: React.FC<GridRenderViewProps> = (props) => {
           {Array.isArray(row)
             ? row.map((item, itemIndex) => {
                 const itemLength = 12 / row.length;
-                return renderItem({ rowIndex, itemIndex, item, itemLength });
+                return renderItem({ rowIndex, itemIndex, itemLength, item });
               })
             : (row.items ?? []).map((item, itemIndex) => {
                 const itemLength = 12 / row.items.length;
-                return renderItem({ rowIndex, itemIndex, item, itemLength });
+                return renderItem({ rowIndex, itemIndex, itemLength, item });
               })}
         </Grid>
       );

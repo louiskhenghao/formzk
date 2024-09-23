@@ -1,9 +1,11 @@
 import { useRef } from 'react';
 import { FormzkFormRefProps } from '@formzk/core';
-import { Formzk } from '@formzk/mui';
+import { Formzk, FormzkFormMUIProps, Select } from '@formzk/mui';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Alert, Box, Button } from '@mui/material';
+import { Alert, Box, Button, Stack } from '@mui/material';
 import * as yup from 'yup';
+
+import { FieldValue, FieldValues } from 'react-hook-form';
 
 type InputPayload = {
   email: string;
@@ -12,6 +14,7 @@ type InputPayload = {
   switch: boolean;
   radio?: string;
   checkboxes?: string[];
+  select?: string | number;
 };
 
 const schema = yup.object().shape({
@@ -32,10 +35,115 @@ const schema = yup.object().shape({
   checkboxes: yup.array().of(yup.string().required()).min(1, 'must have 1'),
 });
 
+export const useFormConfig = (
+  options
+): FormzkFormMUIProps<InputPayload>['config'] => {
+  const disabled = options?.disabled ?? false;
+
+  return [
+    [
+      {
+        name: 'email',
+        label: 'Email Address',
+        component: 'TextField',
+        disabled: disabled,
+        props: {
+          placeholder: 'Email Address',
+        },
+        layoutProps: {
+          sm: 3,
+        },
+      },
+      {
+        label: 'Password',
+        name: 'password',
+        component: 'TextField',
+        disabled: disabled,
+        props: { placeholder: 'Password' },
+        layoutProps: {
+          sm: 9,
+        },
+      },
+    ],
+    [
+      {
+        valueKey: 'checked',
+        name: 'rememberMe',
+        component: 'Checkbox',
+        label: 'Remember me?',
+        disabled: disabled,
+        caption: 'Please check if you wants',
+      },
+      {
+        valueKey: 'checked',
+        name: 'switch',
+        component: 'Switch',
+        label: 'Switch',
+        disabled: disabled,
+        caption: 'Please check if you wants',
+      },
+    ],
+    [
+      {
+        label: 'Radio',
+        name: 'radio',
+        layout: 'wrapped',
+        disabled: disabled,
+        component: 'RadioGroup',
+        props: {
+          options: [
+            { label: 'One', value: 1 },
+            { label: 'Two', value: 2 },
+            { label: 'Three', value: 3 },
+            { label: 'Four', value: 4 },
+          ],
+        },
+      },
+      {
+        label: 'Checkbox',
+        name: 'checkboxes',
+        layout: 'wrapped',
+        disabled: disabled,
+        component: 'CheckboxGroup',
+        props: {
+          options: [
+            { label: 'One', value: 1 },
+            { label: 'Two', value: 2 },
+            { label: 'Three', value: 3 },
+            { label: 'Four', value: 4 },
+          ],
+        },
+      },
+    ],
+    [
+      {
+        label: 'Select',
+        name: 'select',
+        layout: 'wrapped',
+        disabled: disabled,
+        component: 'Select',
+        props: {
+          options: [
+            { label: 'One', value: 1 },
+            { label: 'Two', value: 2 },
+            { label: 'Three', value: 3 },
+            { label: 'Four', value: 4 },
+            { label: 'One-str', value: '1-str' },
+            { label: 'Two-str', value: '2-str' },
+            { label: 'Three-str', value: '3-str' },
+            { label: 'Four-str', value: '4-str' },
+          ],
+        },
+      },
+    ],
+  ];
+};
+
 export function Index() {
   const ref = useRef<FormzkFormRefProps<InputPayload>>(null);
 
   const disabled = false;
+  const configs = useFormConfig({ disabled });
 
   return (
     <div className="wrapper">
@@ -51,6 +159,7 @@ export function Index() {
               rememberMe: false,
               switch: false,
               checkboxes: [],
+              select: '2-str',
             },
           }}
           onSubmit={(values) => {
@@ -59,124 +168,57 @@ export function Index() {
               JSON.stringify(values, null, 2)
             );
           }}
-          config={[
-            [
-              {
-                name: 'email',
-                label: 'Email Address',
-                component: 'TextField',
-                disabled: disabled,
-                props: {
-                  required: true,
-                  placeholder: 'Email Address',
-                },
-                layoutProps: {
-                  sm: 4,
-                  md: 4,
-                },
-              },
-              {
-                label: 'Password',
-                name: 'password',
-                component: 'TextField',
-                disabled: disabled,
-                props: { placeholder: 'Password' },
-                layoutProps: {
-                  sm: 8,
-                  md: 8,
-                },
-              },
-            ],
-            [
-              {
-                valueKey: 'checked',
-                name: 'rememberMe',
-                component: 'Checkbox',
-                label: 'Remember me?',
-                disabled: disabled,
-                caption: 'Please check if you wants',
-              },
-              {
-                valueKey: 'checked',
-                name: 'switch',
-                component: 'Switch',
-                label: 'Switch',
-                disabled: disabled,
-                caption: 'Please check if you wants',
-              },
-            ],
-            [
-              {
-                label: 'Radio',
-                name: 'radio',
-                layout: 'wrapped',
-                disabled: disabled,
-                component: 'RadioGroup',
-                props: {
-                  options: [
-                    { label: 'One', value: 1 },
-                    { label: 'Two', value: 2 },
-                    { label: 'Three', value: 3 },
-                    { label: 'Four', value: 4 },
-                  ],
-                },
-              },
-              {
-                label: 'Checkbox',
-                name: 'checkboxes',
-                layout: 'wrapped',
-                disabled: disabled,
-                component: 'CheckboxGroup',
-                props: {
-                  options: [
-                    { label: 'One', value: 1 },
-                    { label: 'Two', value: 2 },
-                    { label: 'Three', value: 3 },
-                    { label: 'Four', value: 4 },
-                  ],
-                },
-              },
-            ],
-            [
-              {
-                content: (
-                  <>
-                    <Formzk.Native.Errors
-                      render={(hasError, errors) => {
-                        if (!hasError) return null;
-                        return (
-                          <Box>
-                            {errors.map((e, i) => {
-                              return (
-                                <Alert key={i} severity="error">
-                                  {e}
-                                </Alert>
-                              );
-                            })}
-                          </Box>
-                        );
-                      }}
-                    />
-                  </>
-                ),
-              },
-            ],
-            [
-              {
-                content: (
-                  <>
-                    <Formzk.Native.Submit
-                      render={(e) => <Button type="submit">Submit</Button>}
-                    />
-                    <Formzk.Native.Reset
-                      render={(e) => <Button onClick={e}>Reset</Button>}
-                    />
-                  </>
-                ),
-              },
-            ],
-          ]}
-        />
+          configLayoutProps={{
+            containerProps: { spacing: 1 },
+            itemProps: { xs: 6 },
+          }}
+          config={configs}
+        >
+          <Formzk.MUI.Errors
+            containerProps={{ sx: { marginTop: 2, marginBottom: 2 } }}
+          />
+
+          <Formzk.MUI.Item
+            name="select"
+            label="Select"
+            component="Select"
+            layout="wrapped"
+            props={{
+              options: [
+                { label: 'One', value: 1, disabled: true },
+                { label: 'Two', value: 2 },
+                { label: 'Three', value: 3 },
+                { label: 'Four', value: 4 },
+                { label: 'One-str', value: '1-str' },
+                { label: 'Two-str', value: '2-str' },
+                { label: 'Three-str', value: '3-str' },
+                { label: 'Four-str', value: '4-str' },
+              ],
+            }}
+          />
+
+          <Stack direction="row" marginTop={4}>
+            <Formzk.MUI.Submit />
+            <Formzk.MUI.Reset />
+          </Stack>
+
+          <Select
+            label="Test Select example"
+            options={[
+              { label: 'One', value: '1', disabled: true },
+              { label: 'Two', value: '2' },
+              { label: 'Three', value: '3' },
+              { label: 'Four', value: '4' },
+              { label: 'One-str', value: '1-str' },
+              { label: 'Two-str', value: '2-str' },
+              { label: 'Three-str', value: '3-str' },
+              { label: 'Four-str', value: '4-str' },
+            ]}
+            onChange={(value) => {
+              console.log('Select onChanges: ', value);
+            }}
+          />
+        </Formzk.MUI.Form>
       </div>
     </div>
   );
