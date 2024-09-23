@@ -1,6 +1,6 @@
 {
   "name": "formzk",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "description": "A comprehensive form management library for React, integrating core functionalities with customizable UI components and advanced validation",
   "keywords": [
