@@ -45,6 +45,7 @@ export * from './components/Checkbox';
 export * from './components/CheckboxGroup';
 export * from './components/RadioGroup';
 export * from './components/Switch';
+export * from './components/Select';
 // core components
 export * from './core/Form';
 export * from './core/FormItem';

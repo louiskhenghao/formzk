@@ -278,13 +278,14 @@ The following input components are included and optimized for use with `@formzk/
 - CheckboxGroup: A group of checkboxes for selecting multiple options [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/CheckboxGroup/README.md)
 - RadioGroup: A group of radio buttons for selecting one option from multiple choices [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/RadioGroup/README.md)
 - Switch: A toggle switch input for binary choices [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/Switch/README.md)
+- Select: A single selection dropdown from multiple options [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/Select/README.md)
 
 These components are designed to work effortlessly with `@formzk/mui`, ensuring consistency and ease of use. In the future, more input components will be added to expand the library's capabilities.
 
 To consume the component, can register components at the entry point of your application (e.g: app.tsx) or any other preferred location
 
 ```ts
-import { Checkbox, CheckboxGroup, CheckboxGroupProps, CheckboxProps, Formzk, RadioGroup, RadioGroupProps, Switch, SwitchProps } from '@formzk/mui';
+import { Checkbox, CheckboxGroup, CheckboxGroupProps, CheckboxProps, Formzk, RadioGroup, RadioGroupProps, Select, SelectProps, Switch, SwitchProps } from '@formzk/mui';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 
 <Formzk.Native.Provider
@@ -318,6 +319,11 @@ import TextField, { TextFieldProps } from '@mui/material/TextField';
       component: CheckboxGroup,
       props: {} as CheckboxGroupProps,
     },
+    {
+      name: 'Select',
+      component: Select,
+      props: {} as SelectProps,
+    },
   ]}
 >
   {/* ... your component */}
@@ -328,7 +334,7 @@ For module Augmentation
 
 ```ts
 import { ComponentPropsMap as LibraryComponentPropsMap } from '@formzk/core';
-import { CheckboxGroupProps, CheckboxProps, RadioGroupProps, SwitchProps } from '@formzk/mui';
+import { CheckboxGroupProps, CheckboxProps, RadioGroupProps, SelectProps, SwitchProps } from '@formzk/mui';
 import { TextFieldProps } from '@mui/material/TextField';
 
 declare module '@formzk/core' {
@@ -338,6 +344,7 @@ declare module '@formzk/core' {
     Switch: SwitchProps;
     RadioGroup: RadioGroupProps;
     CheckboxGroup: CheckboxGroupProps;
+    Select: SelectProps;
   }
 }
 ```
@@ -464,6 +471,26 @@ Below are some code snippets demonstrating how to utilize the registered input c
   label="Remember me?"
   caption="Please check if you wants"
 />
+
+// usage of `Select` component
+<Formzk.MUI.Item
+  name="select"
+  label="Select Example"
+  component="Select"
+  layout="wrapped"
+  props={{
+    options: [
+      { label: 'One', value: '1', disabled: true },
+      { label: 'Two', value: '2' },
+      { label: 'Three', value: '3' },
+      { label: 'Four', value: '4' },
+      { label: 'One-str', value: '1-str' },
+      { label: 'Two-str', value: '2-str' },
+      { label: 'Three-str', value: '3-str' },
+      { label: 'Four-str', value: '4-str' },
+    ],
+  }}
+/>
 ```
 
 2. With `Formzk.MUI.Form` component `config` props
@@ -519,6 +546,25 @@ Below are some code snippets demonstrating how to utilize the registered input c
         component: 'Switch',
         valueKey: 'checked',
         label: 'Checkbox to check',
+      },
+      // usage of `Select` component
+      {
+        label: 'Select Example',
+        name: 'select',
+        layout: 'wrapped',
+        component: 'Select',
+        props: {
+          options: [
+            { label: 'One', value: '1' },
+            { label: 'Two', value: '2' },
+            { label: 'Three', value: '3' },
+            { label: 'Four', value: '4' },
+            { label: 'One-str', value: '1-str' },
+            { label: 'Two-str', value: '2-str' },
+            { label: 'Three-str', value: '3-str' },
+            { label: 'Four-str', value: '4-str' },
+          ],
+        },
       },
     ],
   ]}
