@@ -16,6 +16,7 @@
 - [Available Components](#available-components)
   - [Input Components](#input-components)
   - [Other Components](#other-components)
+- [Snippets](#snippets)
 
 ---
 

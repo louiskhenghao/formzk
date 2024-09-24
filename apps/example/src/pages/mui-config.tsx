@@ -2,10 +2,8 @@ import { useRef } from 'react';
 import { FormzkFormRefProps } from '@formzk/core';
 import { Formzk, FormzkFormMUIProps, Select } from '@formzk/mui';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Alert, Box, Button, Stack } from '@mui/material';
+import Stack from '@mui/material/Stack';
 import * as yup from 'yup';
-
-import { FieldValue, FieldValues } from 'react-hook-form';
 
 type InputPayload = {
   email: string;
