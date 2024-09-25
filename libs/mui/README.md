@@ -23,9 +23,9 @@
 ## Installation
 
 ```bash
-yarn add @formzk/core @formzk/mui react-hook-form lodash @mui/material @mui/lab
+yarn add @formzk/core @formzk/mui react-hook-form lodash @mui/material
 # or
-npm install @formzk/core @formzk/mui react-hook-form lodash @mui/material @mui/lab
+npm install @formzk/core @formzk/mui react-hook-form lodash @mui/material
 
 # install yup validation (optional)
 yarn add yup @hookform/resolvers
@@ -75,7 +75,7 @@ To access the enhanced Material-UI components, use the `Formzk.MUI` namespace:
 
 ## Using Formzk.MUI.Form
 
-`Formzk.MUI.Form` works similarly to `Formzk.Native.Form` or `Formzk.Form` but includes additional functionality for layout rendering. It allows developer to define the form layout using a `config` prop that accepts a multi-dimensional array. Each sub-array represents a row, and each object within a sub-array represents a column
+`Formzk.MUI.Form` works similarly to `Formzk.Native.Form` or `Formzk.Form` (from `@formzk/core`) but includes additional functionality for layout rendering. It allows developer to define the form layout using a `config` prop that accepts a multi-dimensional array. Each sub-array represents a row, and each object within a sub-array represents a column
 
 Please refer the example below
 
@@ -105,7 +105,7 @@ const schema = yup.object().shape({
     },
   }}
   onSubmit={(values) => {
-    console.log('Formzk.Form submit ---->', values);
+    console.log('Submit values: ', values);
   }}
   config={[
     [
@@ -233,7 +233,7 @@ const schema = yup.object().shape({
     },
   }}
   onSubmit={(values) => {
-    console.log('Formzk.Form submit values ---->', JSON.stringify(values, null, 2));
+    console.log('Submit values: ', JSON.stringify(values, null, 2));
   }}
 >
   <Formzk.MUI.Item
@@ -258,8 +258,8 @@ const schema = yup.object().shape({
 
   <Formzk.MUI.Item name="rememberMe" valueKey="checked" component="Checkbox" label="Remember me?" />
 
-  <Formzk.Mui.Reset text="Clear" />
-  <Formzk.Native.Submit text="Login" />
+  <Formzk.MUI.Reset text="Clear" />
+  <Formzk.MUI.Submit text="Login" />
 </Formzk.MUI.Form>;
 ```
 
@@ -419,7 +419,7 @@ These view rendering components help structure and organize your form layouts ef
 
 ### Snippets
 
-Below are some code snippets demonstrating how to utilize the registered input components within the package for quick integration and efficient usage."
+Below are some code snippets demonstrating how to utilize the registered input components within the package for quick integration and efficient usage.
 
 1. With `Formzk.MUI.Item`
 
