@@ -1,3 +1,4 @@
+import { Fragment, ReactNode, useMemo } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { CloneElement, ComponentPropsMap, Formzk } from '@formzk/core';
 import Box from '@mui/material/Box';
@@ -29,11 +30,22 @@ export const FormzkFormItemMUI = <
     formControlWrappedProps,
     captionHighlightProps,
     errorHighlightTextProps,
+    render,
     ...restProps
   } = props;
 
   // ================ VIEWS
-  const renderHighlight = (error?: string) => {
+  // label view
+  const labelView = useMemo(() => {
+    if (!label) return null;
+    if (labelType === 'FormLabel') {
+      return <FormLabel>{label}</FormLabel>;
+    }
+    return <InputLabel>{label}</InputLabel>;
+  }, [label, labelType]);
+
+  // render helper text
+  const renderHelperText = (error?: string) => {
     return (
       <>
         {caption && (
@@ -55,43 +67,45 @@ export const FormzkFormItemMUI = <
         const { fieldState } = state;
         const error = fieldState.error?.message;
         const hasError = !!error;
-        // contained layout
-        if (layout === 'contained') {
-          return (
-            <Box {...normalWrappedProps}>
-              <CloneElement label={label} error={hasError}>
-                {comp}
-              </CloneElement>
-              {renderHighlight(error)}
-            </Box>
-          );
-        }
+
+        let view = <Fragment>{comp}</Fragment>;
         // normal layout
         if (layout === 'normal') {
-          return (
+          view = (
             <CloneElement label={label} error={hasError}>
               {comp}
             </CloneElement>
           );
         }
+        // contained layout
+        if (layout === 'contained') {
+          view = (
+            <Box {...normalWrappedProps}>
+              <CloneElement label={label}>{comp}</CloneElement>
+              {renderHelperText(error)}
+            </Box>
+          );
+        }
         // wrapped layout
-        return (
-          <FormControl
-            fullWidth
-            margin="normal"
-            {...formControlWrappedProps}
-            error={hasError}
-          >
-            {label && labelType === 'FormLabel' && (
-              <FormLabel>{label}</FormLabel>
-            )}
-            {label && labelType === 'InputLabel' && (
-              <InputLabel>{label}</InputLabel>
-            )}
-            {comp}
-            {renderHighlight(error)}
-          </FormControl>
-        );
+        if (layout === 'wrapped') {
+          view = (
+            <FormControl
+              fullWidth
+              margin="normal"
+              {...formControlWrappedProps}
+              error={hasError}
+            >
+              {labelView}
+              {comp}
+              {renderHelperText(error)}
+            </FormControl>
+          );
+        }
+
+        if (render) {
+          return render(view, state);
+        }
+        return view;
       }}
     />
   );

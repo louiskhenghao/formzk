@@ -8,7 +8,12 @@ Form Item rendering with registered input component
 
 ```TypeScript
 import { ReactNode } from 'react';
-import { FieldValues } from 'react-hook-form';
+import {
+  ControllerFieldState,
+  ControllerRenderProps,
+  FieldValues,
+  UseFormStateReturn,
+} from 'react-hook-form';
 import { ComponentPropsMap, FormzkFormInputProps } from '@formzk/core';
 import { BoxProps } from '@mui/material/Box';
 import { FormControlProps } from '@mui/material/FormControl';
@@ -19,14 +24,20 @@ export type FormzkFormItemMUIProps<
   K extends keyof ComponentPropsMap = keyof ComponentPropsMap
 > = Omit<FormzkFormInputProps<F, K>, 'render'> & {
   /**
-   * whether to have FormControl wrapped
-   * normal: show original component
-   * wrapped: wrapped with FormControl
-   * contained: wrapped with Box & have error capability
+   * display component with desired layout
+   * * `none`: show original component
+   * * `normal`: show original component,
+   *   * inject label & error props to displaying component
+   * * `wrapped`: wrapped with FormControl (full-width & error injected by default)
+   *   * showing label
+   *   * showing helper text underneath
+   * * `contained`: wrapped with `Box`
+   *   * inject label props to displaying component
+   *   * showing helper text underneath
    *
    * default: contained
    */
-  layout?: 'normal' | 'wrapped' | 'contained';
+  layout?: 'none' | 'normal' | 'wrapped' | 'contained';
   /**
    * whether to highlight error if error message present
    * default: true
@@ -39,11 +50,12 @@ export type FormzkFormItemMUIProps<
   /**
    * * Added 1.0.3
    * The label type
+   *
    * NOTE: only applied for `wrapped` layout
    *
    * default `FormLabel`
    */
-  labelType: 'FormLabel' | 'InputLabel';
+  labelType?: 'FormLabel' | 'InputLabel';
   /**
    * caption to show below form input
    */
@@ -56,6 +68,20 @@ export type FormzkFormItemMUIProps<
   normalWrappedProps?: BoxProps;
   captionHighlightProps?: FormHelperTextProps;
   errorHighlightTextProps?: FormHelperTextProps;
+
+  /**
+   * Added 1.0.4
+   *
+   * the custom render function
+   */
+  render?: (
+    comp: ReactNode,
+    options: {
+      field: ControllerRenderProps<F>;
+      formState: UseFormStateReturn<F>;
+      fieldState: ControllerFieldState;
+    }
+  ) => ReactNode;
 };
 ```
 
