@@ -67,7 +67,7 @@ export type FormzkFormItemMUIProps<
   errorHighlightTextProps?: FormHelperTextProps;
 
   /**
-   * * Added 1.0.4
+   * * Added 1.0.3
    * the custom render function
    */
   render?: (
