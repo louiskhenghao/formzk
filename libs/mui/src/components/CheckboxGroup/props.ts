@@ -1,13 +1,13 @@
 import { ReactNode } from 'react';
 import { FormControlLabelProps as MuiFormControlLabelProps } from '@mui/material/FormControlLabel';
-import { RadioGroupProps as MuiRadioGroupProps } from '@mui/material/RadioGroup';
+import { FormGroupProps as MuiFormGroupProps } from '@mui/material/FormGroup';
 
 /**
  * ===========================
  * MAIN
  * ===========================
  */
-export type CheckboxGroupProps = Omit<MuiRadioGroupProps, 'children'> & {
+export type CheckboxGroupProps = Omit<MuiFormGroupProps, 'children'> & {
   /**
    * whether to disabled input
    */
@@ -19,7 +19,7 @@ export type CheckboxGroupProps = Omit<MuiRadioGroupProps, 'children'> & {
   /**
    * the value of the input
    */
-  value?: MuiRadioGroupProps['value'];
+  value?: (string | number)[];
   /**
    * the onChange event of the input
    */

@@ -29,9 +29,8 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
 
   // ================ HELPERS
   const triggerUpdate = (updates: (string | number)[] = []) => {
-    const changes = [...updates];
-    setInnerValue(changes);
-    onChange?.(changes);
+    setInnerValue(updates);
+    onChange?.(updates);
   };
 
   // ================ EVENTS
@@ -43,7 +42,7 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
     } else {
       updates.push(value);
     }
-    triggerUpdate(updates);
+    triggerUpdate([...updates]);
   };
 
   // ================ EFFECTS
@@ -64,7 +63,6 @@ export const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
             control={
               <MuiCheckbox
                 name={toString(e.value)}
-                value={toString(e.value)}
                 disabled={disabled || e.disabled}
                 checked={isSelected}
                 onChange={onHandleChange(e.value)}
