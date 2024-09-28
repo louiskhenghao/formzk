@@ -23,7 +23,7 @@ export const FormzkFormItemMUI = <
   const {
     label,
     caption,
-    layout = 'contained',
+    layout = 'wrapped',
     labelType = 'FormLabel',
     enableHighlightError = true,
     normalWrappedProps,
@@ -67,12 +67,13 @@ export const FormzkFormItemMUI = <
         const { fieldState } = state;
         const error = fieldState.error?.message;
         const hasError = !!error;
+        const injectProps = { error: hasError };
 
         let view = <Fragment>{comp}</Fragment>;
         // normal layout
         if (layout === 'normal') {
           view = (
-            <CloneElement label={label} error={hasError}>
+            <CloneElement label={label} {...injectProps}>
               {comp}
             </CloneElement>
           );

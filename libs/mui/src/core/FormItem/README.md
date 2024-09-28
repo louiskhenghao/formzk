@@ -28,11 +28,11 @@ export type FormzkFormItemMUIProps<
    * * `none`: show original component
    * * `normal`: show original component,
    *   * inject label & error props to displaying component
-   * * `wrapped`: wrapped with FormControl (full-width & error injected by default)
-   *   * showing label
-   *   * showing helper text underneath
    * * `contained`: wrapped with `Box`
    *   * inject label props to displaying component
+   *   * showing helper text underneath
+   * * `wrapped`: wrapped with FormControl (full-width & error injected)
+   *   * showing label above
    *   * showing helper text underneath
    *
    * default: contained
@@ -63,6 +63,7 @@ export type FormzkFormItemMUIProps<
 
   /**
    * custom props
+   * ------------------------
    */
   formControlWrappedProps?: FormControlProps;
   normalWrappedProps?: BoxProps;
@@ -70,8 +71,7 @@ export type FormzkFormItemMUIProps<
   errorHighlightTextProps?: FormHelperTextProps;
 
   /**
-   * Added 1.0.4
-   *
+   * * Added 1.0.4
    * the custom render function
    */
   render?: (
