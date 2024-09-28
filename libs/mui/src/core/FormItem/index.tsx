@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormLabel from '@mui/material/FormLabel';
+import InputLabel from '@mui/material/InputLabel';
 
 import { FormzkFormItemMUIProps } from './props';
 
@@ -21,7 +22,8 @@ export const FormzkFormItemMUI = <
   const {
     label,
     caption,
-    layout = 'normal',
+    layout = 'contained',
+    labelType = 'FormLabel',
     enableHighlightError = true,
     normalWrappedProps,
     formControlWrappedProps,
@@ -49,19 +51,43 @@ export const FormzkFormItemMUI = <
   return (
     <Formzk.Input
       {...restProps}
-      render={(comp, { fieldState }) => {
+      render={(comp, state) => {
+        const { fieldState } = state;
         const error = fieldState.error?.message;
-        if (layout === 'normal') {
+        const hasError = !!error;
+        // contained layout
+        if (layout === 'contained') {
           return (
             <Box {...normalWrappedProps}>
-              <CloneElement label={label}>{comp}</CloneElement>
+              <CloneElement label={label} error={hasError}>
+                {comp}
+              </CloneElement>
               {renderHighlight(error)}
             </Box>
           );
         }
+        // normal layout
+        if (layout === 'normal') {
+          return (
+            <CloneElement label={label} error={hasError}>
+              {comp}
+            </CloneElement>
+          );
+        }
+        // wrapped layout
         return (
-          <FormControl fullWidth margin="normal" {...formControlWrappedProps}>
-            {label && <FormLabel>{label}</FormLabel>}
+          <FormControl
+            fullWidth
+            margin="normal"
+            {...formControlWrappedProps}
+            error={hasError}
+          >
+            {label && labelType === 'FormLabel' && (
+              <FormLabel>{label}</FormLabel>
+            )}
+            {label && labelType === 'InputLabel' && (
+              <InputLabel>{label}</InputLabel>
+            )}
             {comp}
             {renderHighlight(error)}
           </FormControl>
