@@ -1,9 +1,11 @@
+import { Fragment, ReactNode, useMemo } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { CloneElement, ComponentPropsMap, Formzk } from '@formzk/core';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormLabel from '@mui/material/FormLabel';
+import InputLabel from '@mui/material/InputLabel';
 
 import { FormzkFormItemMUIProps } from './props';
 
@@ -21,17 +23,29 @@ export const FormzkFormItemMUI = <
   const {
     label,
     caption,
-    layout = 'normal',
+    layout = 'wrapped',
+    labelType = 'FormLabel',
     enableHighlightError = true,
     normalWrappedProps,
     formControlWrappedProps,
     captionHighlightProps,
     errorHighlightTextProps,
+    render,
     ...restProps
   } = props;
 
   // ================ VIEWS
-  const renderHighlight = (error?: string) => {
+  // label view
+  const labelView = useMemo(() => {
+    if (!label) return null;
+    if (labelType === 'FormLabel') {
+      return <FormLabel>{label}</FormLabel>;
+    }
+    return <InputLabel>{label}</InputLabel>;
+  }, [label, labelType]);
+
+  // render helper text
+  const renderHelperText = (error?: string) => {
     return (
       <>
         {caption && (
@@ -49,23 +63,50 @@ export const FormzkFormItemMUI = <
   return (
     <Formzk.Input
       {...restProps}
-      render={(comp, { fieldState }) => {
+      render={(comp, state) => {
+        const { fieldState } = state;
         const error = fieldState.error?.message;
+        const hasError = !!error;
+        const injectProps = { error: hasError };
+
+        let view = <Fragment>{comp}</Fragment>;
+        // normal layout
         if (layout === 'normal') {
-          return (
+          view = (
+            <CloneElement label={label} {...injectProps}>
+              {comp}
+            </CloneElement>
+          );
+        }
+        // contained layout
+        if (layout === 'contained') {
+          view = (
             <Box {...normalWrappedProps}>
               <CloneElement label={label}>{comp}</CloneElement>
-              {renderHighlight(error)}
+              {renderHelperText(error)}
             </Box>
           );
         }
-        return (
-          <FormControl fullWidth margin="normal" {...formControlWrappedProps}>
-            {label && <FormLabel>{label}</FormLabel>}
-            {comp}
-            {renderHighlight(error)}
-          </FormControl>
-        );
+        // wrapped layout
+        if (layout === 'wrapped') {
+          view = (
+            <FormControl
+              fullWidth
+              margin="normal"
+              {...formControlWrappedProps}
+              error={hasError}
+            >
+              {labelView}
+              {comp}
+              {renderHelperText(error)}
+            </FormControl>
+          );
+        }
+
+        if (render) {
+          return render(view, state);
+        }
+        return view;
       }}
     />
   );

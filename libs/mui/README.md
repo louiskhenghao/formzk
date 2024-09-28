@@ -174,6 +174,7 @@ To customize the width of columns, please use the `configLayoutProps` [property]
         name: 'email',
         label: 'Email Address',
         component: 'TextField',
+        labelType: 'InputLabel',
         disabled: false,
         props: {
           required: true,
@@ -189,6 +190,7 @@ To customize the width of columns, please use the `configLayoutProps` [property]
         name: 'password',
         label: 'Password',
         component: 'TextField',
+        labelType: 'InputLabel',
         disabled: false,
         props: { placeholder: 'Password' },
         layoutProps: {
@@ -240,6 +242,7 @@ const schema = yup.object().shape({
     name="email"
     label="Email Address"
     component="TextField"
+    labelType: 'InputLabel',
     props={{
       required: true,
       placeholder: 'Email Address',
@@ -250,6 +253,7 @@ const schema = yup.object().shape({
     name="password"
     label="Password"
     component="TextField"
+    labelType: 'InputLabel',
     props={{
       type: 'password',
       placeholder: 'Password',
@@ -287,18 +291,16 @@ To consume the component, can register components at the entry point of your app
 
 ```ts
 import { Checkbox, CheckboxGroup, CheckboxGroupProps, CheckboxProps, Formzk, RadioGroup, RadioGroupProps, Select, SelectProps, Switch, SwitchProps } from '@formzk/mui';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
+import OutlinedInput, { OutlinedInputProps } from '@mui/material/OutlinedInput';
 
 <Formzk.Native.Provider
   config={[
     {
       name: 'TextField',
-      component: TextField,
+      component: OutlinedInput,
       props: {
         fullWidth: true,
-        variant: 'outlined',
-        margin: 'normal',
-      } as TextFieldProps,
+      } as OutlinedInputProps,
     },
     {
       name: 'Checkbox',
@@ -336,11 +338,11 @@ For module Augmentation
 ```ts
 import { ComponentPropsMap as LibraryComponentPropsMap } from '@formzk/core';
 import { CheckboxGroupProps, CheckboxProps, RadioGroupProps, SelectProps, SwitchProps } from '@formzk/mui';
-import { TextFieldProps } from '@mui/material/TextField';
+import { OutlinedInputProps } from '@mui/material/OutlinedInput';
 
 declare module '@formzk/core' {
   export interface ComponentPropsMap extends LibraryComponentPropsMap {
-    TextField: TextFieldProps;
+    TextField: OutlinedInputProps;
     Checkbox: CheckboxProps;
     Switch: SwitchProps;
     RadioGroup: RadioGroupProps;
@@ -429,7 +431,6 @@ Below are some code snippets demonstrating how to utilize the registered input c
   name="selection"
   component="RadioGroup"
   label="Single Selection"
-  layout="wrapped"
   props={{
     options: [
       { label: 'One', value: 1 },
@@ -445,7 +446,6 @@ Below are some code snippets demonstrating how to utilize the registered input c
   name="multiSelection"
   component="CheckboxGroup"
   label="Multi options"
-  layout="wrapped"
   props={{
     options: [
       { label: 'One', value: 1 },
@@ -461,6 +461,7 @@ Below are some code snippets demonstrating how to utilize the registered input c
   name="enabled"
   component="Switch"
   valueKey="checked"
+  layout="contained"
   label="Enable Something"
 />
 
@@ -469,6 +470,7 @@ Below are some code snippets demonstrating how to utilize the registered input c
   name="rememberMe"
   component="Checkbox"
   valueKey="checked"
+  layout="contained"
   label="Remember me?"
   caption="Please check if you wants"
 />
@@ -478,7 +480,6 @@ Below are some code snippets demonstrating how to utilize the registered input c
   name="select"
   label="Select Example"
   component="Select"
-  layout="wrapped"
   props={{
     options: [
       { label: 'One', value: '1', disabled: true },
@@ -506,7 +507,6 @@ Below are some code snippets demonstrating how to utilize the registered input c
         label: 'Multi Selection',
         name: 'multiSelection',
         component: 'CheckboxGroup',
-        layout: 'wrapped',
         props: {
           options: [
             { label: 'One', value: 1 },
@@ -521,7 +521,6 @@ Below are some code snippets demonstrating how to utilize the registered input c
         label: 'Single Options',
         name: 'selection',
         component: 'RadioGroup',
-        layout: 'wrapped',
         props: {
           options: [
             { label: 'One', value: 1 },
@@ -540,6 +539,7 @@ Below are some code snippets demonstrating how to utilize the registered input c
         label: 'Enable Action',
         component: 'Switch',
         valueKey: 'checked',
+        layout: 'contained',
       },
       // usage of `Checkbox` component
       {
@@ -547,12 +547,12 @@ Below are some code snippets demonstrating how to utilize the registered input c
         component: 'Switch',
         valueKey: 'checked',
         label: 'Checkbox to check',
+        layout: 'contained',
       },
       // usage of `Select` component
       {
         label: 'Select Example',
         name: 'select',
-        layout: 'wrapped',
         component: 'Select',
         props: {
           options: [

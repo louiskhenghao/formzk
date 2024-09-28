@@ -6,13 +6,13 @@ import {
   Formzk,
   RadioGroup,
   RadioGroupProps,
-  Switch,
-  SwitchProps,
   Select,
   SelectProps,
+  Switch,
+  SwitchProps,
 } from '@formzk/mui';
 import Input, { InputProps } from '@mui/material/Input';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
+import OutlinedInput, { OutlinedInputProps } from '@mui/material/OutlinedInput';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 
@@ -37,11 +37,11 @@ function CustomApp({ Component, pageProps }: AppProps) {
             },
             {
               name: 'MyTextField',
-              component: TextField,
+              component: OutlinedInput,
               props: {
                 size: 'small',
                 fullWidth: true,
-              } as TextFieldProps,
+              } as OutlinedInputProps,
             },
             {
               name: 'MyCheckbox',
@@ -52,12 +52,10 @@ function CustomApp({ Component, pageProps }: AppProps) {
             },
             {
               name: 'TextField',
-              component: TextField,
+              component: OutlinedInput,
               props: {
                 fullWidth: true,
-                variant: 'outlined',
-                margin: 'normal',
-              } as TextFieldProps,
+              } as OutlinedInputProps,
             },
             {
               name: 'Checkbox',

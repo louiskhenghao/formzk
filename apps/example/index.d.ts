@@ -6,7 +6,7 @@ import {
   SelectProps,
   SwitchProps,
 } from '@formzk/mui';
-import { InputProps, TextFieldProps } from '@mui/material';
+import { InputProps, OutlinedInputProps } from '@mui/material';
 
 declare module '*.svg' {
   const content: any;
@@ -19,7 +19,7 @@ declare module '@formzk/core' {
     MyInput: InputProps;
     MyTextField: TextFieldProps;
     MyCheckbox: CheckboxProps;
-    TextField: TextFieldProps;
+    TextField: OutlinedInputProps;
     Checkbox: CheckboxProps;
     Switch: SwitchProps;
     RadioGroup: RadioGroupProps;

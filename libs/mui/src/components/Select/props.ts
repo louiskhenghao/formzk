@@ -1,6 +1,4 @@
 import { ReactNode } from 'react';
-import { FormControlProps } from '@mui/material/FormControl';
-import { InputLabelProps } from '@mui/material/InputLabel';
 import { MenuItemProps } from '@mui/material/MenuItem';
 import { SelectProps as MuiSelectProps } from '@mui/material/Select';
 
@@ -31,8 +29,6 @@ export type SelectProps = {
    * custom props
    * --------------------
    */
-  wrapperProps?: Omit<FormControlProps, 'children'>;
-  labelProps?: InputLabelProps;
   selectProps?: Omit<MuiSelectProps<string>, 'label' | 'value' | 'onChange'>;
   itemProps?: Omit<MenuItemProps, 'value' | 'children'>;
 };
