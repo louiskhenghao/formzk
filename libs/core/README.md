@@ -49,17 +49,17 @@ The below snippet used `@mui/material` as example
 ```tsx
 import { Formzk } from '@formzk/core';
 import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
+import OutlineInput, { OutlineInputProps } from '@mui/material/OutlineInput';
 
 <Formzk.Provider
   config={[
     {
       name: 'MyTextField',
-      component: TextField,
+      component: OutlineInput,
       props: {
         size: 'small',
         fullWidth: true,
-      } as TextFieldProps,
+      } as OutlineInputProps,
     },
     {
       name: 'MyCheckbox',
@@ -82,12 +82,12 @@ In your project, create a type definition file (e.g: index.d.ts). This file will
 
 ```ts
 import { ComponentPropsMap as LibraryComponentPropsMap } from '@formzk/core';
-import { TextFieldProps } from '@mui/material';
+import { OutlineInputProps } from '@mui/material/OutlineInput';
 import { CheckboxProps } from '@mui/material/Checkbox';
 
 declare module '@formzk/core' {
   export interface ComponentPropsMap extends LibraryComponentPropsMap {
-    MyTextField: TextFieldProps;
+    MyTextField: OutlineInputProps;
     MyCheckbox: CheckboxProps;
     // register over here
   }
