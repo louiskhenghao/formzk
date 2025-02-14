@@ -1,4 +1,4 @@
-import { ComponentConfig, ComponentPropsMap } from '../../@types';
+import { ComponentConfig, ComponentPropsMap, FormzkConfig } from '../../@types';
 
 /**
  * ===========================
@@ -9,7 +9,7 @@ export type FormzkProviderProps = {
   /**
    * config to registering components
    */
-  config: ComponentConfig<keyof ComponentPropsMap>[];
+  config: FormzkConfig[];
 };
 
 export type FormzkContextType = {
@@ -20,9 +20,7 @@ export type FormzkContextType = {
   /**
    * get specific registered component
    */
-  getComponent: (
-    name: keyof ComponentPropsMap
-  ) => ComponentConfig<keyof ComponentPropsMap> | undefined;
+  getComponent: (name: keyof ComponentPropsMap) => FormzkConfig | undefined;
   /**
    * check whether component has registered before
    */
