@@ -1,20 +1,9 @@
-import {
-  Checkbox,
-  CheckboxGroup,
-  CheckboxGroupProps,
-  CheckboxProps,
-  Formzk,
-  RadioGroup,
-  RadioGroupProps,
-  Select,
-  SelectProps,
-  Switch,
-  SwitchProps,
-} from '@formzk/mui';
-import Input, { InputProps } from '@mui/material/Input';
-import OutlinedInput, { OutlinedInputProps } from '@mui/material/OutlinedInput';
+import { Formzk } from '@formzk/mui';
+import { Input } from '@mui/material';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+
+import { formConfig } from '../config/form.config';
 
 import './styles.css';
 
@@ -25,65 +14,15 @@ function CustomApp({ Component, pageProps }: AppProps) {
         <title>Welcome to example!</title>
       </Head>
       <main className="app">
-        <Formzk.Native.Provider
+        <Formzk.Native.Provider config={formConfig}>
+          {/* <Formzk.Provider
           config={[
             {
-              name: 'MyInput',
+              name: '',
               component: Input,
-              props: {
-                size: 'small',
-                fullWidth: true,
-              } as InputProps,
-            },
-            {
-              name: 'MyTextField',
-              component: OutlinedInput,
-              props: {
-                size: 'small',
-                fullWidth: true,
-              } as OutlinedInputProps,
-            },
-            {
-              name: 'MyCheckbox',
-              component: Checkbox,
-              props: {
-                variant: 'outlined',
-              } as CheckboxProps,
-            },
-            {
-              name: 'TextField',
-              component: OutlinedInput,
-              props: {
-                fullWidth: true,
-              } as OutlinedInputProps,
-            },
-            {
-              name: 'Checkbox',
-              component: Checkbox,
-              props: {} as SwitchProps,
-            },
-            {
-              name: 'Switch',
-              component: Switch,
-              props: {} as SwitchProps,
-            },
-            {
-              name: 'RadioGroup',
-              component: RadioGroup,
-              props: {} as RadioGroupProps,
-            },
-            {
-              name: 'CheckboxGroup',
-              component: CheckboxGroup,
-              props: {} as CheckboxGroupProps,
-            },
-            {
-              name: 'Select',
-              component: Select,
-              props: {} as SelectProps,
             },
           ]}
-        >
+        > */}
           <Component {...pageProps} />
         </Formzk.Native.Provider>
       </main>

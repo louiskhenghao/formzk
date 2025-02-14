@@ -54,7 +54,7 @@ export function Index() {
           <div>
             <Formzk.Input
               name="email"
-              component="MyTextField"
+              component="as"
               field={{
                 defaultValue: 'louiskhenghao@gmail.com',
               }}
