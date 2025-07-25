@@ -1,6 +1,6 @@
-export type ComponentPropsMap = Record<string, any>;
+export interface ComponentPropsMap {};
 
-export type ComponentConfig<K extends keyof ComponentPropsMap> = {
+export type ComponentConfig<K extends keyof ComponentPropsMap = keyof ComponentPropsMap> = {
   /**
    * the name of the component (must be unique)
    */
