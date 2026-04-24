@@ -1,3 +1,13 @@
+## 1.1.2 (2026-04-24)
+
+### 🩹 Fixes
+
+- **mui:** switch runtime imports from @mui/material/<Name> to named root imports ([0de3568](https://github.com/louiskhenghao/formzk/commit/0de3568))
+
+### ❤️ Thank You
+
+- louiskhenghao @louiskhenghao
+
 ## 1.1.1 (2026-04-24)
 
 ### 🩹 Fixes
