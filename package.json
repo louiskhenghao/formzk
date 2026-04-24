@@ -33,7 +33,13 @@
     "docs:build": "cd apps/docs && yarn install --frozen-lockfile && yarn build",
     "release": "nx release",
     "release:dry": "nx release --dry-run",
-    "release:publish": "nx release publish"
+    "release:publish": "nx release publish",
+    "release:core": "nx release --projects=core",
+    "release:core:dry": "nx release --projects=core --dry-run",
+    "release:core:publish": "nx release publish --projects=core",
+    "release:mui": "nx release --projects=mui",
+    "release:mui:dry": "nx release --projects=mui --dry-run",
+    "release:mui:publish": "nx release publish --projects=mui"
   },
   "private": true,
   "dependencies": {

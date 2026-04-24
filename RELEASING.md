@@ -70,9 +70,18 @@ yarn release:publish
 
 ### Release a single package
 
+Per-package scripts for each lib:
+
 ```sh
-npx nx release --projects=core
-npx nx release publish --projects=core
+# preview
+yarn release:core:dry          # or release:mui:dry
+
+# version + changelog + commit + tag
+yarn release:core              # or release:mui
+
+# build + publish
+yarn build:lib:core            # or build:lib:mui
+yarn release:core:publish      # or release:mui:publish
 ```
 
 ## First release of a new package
