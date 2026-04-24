@@ -1,7 +1,7 @@
 import { PropsWithChildren, useMemo } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { useFormzkForm } from '@formzk/core';
-import map from 'lodash/map';
+import map from 'lodash/map.js';
 
 import { GridFlexItemType, GridRenderView } from '../../views';
 import FormzkFormItemMUI from '../FormItem';

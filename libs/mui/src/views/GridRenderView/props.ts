@@ -1,19 +1,30 @@
-import { GridProps } from '@mui/material/Grid';
+import { GridProps, GridSize } from '@mui/material/Grid';
+
+/**
+ * Legacy breakpoint-prop sugar kept for backwards compatibility with the v5
+ * Grid API. Accepted at input and normalized into the v6+ `size` prop by
+ * `GridRenderView`.
+ */
+type LegacyBreakpointSizes = {
+  xs?: GridSize;
+  sm?: GridSize;
+  md?: GridSize;
+  lg?: GridSize;
+  xl?: GridSize;
+};
 
 /**
  * ===========================
  * MAIN
  * ===========================
  */
-export type GridFlexRowType = Omit<
-  GridProps,
-  'item' | 'container' | 'children'
->;
+export type GridFlexRowType = Omit<GridProps, 'container' | 'children'>;
 
 export type GridFlexItemType = Omit<
   GridProps,
-  'item' | 'container' | 'spacing' | 'columns'
->;
+  'container' | 'spacing' | 'columns'
+> &
+  LegacyBreakpointSizes;
 
 export type GridRenderViewProps = {
   /**

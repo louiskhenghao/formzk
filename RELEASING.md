@@ -1,0 +1,160 @@
+# Releasing
+
+`formzk` uses [Nx Release](https://nx.dev/features/manage-releases) with **independent per-package lanes**. `@formzk/core` and `@formzk/mui` version, tag, and publish separately.
+
+## TL;DR
+
+- Merge a `fix(...)` commit → the matching package gets a **patch** bump.
+- Merge a `feat(...)` commit → the matching package gets a **minor** bump.
+- Merge a commit with `BREAKING CHANGE:` in the body → **major** bump.
+- Release workflows run on `push` to `main` and publish automatically if the path filter matches.
+
+## Commit scopes
+
+Conventional Commit scope controls which package picks up the change:
+
+| Scope      | Affects                |
+| ---------- | ---------------------- |
+| `core`     | `@formzk/core`         |
+| `mui`      | `@formzk/mui`          |
+| (no scope) | counted against both   |
+
+Examples:
+
+```
+feat(core): add useFormzkController hook
+fix(mui): correct GridRenderView spacing
+chore(deps): bump lodash
+```
+
+## Automatic release (recommended)
+
+Pushing to `main` triggers the matching workflow:
+
+- `.github/workflows/release-core.yml` — path filter: `libs/core/**`
+- `.github/workflows/release-mui.yml` — path filter: `libs/mui/**` _or_ `libs/core/**` (since `@formzk/mui` depends on core)
+
+Each workflow:
+
+1. Installs dependencies.
+2. Runs `nx release --projects=<pkg> --skip-publish` — bumps version in the lib's `package.json`, generates `libs/<pkg>/CHANGELOG.md`, creates a commit, creates a `<pkg>@<version>` git tag.
+3. Pushes the commit + tag back to `main`.
+4. Builds the lib into `dist/libs/<pkg>`.
+5. Runs `nx release publish --projects=<pkg>` to publish to npm.
+
+### Required secrets
+
+- `NPM_TOKEN` — npm automation token with **publish** permission on `@formzk` scope.
+- `CODECOV_TOKEN` — optional, used by `ci.yml`.
+
+## Manual release
+
+### Dry-run locally
+
+```sh
+yarn release:dry
+```
+
+Previews what `nx release` would bump, write to changelogs, and tag — no files are modified.
+
+### Release from local
+
+```sh
+# version + changelog + commit + tag (all packages that have changes)
+yarn release
+
+# build + publish
+yarn build:libs
+yarn release:publish
+```
+
+### Release a single package
+
+Per-package scripts for each lib:
+
+```sh
+# preview
+yarn release:core:dry          # or release:mui:dry
+
+# version + changelog + commit + tag
+yarn release:core              # or release:mui
+
+# build + publish
+yarn build:lib:core            # or build:lib:mui
+yarn release:core:publish      # or release:mui:publish
+```
+
+## Controlling the bump level (patch / minor / major)
+
+### Default — inferred from commits
+
+With `version.conventionalCommits: true` (already set in `nx.json`), the bump level is computed from every commit since the last `<pkg>@<version>` tag:
+
+| Commit                                                 | Bump  |
+| ------------------------------------------------------ | ----- |
+| `fix(core): ...`, `perf(core): ...`                    | patch |
+| `feat(core): ...`                                      | minor |
+| Any type with `BREAKING CHANGE:` in body, or `feat!:`  | major |
+| `chore`, `docs`, `style`, `refactor`, `test`, `ci`     | none  |
+
+Unscoped commits (no `(core)` / `(mui)`) count toward **all** configured projects.
+
+### Explicit override — `--specifier`
+
+Any of the release scripts forward extra flags, so you can override the inferred bump:
+
+```sh
+# patch: 1.0.3 → 1.0.4
+yarn release:core --specifier=patch
+
+# minor: 1.0.3 → 1.1.0
+yarn release:core --specifier=minor
+
+# major: 1.0.3 → 2.0.0
+yarn release:core --specifier=major
+
+# prerelease: 1.0.3 → 1.0.4-beta.0
+yarn release:core --specifier=prerelease --preid=beta
+
+# pin an exact version
+yarn release:core --specifier=1.2.0
+```
+
+Always dry-run first:
+
+```sh
+yarn release:core:dry --specifier=major
+```
+
+Explicit `--specifier` wins over conventional-commit inference for that single run. Once the new tag exists, the next automatic run resumes counting commits since that tag.
+
+## First release of a new package
+
+Set up `@jscutlery/semver` is no longer used — the first release of a brand-new adapter (e.g. `@formzk/tamagui`) needs the `--first-release` flag so Nx doesn't look for a prior tag:
+
+```sh
+npx nx release --projects=tamagui --first-release
+```
+
+Subsequent releases drop the flag.
+
+## How versions are resolved
+
+`nx.json > release` is configured with:
+
+- `projectsRelationship: "independent"` — each package versions separately.
+- `releaseTagPattern: "{projectName}@{version}"` — tags look like `core@1.0.4`.
+- `version.conventionalCommits: true` — commit types map to semver bumps.
+- `version.generatorOptions.fallbackCurrentVersionResolver: "disk"` — falls back to the `version` field in `package.json` when no matching tag exists.
+- `changelog.projectChangelogs: true` — every lib gets its own `CHANGELOG.md`.
+- `changelog.workspaceChangelog: false` — no root changelog is generated.
+- `changelog.automaticFromRef: true` — on the first run in a fresh clone, the changelog is built from the first commit.
+
+## Rolling back a bad release
+
+`nx release` does not unpublish. If a release is broken:
+
+1. **Within 72h of publish**: `npm unpublish @formzk/<pkg>@<version>` (npm policy).
+2. **After 72h**: `npm deprecate @formzk/<pkg>@<version> "reason"`.
+3. Cut a new patch release with the fix.
+4. Delete the local + remote tag: `git tag -d core@<version> && git push origin :refs/tags/core@<version>`.

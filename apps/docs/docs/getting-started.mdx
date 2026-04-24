@@ -1,0 +1,64 @@
+---
+id: getting-started
+title: Getting started
+slug: /getting-started
+---
+
+# Getting started
+
+`formzk` is a React form library built on top of [react-hook-form](https://react-hook-form.com/) with a **headless core** and **swappable UI adapters**.
+
+- `@formzk/core` — framework-agnostic form state, validation, and component registry.
+- `@formzk/mui` — Material UI adapter (inputs, layout, error views).
+
+Bring your own UI by registering components against `@formzk/core`, or use the MUI adapter for a batteries-included experience.
+
+## Install
+
+```sh
+yarn add @formzk/core react-hook-form
+```
+
+Optional: use the MUI adapter.
+
+```sh
+yarn add @formzk/mui @mui/material @emotion/react @emotion/styled
+```
+
+## Quick start
+
+```tsx
+import { Formzk } from '@formzk/core';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+type LoginPayload = { email: string; password: string };
+
+const schema = yup.object({
+  email: yup.string().required().email(),
+  password: yup.string().required().min(8),
+});
+
+export function LoginForm() {
+  return (
+    <Formzk.Form<LoginPayload>
+      options={{ resolver: yupResolver(schema) }}
+      onSubmit={(values) => console.log(values)}
+    >
+      <Formzk.Input name="email" component="MyTextField" />
+      <Formzk.Input name="password" component="MyTextField" />
+      <Formzk.Submit render={(submit) => <button onClick={submit}>Sign in</button>} />
+    </Formzk.Form>
+  );
+}
+```
+
+Register the input components you referenced via `component="..."` — see [Registering components](./core/register-components).
+
+## Why formzk?
+
+- Same form declaration works across UI stacks — swap `@formzk/mui` for a different adapter without rewriting your forms.
+- Strongly-typed: augment `ComponentPropsMap` via declaration merging to get autocomplete on every `component="..."` usage.
+- Layer-thin: the core is a declarative wrapper around `useForm` / `Controller` — no hidden state.
+
+Next: read the [@formzk/core overview](./core/overview) or jump to the [MUI adapter guide](./mui/overview).

@@ -1,0 +1,74 @@
+---
+id: register-components
+title: Registering components
+sidebar_label: Register components
+---
+
+# Registering components
+
+`@formzk/core` uses a **component registry** so you can reference inputs by string name. This keeps your form declarations declarative and framework-agnostic.
+
+## 1. Write the component
+
+Any React component whose props include a `value` + `onChange` pair works.
+
+```tsx
+// components/MyTextField.tsx
+type Props = {
+  label?: string;
+  placeholder?: string;
+  value?: string;
+  onChange?: (next: string) => void;
+};
+
+export const MyTextField: React.FC<Props> = ({ label, value, onChange, ...rest }) => (
+  <label>
+    {label}
+    <input value={value ?? ''} onChange={(e) => onChange?.(e.target.value)} {...rest} />
+  </label>
+);
+```
+
+## 2. Augment `ComponentPropsMap`
+
+This is what gives `Formzk.Input component="..."` full autocomplete and type-checking.
+
+```tsx
+// types/formzk.d.ts
+import type { MyTextFieldProps } from '../components/MyTextField';
+
+declare module '@formzk/core' {
+  interface ComponentPropsMap {
+    MyTextField: MyTextFieldProps;
+    MyCheckbox: MyCheckboxProps;
+  }
+}
+```
+
+Each key must match the `name` you'll register below.
+
+## 3. Configure the provider
+
+```tsx
+import { FormzkProvider, ComponentConfig } from '@formzk/core';
+import { MyTextField } from './components/MyTextField';
+
+const config: ComponentConfig[] = [
+  { name: 'MyTextField', component: MyTextField },
+  { name: 'MyCheckbox', component: MyCheckbox, props: { defaultChecked: false } },
+];
+
+export function App({ children }) {
+  return <FormzkProvider config={config}>{children}</FormzkProvider>;
+}
+```
+
+## 4. Use inside a form
+
+```tsx
+<Formzk.Input name="email" component="MyTextField" props={{ label: 'Email' }} />
+```
+
+## Without declaration merging
+
+If you skip step 2, `formzk` falls back to `any` for the component's props — your form still works, but you lose type-safety. Useful for quick prototyping.

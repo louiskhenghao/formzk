@@ -5,6 +5,14 @@
   "description": "A powerful form management library integrating Material-UI components with @formzk/core, providing seamless form creation and management with enhanced UI elements.",
   "author": "Louis Loo <louiskhenghao@gmail.com> (https://github.com/louiskhenghao)",
   "homepage": "https://github.com/louiskhenghao/formzk#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/louiskhenghao/formzk.git",
+    "directory": "libs/mui"
+  },
+  "bugs": {
+    "url": "https://github.com/louiskhenghao/formzk/issues"
+  },
   "keywords": [
     "forms",
     "react",
@@ -16,5 +24,29 @@
     "react-hook-form",
     "yup",
     "validation"
-  ]
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.esm.mjs",
+      "require": "./index.cjs.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "tslib": "^2.3.0"
+  },
+  "peerDependencies": {
+    "@emotion/react": ">=11.11.0",
+    "@emotion/styled": ">=11.11.0",
+    "@formzk/core": ">=1.0.0",
+    "@mui/material": ">=5 <10",
+    "react": ">=18",
+    "react-hook-form": ">=7.40.0"
+  }
 }

@@ -1,6 +1,6 @@
 import React, { createContext, PropsWithChildren, useContext } from 'react';
-import find from 'lodash/find';
-import some from 'lodash/some';
+import find from 'lodash/find.js';
+import some from 'lodash/some.js';
 
 import { FormzkContextType, FormzkProviderProps } from './props';
 import { defaultConfig } from './settings';

@@ -23,17 +23,11 @@
           "error",
           {
             "groups": [
-              // Packages `react` related packages come first.
               ["^react", "^@?\\w"],
-              // Internal packages.
               ["^(@|components|apps)(/.*|$)"],
-              // Side effect imports.
               ["^\\u0000"],
-              // Parent imports. Put `..` last.
               ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
-              // Other relative imports. Put same-folder imports and `.` last.
               ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
-              // Style imports.
               ["^.+\\.?(css)$"]
             ]
           }
@@ -44,12 +38,18 @@
     {
       "files": ["*.ts", "*.tsx"],
       "extends": ["plugin:@nx/typescript"],
-      "rules": {}
+      "rules": {
+        "@typescript-eslint/no-extra-semi": "error",
+        "no-extra-semi": "off"
+      }
     },
     {
       "files": ["*.js", "*.jsx"],
       "extends": ["plugin:@nx/javascript"],
-      "rules": {}
+      "rules": {
+        "@typescript-eslint/no-extra-semi": "error",
+        "no-extra-semi": "off"
+      }
     }
   ]
 }

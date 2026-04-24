@@ -6,10 +6,13 @@
   "tags": [],
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "nx-release-publish": {
+      "executor": "@nx/js:release-publish",
       "options": {
-        "lintFilePatterns": ["libs/mui/**/*.{ts,tsx,js,jsx}"]
+        "packageRoot": "dist/libs/mui"
       }
     },
     "build": {
@@ -24,11 +27,17 @@
         "external": [
           "@formzk/core",
           "@mui/material",
-          "lodash",
           "react",
-          "react-hook-form"
+          "react-hook-form",
+          "lodash",
+          "lodash/map.js",
+          "lodash/filter.js",
+          "lodash/some.js",
+          "lodash/toString.js",
+          "lodash/isEmpty.js",
+          "lodash/isNil.js"
         ],
-        "rollupConfig": "@nx/react/plugins/bundle-rollup",
+        "rollupConfig": "libs/mui/rollup.config.cjs",
         "compiler": "babel",
         "assets": [
           {

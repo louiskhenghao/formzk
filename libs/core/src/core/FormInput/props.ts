@@ -8,7 +8,7 @@ import {
   UseFormStateReturn,
 } from 'react-hook-form';
 
-import { ComponentPropsMap } from '../../@types';
+import { ComponentPropsMap, ComponentPropsOf } from '../../@types';
 
 /**
  * ===========================
@@ -44,7 +44,7 @@ export type FormzkFormInputProps<
   /**
    * the props that inject to registered component
    */
-  props?: ComponentPropsMap[K];
+  props?: ComponentPropsOf<K>;
   /**
    * the form field props
    */

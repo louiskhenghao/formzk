@@ -16,7 +16,7 @@ export const StackRenderView: React.FC<StackRenderViewProps> = (props) => {
     <Stack
       className={className}
       direction="row"
-      alignItems="center"
+      sx={{ alignItems: 'center', ...(restProps.sx as object) }}
       {...restProps}
     >
       {(items ?? [])?.map((e) => {

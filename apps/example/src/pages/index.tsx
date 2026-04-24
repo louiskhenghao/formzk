@@ -26,10 +26,8 @@ const schema = yup.object().shape({
 });
 
 export function Index() {
-  const { getComponent } = useFormzk();
+  useFormzk();
   const ref = useRef<FormzkFormRefProps<InputPayload>>(null);
-
-  getComponent('zzz');
 
   return (
     <div className="wrapper">

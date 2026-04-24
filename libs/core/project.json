@@ -6,10 +6,13 @@
   "tags": [],
   "targets": {
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "nx-release-publish": {
+      "executor": "@nx/js:release-publish",
       "options": {
-        "lintFilePatterns": ["libs/core/**/*.{ts,tsx,js,jsx}"]
+        "packageRoot": "dist/libs/core"
       }
     },
     "build": {
@@ -21,8 +24,16 @@
         "project": "libs/core/package.json",
         "entryFile": "libs/core/src/index.ts",
         "format": ["cjs", "esm"],
-        "external": ["react", "react-hook-form", "lodash"],
-        "rollupConfig": "@nx/react/plugins/bundle-rollup",
+        "external": [
+          "react",
+          "react-hook-form",
+          "lodash",
+          "lodash/find.js",
+          "lodash/some.js",
+          "lodash/reduce.js",
+          "lodash/isEqual.js"
+        ],
+        "rollupConfig": "libs/core/rollup.config.cjs",
         "compiler": "babel",
         "assets": [
           {

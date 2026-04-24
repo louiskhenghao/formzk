@@ -15,20 +15,27 @@ export type SelectProps = {
   /**
    * option items
    */
-  options?: { label: ReactNode; value: string; disabled?: boolean }[];
+  options?: {
+    label: ReactNode;
+    value: string | number;
+    disabled?: boolean;
+  }[];
   /**
    * the value of the input
    */
-  value?: MuiSelectProps<string>['value'];
+  value?: MuiSelectProps<string | number>['value'];
   /**
    * the onChange event of the input
    */
-  onChange?: (updates: string) => void;
+  onChange?: (updates: string | number) => void;
 
   /**
    * custom props
    * --------------------
    */
-  selectProps?: Omit<MuiSelectProps<string>, 'label' | 'value' | 'onChange'>;
+  selectProps?: Omit<
+    MuiSelectProps<string | number>,
+    'label' | 'value' | 'onChange'
+  >;
   itemProps?: Omit<MenuItemProps, 'value' | 'children'>;
 };

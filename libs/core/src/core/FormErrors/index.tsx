@@ -1,5 +1,5 @@
 import React, { Fragment, useMemo } from 'react';
-import reduce from 'lodash/reduce';
+import reduce from 'lodash/reduce.js';
 
 import { useFormzkForm } from '../Form';
 
