@@ -1,0 +1,69 @@
+---
+id: overview
+title: '@formzk/mui — Overview'
+sidebar_label: Overview
+---
+
+# @formzk/mui
+
+Material UI adapter for `@formzk/core`. Ships:
+
+- Pre-wired input components (`TextField`, `Select`, `Checkbox`, `CheckboxGroup`, `RadioGroup`, `Switch`).
+- Higher-level views (`Formzk.MUI.Item`, `Formzk.MUI.Errors`, `Formzk.MUI.Submit`, `Formzk.MUI.Reset`).
+- Layout helpers (`GridRenderView`, `StackRenderView`).
+
+## Peer deps
+
+```sh
+yarn add @formzk/core @formzk/mui @mui/material @emotion/react @emotion/styled
+```
+
+Compatible with **MUI v6 – v9** and **React 18 / 19**.
+
+## Minimal example
+
+```tsx
+import { FormzkMUI } from '@formzk/mui';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+const schema = yup.object({
+  email: yup.string().required().email(),
+  password: yup.string().required().min(8),
+});
+
+export function LoginForm() {
+  return (
+    <FormzkMUI.Form
+      options={{ resolver: yupResolver(schema) }}
+      onSubmit={(v) => console.log(v)}
+    >
+      <FormzkMUI.Item name="email" label="Email" component="TextField" />
+      <FormzkMUI.Item name="password" label="Password" component="TextField" />
+      <FormzkMUI.Submit />
+    </FormzkMUI.Form>
+  );
+}
+```
+
+## Config-driven forms
+
+`FormzkMUI.Form` accepts a declarative `config` array and renders fields via `GridRenderView`. Great for form-builder style screens.
+
+```tsx
+const config = [
+  [
+    { name: 'email', label: 'Email', component: 'TextField', layoutProps: { sm: 6 } },
+    { name: 'password', label: 'Password', component: 'TextField', layoutProps: { sm: 6 } },
+  ],
+  [{ name: 'rememberMe', component: 'Checkbox', props: { label: 'Remember me' } }],
+];
+
+<FormzkMUI.Form
+  config={config}
+  onSubmit={(v) => console.log(v)}
+  configLayoutProps={{ containerProps: { spacing: 1 } }}
+/>;
+```
+
+See [`GridRenderView`](./grid-render-view) for how `layoutProps` map to the MUI Grid API.

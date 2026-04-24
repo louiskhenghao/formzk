@@ -1,0 +1,118 @@
+---
+id: api
+title: '@formzk/core — API'
+sidebar_label: API
+---
+
+# API reference
+
+## `FormzkProvider`
+
+Registers a map of reusable input components. Wrap your app (or any subtree that uses `formzk`) with it once.
+
+```tsx
+import { FormzkProvider, ComponentConfig } from '@formzk/core';
+
+const config: ComponentConfig[] = [
+  { name: 'MyTextField', component: MyTextField, props: { variant: 'outlined' } },
+];
+
+<FormzkProvider config={config}>
+  <YourApp />
+</FormzkProvider>;
+```
+
+Each entry:
+
+| Field       | Type                                      | Description                            |
+| ----------- | ----------------------------------------- | -------------------------------------- |
+| `name`      | `keyof ComponentPropsMap`                 | Unique identifier referenced by `Formzk.Input component="..."`. |
+| `component` | `React.ComponentType<ComponentPropsOf<K>>`| The actual component to render.        |
+| `props`     | `ComponentPropsOf<K>`                     | Default props merged into every usage. |
+
+## `useFormzk`
+
+Hook to access the component registry from inside a `FormzkProvider`.
+
+```tsx
+const { getComponent, isRegistered, listComponents } = useFormzk();
+```
+
+- `getComponent(name)` — returns the matching `ComponentConfig` or `undefined`.
+- `isRegistered(name)` — boolean.
+- `listComponents()` — the full config list.
+
+## `Formzk.Form<FieldValues>`
+
+Creates a `react-hook-form` context.
+
+```tsx
+<Formzk.Form<LoginPayload>
+  ref={formRef}
+  options={{ resolver: yupResolver(schema), defaultValues: { email: '' } }}
+  onSubmit={(values) => console.log(values)}
+>
+  {/* fields */}
+</Formzk.Form>
+```
+
+| Prop        | Type                                           | Notes                                   |
+| ----------- | ---------------------------------------------- | --------------------------------------- |
+| `options`   | `UseFormProps<FieldValues>`                    | Passed straight to `useForm`.           |
+| `onSubmit`  | `(values, event) => void`                      | Fires on valid submit.                  |
+| `ref`       | `Ref<FormzkFormRefProps<FieldValues>>`         | Imperative API — see below.             |
+
+Imperative methods (via ref):
+
+- `reset(values?)` — reset the form.
+- `submit()` — trigger submit programmatically.
+- `setValue(name, value)` — update a single field.
+- `getValues()` — snapshot of current values.
+
+## `Formzk.Input`
+
+Renders a registered component and wires it to a field via `Controller`.
+
+```tsx
+<Formzk.Input
+  name="email"
+  component="MyTextField"
+  props={{ placeholder: 'email@example.com' }}
+  field={{ rules: { required: 'Email is required' } }}
+  render={(comp, { fieldState }) => (
+    <CloneElement error={!!fieldState.error}>{comp}</CloneElement>
+  )}
+/>
+```
+
+| Prop        | Type                                                        | Notes                                                        |
+| ----------- | ----------------------------------------------------------- | ------------------------------------------------------------ |
+| `name`      | `FieldPath<FieldValues>`                                    | Field path.                                                  |
+| `component` | `keyof ComponentPropsMap`                                   | Must match a registered name.                                |
+| `props`     | `ComponentPropsOf<component>`                               | Per-usage props merged over registry defaults.               |
+| `eventKey`  | `string`                                                    | Event prop used to update the field (default `'onChange'`).  |
+| `valueKey`  | `string`                                                    | Prop used to read the current value (default `'value'`).     |
+| `disabled`  | `boolean`                                                   | Short-circuits field updates.                                |
+| `field`     | `Pick<UseControllerProps, 'rules' \| 'shouldUnregister' \| 'defaultValue'>` | Passed to `useController`.      |
+| `render`    | `(comp, { field, formState, fieldState }) => ReactNode`     | Wrap the resolved component — e.g. add error display.        |
+
+## `Formzk.Submit` / `Formzk.Reset`
+
+Render-prop shortcuts for `handleSubmit` / `reset`.
+
+```tsx
+<Formzk.Submit render={(submit) => <Button onClick={submit}>Save</Button>} />
+<Formzk.Reset render={(reset) => <Button onClick={reset}>Reset</Button>} />
+```
+
+## `Formzk.Errors`
+
+Render-prop helper that exposes flattened form errors.
+
+```tsx
+<Formzk.Errors
+  render={(hasError, errors) =>
+    hasError ? <Alert>{errors.join(', ')}</Alert> : null
+  }
+/>
+```

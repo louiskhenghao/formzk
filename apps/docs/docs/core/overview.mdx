@@ -1,0 +1,47 @@
+---
+id: overview
+title: '@formzk/core — Overview'
+sidebar_label: Overview
+---
+
+# @formzk/core
+
+Headless form library. You get three building blocks:
+
+1. A **Provider** that registers reusable input components by name.
+2. A **Form** wrapper that creates a `react-hook-form` context.
+3. An **Input** component that resolves `component="..."` against the registry and wires `Controller`.
+
+See the full [API reference](./api).
+
+```tsx
+import { Formzk, FormzkProvider } from '@formzk/core';
+import { MyTextField } from './components';
+
+const config = [
+  { name: 'MyTextField', component: MyTextField },
+];
+
+export function App({ children }) {
+  return <FormzkProvider config={config}>{children}</FormzkProvider>;
+}
+```
+
+## When to use
+
+- You want one form declaration to render across MUI today and Tamagui/whatever tomorrow.
+- You want the ergonomics of react-hook-form's `Controller` without writing it for every field.
+- You want typed `component` names via TypeScript declaration merging.
+
+## When not to use
+
+- You only have one input component and no adapter story — react-hook-form alone is simpler.
+- You need uncontrolled inputs — `Formzk.Input` always goes through `Controller` (controlled).
+
+## Concepts
+
+- **ComponentPropsMap** — an augmentable interface that maps `component="Xxx"` strings to their prop types. Augment it from the consumer app for full autocomplete.
+- **ComponentPropsOf\<K\>** — internal helper that falls back to `any` when the consumer hasn't augmented the map, so JSX usage doesn't break.
+- **ComponentName** — helper that resolves to `keyof ComponentPropsMap` when augmented, or `string` when empty — used on APIs like `getComponent`.
+
+See the [API reference](./api) and [how to register components](./register-components).

@@ -1,0 +1,35 @@
+---
+id: faq
+title: FAQ
+---
+
+# FAQ
+
+### Why not just use `react-hook-form` directly?
+
+You can, and for single-app single-UI projects it's often simpler. `formzk` shines when you want the **same form declaration** to render across multiple UI stacks (MUI today, Tamagui tomorrow), or when you have a large catalog of custom input components and want strongly-typed `component="..."` references.
+
+### Does formzk own my form state?
+
+No — it's a thin layer on top of `react-hook-form`. `Formzk.Form` sets up `useForm` + `FormProvider`; `Formzk.Input` wraps `Controller`. `useFormContext()` inside any descendant works as usual.
+
+### Can I mix formzk inputs with raw `Controller` / `register`?
+
+Yes. They share the same `react-hook-form` context.
+
+### Does `@formzk/mui` support MUI v5?
+
+Partially. Grid layout is rewritten for v6+. Most inputs still work on v5 but are untested. For new projects please use **MUI v6 or later**.
+
+### Does formzk support React 19?
+
+Yes. React 18 and 19 are both supported in the current release line.
+
+### Can I write my own adapter?
+
+Yes — that's the design goal. See [CONTRIBUTING.md](https://github.com/louiskhenghao/formzk/blob/main/CONTRIBUTING.md#adding-a-new-adapter-package) for the checklist.
+
+### Where do I report bugs / request features?
+
+- Bugs: [GitHub Issues](https://github.com/louiskhenghao/formzk/issues) with a minimal repro.
+- Features: [GitHub Discussions](https://github.com/louiskhenghao/formzk/discussions) first — use-case before API proposal.

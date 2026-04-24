@@ -1,0 +1,56 @@
+---
+id: grid-render-view
+title: GridRenderView
+sidebar_label: GridRenderView
+---
+
+# GridRenderView
+
+`GridRenderView` lays out form items using MUI's `Grid`. It works with **MUI v6+** Grid2 (`size={{ xs, sm, ... }}`) and keeps a **backwards-compatible sugar** — you can still write the flat `xs` / `sm` / `md` / `lg` / `xl` props on each item and they are folded into `size` internally.
+
+```tsx
+import GridRenderView from '@formzk/mui/views/GridRenderView';
+
+<GridRenderView
+  containerProps={{ spacing: 2 }}
+  items={[
+    // legacy sugar — still works
+    [
+      { xs: 12, sm: 6, children: <Field1 /> },
+      { xs: 12, sm: 6, children: <Field2 /> },
+    ],
+    // or use the v6+ `size` prop directly
+    [
+      { size: { xs: 12, md: 4 }, children: <Field3 /> },
+      { size: { xs: 12, md: 8 }, children: <Field4 /> },
+    ],
+  ]}
+/>;
+```
+
+## Props
+
+| Prop             | Type                                | Description                                  |
+| ---------------- | ----------------------------------- | -------------------------------------------- |
+| `items`          | `(GridFlexItemType[] \| { props?, items: GridFlexItemType[] })[]` | Rows of items.     |
+| `containerProps` | `GridFlexRowType`                   | Default props applied to every container row. |
+| `itemProps`      | `GridFlexItemType`                  | Default props applied to every item.         |
+| `className`      | `string`                            | Class name on every container row.           |
+
+Explicit `size` on an item wins over the legacy `xs/sm/...` props on the same item.
+
+## Migration from v5
+
+Before (MUI v5 Grid):
+
+```tsx
+<Grid item xs={12} sm={6}>...</Grid>
+```
+
+After (MUI v6+ Grid / Grid2):
+
+```tsx
+<Grid size={{ xs: 12, sm: 6 }}>...</Grid>
+```
+
+`GridRenderView` handles the translation for you — existing consumers that pass `layoutProps: { sm: 6 }` to `FormzkMUI.Item` keep working without code changes.

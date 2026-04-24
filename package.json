@@ -28,6 +28,9 @@
     "build:lib:core": "yarn build core",
     "build:lib:mui": "yarn build mui",
     "build:libs": "yarn build:lib:core && yarn build:lib:mui",
+    "docs:install": "cd apps/docs && yarn install",
+    "docs:dev": "cd apps/docs && yarn start",
+    "docs:build": "cd apps/docs && yarn install --frozen-lockfile && yarn build",
     "release": "nx release",
     "release:dry": "nx release --dry-run",
     "release:publish": "nx release publish"

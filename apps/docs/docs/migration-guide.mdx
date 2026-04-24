@@ -1,0 +1,34 @@
+---
+id: migration-guide
+title: Migration guide
+---
+
+# Migration guide
+
+## 1.0.x → 1.1.x
+
+### Peer dependency ranges widened
+
+`@formzk/core` now supports `react-hook-form ^7.52 – ^7.73+`. `@formzk/mui` supports `@mui/material` **v6 through v9**. React 18 and 19 are both supported.
+
+If you were on MUI v5, upgrade to v6+ — see [MUI's own migration guides](https://mui.com/material-ui/migration/). The main change that affects `@formzk/mui` users: Grid's `item/xs/sm/...` props became `size={{ xs, sm, ... }}`. `GridRenderView` accepts both shapes, so **you do not need to rewrite existing `layoutProps` declarations** — see [GridRenderView](./mui/grid-render-view).
+
+### Typing changes in `@formzk/core`
+
+Consumers who never augmented `ComponentPropsMap` (via `declare module '@formzk/core'`) used to get implicit `never` for `component="..."` names and had to cast. `formzk` now falls back to `any` in that case — see [ComponentName](./core/overview#concepts) and [ComponentPropsOf](./core/overview#concepts).
+
+No code change is required — this is a widening change.
+
+### `listComponents()` return type fix
+
+`useFormzk().listComponents()` now returns `ComponentConfig[]` (previously accidentally typed as `ComponentPropsMap[]`). If you were calling `.map(e => e.component)` on the result, that continues to work — the runtime shape was always correct.
+
+### `Select` / `RadioGroup` option values
+
+`options[].value` on the MUI adapter's `Select` and `RadioGroup` now accepts `string | number` (previously `string` only). `onChange` on `Select` now receives `string | number`. Existing string-only consumers are unaffected.
+
+---
+
+## Older versions
+
+Earlier versions have no significant breaking changes — all 1.0.x releases are drop-in compatible with each other.
