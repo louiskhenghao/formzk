@@ -1,0 +1,86 @@
+---
+id: basic-form
+title: Basic form (core only)
+sidebar_label: Basic form
+---
+
+import Playground from '@site/src/components/Playground';
+
+A minimal `@formzk/core` form with yup validation. No MUI — renders plain HTML inputs. Edit the code on the left to see the change live.
+
+<Playground
+  withMui={false}
+  activeFile="App.tsx"
+  files={{
+    'App.tsx': `import React from 'react';
+import { Formzk, FormzkProvider } from '@formzk/core';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+const MyInput = ({ value = '', onChange, ...rest }: any) => (
+  <input
+    {...rest}
+    value={value}
+    onChange={(e) => onChange?.(e.target.value)}
+    style={{
+      display: 'block',
+      width: '100%',
+      padding: 8,
+      margin: '4px 0 12px',
+      border: '1px solid #ccc',
+      borderRadius: 4,
+    }}
+  />
+);
+
+const config = [{ name: 'MyInput', component: MyInput }];
+
+const schema = yup.object({
+  email: yup.string().required('Email is required').email(),
+  password: yup.string().required('Password is required').min(8, 'Min 8 chars'),
+});
+
+export default function App() {
+  return (
+    <FormzkProvider config={config}>
+      <div style={{ maxWidth: 360, padding: 16, fontFamily: 'system-ui' }}>
+        <h3>Sign in</h3>
+        <Formzk.Form
+          options={{ resolver: yupResolver(schema) }}
+          onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
+        >
+          <label>Email</label>
+          <Formzk.Input name="email" component="MyInput" props={{ placeholder: 'you@example.com' }} />
+
+          <label>Password</label>
+          <Formzk.Input name="password" component="MyInput" props={{ type: 'password' }} />
+
+          <Formzk.Errors
+            render={(hasError, errors) =>
+              hasError ? (
+                <ul style={{ color: '#d33', fontSize: 14 }}>
+                  {errors.map((e, i) => <li key={i}>{e}</li>)}
+                </ul>
+              ) : null
+            }
+          />
+
+          <Formzk.Submit
+            render={(submit) => (
+              <button onClick={submit} style={{ padding: '8px 16px' }}>Sign in</button>
+            )}
+          />
+        </Formzk.Form>
+      </div>
+    </FormzkProvider>
+  );
+}
+`,
+  }}
+/>
+
+### What to try
+
+- Submit with empty fields → yup errors render.
+- Add a `Formzk.Reset` button next to Submit: `<Formzk.Reset render={(r) => <button onClick={r}>Reset</button>} />`.
+- Swap `MyInput` for a `<textarea>` component — no config changes needed in the form body.

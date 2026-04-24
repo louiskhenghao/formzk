@@ -1,0 +1,14 @@
+.wrapper {
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.fallback {
+  padding: 2rem;
+  border: 1px dashed var(--ifm-color-emphasis-300);
+  border-radius: 8px;
+  text-align: center;
+  color: var(--ifm-color-emphasis-600);
+  font-family: var(--ifm-font-family-monospace);
+}

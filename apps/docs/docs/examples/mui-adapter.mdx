@@ -1,0 +1,120 @@
+---
+id: mui-adapter
+title: MUI adapter — all inputs
+sidebar_label: MUI inputs
+---
+
+import Playground from '@site/src/components/Playground';
+
+Showcase of every pre-wired input shipping with `@formzk/mui` — `TextField`, `Checkbox`, `Switch`, `RadioGroup`, `CheckboxGroup`, `Select`. All values flow into the same form state and log on submit.
+
+<Playground
+  activeFile="App.tsx"
+  editorHeight={560}
+  files={{
+    'App.tsx': `import React from 'react';
+import { Formzk } from '@formzk/mui';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import { Box, Stack } from '@mui/material';
+
+export default function App() {
+  return (
+    <Formzk.Native.Provider
+      config={[
+        {
+          name: 'TextField',
+          component: OutlinedInput,
+          props: { fullWidth: true, size: 'small' },
+        },
+      ]}
+    >
+      <Box sx={{ p: 2, maxWidth: 640 }}>
+        <Formzk.MUI.Form
+          name="showcase"
+          options={{
+            defaultValues: {
+              email: '',
+              terms: false,
+              notify: true,
+              role: 'viewer',
+              permissions: [],
+              plan: 2,
+            },
+          }}
+          onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
+        >
+          <Formzk.MUI.Item name="email" label="Email" component="TextField" />
+
+          <Formzk.MUI.Item
+            name="terms"
+            component="Checkbox"
+            valueKey="checked"
+            layout="contained"
+            label="I accept the terms"
+          />
+
+          <Formzk.MUI.Item
+            name="notify"
+            component="Switch"
+            valueKey="checked"
+            layout="contained"
+            label="Email notifications"
+          />
+
+          <Formzk.MUI.Item
+            name="role"
+            label="Role"
+            component="RadioGroup"
+            props={{
+              options: [
+                { label: 'Admin', value: 'admin' },
+                { label: 'Editor', value: 'editor' },
+                { label: 'Viewer', value: 'viewer' },
+              ],
+            }}
+          />
+
+          <Formzk.MUI.Item
+            name="permissions"
+            label="Permissions"
+            component="CheckboxGroup"
+            props={{
+              options: [
+                { label: 'Read', value: 'read' },
+                { label: 'Write', value: 'write' },
+                { label: 'Delete', value: 'delete' },
+              ],
+            }}
+          />
+
+          <Formzk.MUI.Item
+            name="plan"
+            label="Subscription plan"
+            component="Select"
+            props={{
+              options: [
+                { label: 'Free (0)', value: 0 },
+                { label: 'Pro (1)', value: 1 },
+                { label: 'Enterprise (2)', value: 2 },
+              ],
+            }}
+          />
+
+          <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
+            <Formzk.MUI.Submit text="Save" />
+            <Formzk.MUI.Reset text="Reset" />
+          </Stack>
+        </Formzk.MUI.Form>
+      </Box>
+    </Formzk.Native.Provider>
+  );
+}
+`,
+  }}
+/>
+
+### What to try
+
+- Mix numeric and string `value`s in `Select` / `RadioGroup` options — both are supported since v1.1.
+- Change `layout` from the default `wrapped` to `contained` on `TextField` to see the label move into a help-text style.
+- Add a `caption="extra help"` prop to any `Formzk.MUI.Item` to show auxiliary text under the field.
