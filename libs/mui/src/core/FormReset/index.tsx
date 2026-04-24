@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormzkFormReset as FormzkFormCoreReset } from '@formzk/core';
-import Button from '@mui/material/Button';
+import { Button } from '@mui/material';
 
 import { FormResetButtonProps } from './props';
 

@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
-import Grid, { GridProps, GridSize } from '@mui/material/Grid';
+import { Grid } from '@mui/material';
+import type { GridProps, GridSize } from '@mui/material/Grid';
 import isEmpty from 'lodash/isEmpty.js';
 import isNil from 'lodash/isNil.js';
 

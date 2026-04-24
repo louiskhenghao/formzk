@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useDeepCompareEffect } from '@formzk/core';
-import MuiCheckbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import MuiFormGroup from '@mui/material/FormGroup';
+import {
+  Checkbox as MuiCheckbox,
+  FormControlLabel,
+  FormGroup as MuiFormGroup,
+} from '@mui/material';
 import filter from 'lodash/filter.js';
 import some from 'lodash/some.js';
 import toString from 'lodash/toString.js';

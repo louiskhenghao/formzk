@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import MuiCheckbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import { Checkbox as MuiCheckbox, FormControlLabel } from '@mui/material';
 
 import { CheckboxProps } from './props';
 

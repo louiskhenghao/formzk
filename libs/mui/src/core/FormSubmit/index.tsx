@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormzkFormSubmit as FormzkFormCoreSubmit } from '@formzk/core';
-import Button from '@mui/material/Button';
+import { Button } from '@mui/material';
 
 import { FormSubmitButtonProps } from './props';
 

@@ -1,8 +1,6 @@
 import React from 'react';
 import { FormzkFormErrors as FormzkFormCoreErrors } from '@formzk/core';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
-import Typography from '@mui/material/Typography';
+import { Alert, AlertTitle, Typography } from '@mui/material';
 
 import { FormErrorsViewProps } from './props';
 

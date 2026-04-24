@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import MuiSwitch from '@mui/material/Switch';
+import { FormControlLabel, Switch as MuiSwitch } from '@mui/material';
 
 import { SwitchProps } from './props';
 

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import Stack from '@mui/material/Stack';
+import { Stack } from '@mui/material';
 
 import { StackRenderViewProps } from './props';
 

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import MuiRadio from '@mui/material/Radio';
-import MuiRadioGroup from '@mui/material/RadioGroup';
+import {
+  FormControlLabel,
+  Radio as MuiRadio,
+  RadioGroup as MuiRadioGroup,
+} from '@mui/material';
 
 import { RadioGroupProps } from './props';
 

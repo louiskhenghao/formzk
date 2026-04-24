@@ -1,11 +1,13 @@
 import { Fragment, useMemo } from 'react';
 import { FieldValues } from 'react-hook-form';
 import { CloneElement, ComponentPropsMap, Formzk } from '@formzk/core';
-import Box from '@mui/material/Box';
-import FormControl from '@mui/material/FormControl';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormLabel from '@mui/material/FormLabel';
-import InputLabel from '@mui/material/InputLabel';
+import {
+  Box,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  InputLabel,
+} from '@mui/material';
 
 import { FormzkFormItemMUIProps } from './props';
 

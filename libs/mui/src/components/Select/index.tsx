@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import MenuItem from '@mui/material/MenuItem';
-import MuiSelect, { SelectChangeEvent } from '@mui/material/Select';
+import { MenuItem, Select as MuiSelect } from '@mui/material';
+import type { SelectChangeEvent } from '@mui/material/Select';
 
 import { SelectProps } from './props';
 
