@@ -1,6 +1,17 @@
-export interface ComponentPropsMap {};
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ComponentPropsMap {}
 
-export type ComponentConfig<K extends keyof ComponentPropsMap = keyof ComponentPropsMap> = {
+// Fallback to `any` when the consumer has not augmented ComponentPropsMap,
+// otherwise `ComponentPropsMap[K]` collapses to `never` and breaks JSX usage.
+export type ComponentPropsOf<K> = [keyof ComponentPropsMap] extends [never]
+  ? any
+  : K extends keyof ComponentPropsMap
+  ? ComponentPropsMap[K]
+  : any;
+
+export type ComponentConfig<
+  K extends keyof ComponentPropsMap = keyof ComponentPropsMap
+> = {
   /**
    * the name of the component (must be unique)
    */
@@ -8,9 +19,9 @@ export type ComponentConfig<K extends keyof ComponentPropsMap = keyof ComponentP
   /**
    * the actual component
    */
-  component: React.ComponentType<ComponentPropsMap[K]>;
+  component: React.ComponentType<ComponentPropsOf<K>>;
   /**
    * the default props that will inject to component
    */
-  props?: ComponentPropsMap[K];
+  props?: ComponentPropsOf<K>;
 };
