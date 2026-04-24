@@ -1,11 +1,14 @@
 # @formzk/mui
 
-`@formzk/mui` was created to bridge the gap between headless form management and Material-UI's rich component library. While `@formzk/core` provides the foundation for flexible form logic, developers often need to invest additional effort to integrate UI components. `@formzk/mui` addresses this by offering a set of ready-to-use, pre-configured Material-UI components that work seamlessly with the core architecture. This reduces the overhead of setting up forms and ensures that developers can leverage the full potential of Material-UI with the powerful form handling capabilities of `@formzk/core`
+`@formzk/mui` was created to bridge the gap between headless form management and Material-UI's rich component library. While `@formzk/core` provides the foundation for flexible form logic, developers often need to invest additional effort to integrate UI components. `@formzk/mui` addresses this by offering a set of ready-to-use, pre-configured Material-UI components that work seamlessly with the core architecture. This reduces the overhead of setting up forms and ensures that developers can leverage the full potential of Material-UI with the powerful form handling capabilities of `@formzk/core`.
+
+Full documentation: **https://louiskhenghao.github.io/formzk/**
 
 ---
 
 # Table of contents
 
+- [Compatibility](#compatibility)
 - [Installation](#installation)
 - [Getting Started](#getting-started)
 - [Accessing Components](#accessing-components)
@@ -20,12 +23,27 @@
 
 ---
 
+## Compatibility
+
+| Peer                          | Supported range |
+| ----------------------------- | --------------- |
+| React                         | `>= 18`         |
+| react-hook-form               | `>= 7.40`       |
+| @formzk/core                  | `>= 1.0`        |
+| @mui/material                 | `>= 5 <10` (MUI v5, v6, v7, v8, v9) |
+| @emotion/react, @emotion/styled | `>= 11.11`    |
+| Node.js (tooling)             | `>= 18`         |
+
+> `GridRenderView` uses MUI v6+'s `size` prop internally but keeps a backwards-compatible `xs/sm/md/lg/xl` sugar for consumers still on the v5-style API.
+
+---
+
 ## Installation
 
 ```bash
-yarn add @formzk/core @formzk/mui react-hook-form lodash @mui/material
+yarn add @formzk/core @formzk/mui react-hook-form @mui/material @emotion/react @emotion/styled
 # or
-npm install @formzk/core @formzk/mui react-hook-form lodash @mui/material
+npm install @formzk/core @formzk/mui react-hook-form @mui/material @emotion/react @emotion/styled
 
 # install yup validation (optional)
 yarn add yup @hookform/resolvers
@@ -37,9 +55,9 @@ npm install yup @hookform/resolvers
 
 ## Getting Started
 
-`@formzk/mui` allows developer to seamlessly utilize both the native components from `@formzk/core` package and providing a robust toolkit for creating and managing forms with Material-UI's component library
+`@formzk/mui` allows developers to seamlessly utilize both the native components from `@formzk/core` and a robust toolkit for creating and managing forms with Material-UI's component library.
 
-To begin using `@formzk/mui`, ensure that you have `@formzk/core` set up in your project. If you need guidance on the initial setup, please refer to the `@formzk/core` [documentation](https://github.com/louiskhenghao/formzk/blob/main/libs/core/README.md#getting-started)
+To begin using `@formzk/mui`, ensure that you have `@formzk/core` set up in your project. If you need guidance on the initial setup, please refer to the `@formzk/core` [documentation](https://github.com/louiskhenghao/formzk/blob/main/libs/core/README.md#getting-started).
 
 ---
 
@@ -47,7 +65,7 @@ To begin using `@formzk/mui`, ensure that you have `@formzk/core` set up in your
 
 ### Native Components
 
-With `@formzk/mui` package, you can still access the native components provided by `@formzk/core` without importing the core package separately. Just use the `Formzk.Native` namespace to access these components:
+With the `@formzk/mui` package, you can still access the native components provided by `@formzk/core` without importing the core package separately. Just use the `Formzk.Native` namespace to access them:
 
 | Namespace              | Reference                                                                                        |
 | ---------------------- | ------------------------------------------------------------------------------------------------ |
@@ -75,15 +93,15 @@ To access the enhanced Material-UI components, use the `Formzk.MUI` namespace:
 
 ## Using Formzk.MUI.Form
 
-`Formzk.MUI.Form` works similarly to `Formzk.Native.Form` or `Formzk.Form` (from `@formzk/core`) but includes additional functionality for layout rendering. It allows developer to define the form layout using a `config` prop that accepts a multi-dimensional array. Each sub-array represents a row, and each object within a sub-array represents a column
+`Formzk.MUI.Form` works similarly to `Formzk.Native.Form` (from `@formzk/core`) but includes additional functionality for layout rendering. It allows developers to define the form layout using a `config` prop that accepts a multi-dimensional array. Each sub-array represents a row, and each object within a sub-array represents a column.
 
-Please refer the example below
+Example:
 
-```ts
+```tsx
 import { Formzk } from '@formzk/mui';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Button } from '@mui/material';
+import { Button, Box } from '@mui/material';
 
 type InputPayload = {
   email: string;
@@ -99,10 +117,7 @@ const schema = yup.object().shape({
   name="login-form"
   options={{
     resolver: yupResolver(schema),
-    defaultValues: {
-      email: 'xxxx@xyz.com',
-      password: '',
-    },
+    defaultValues: { email: 'xxxx@xyz.com', password: '' },
   }}
   onSubmit={(values) => {
     console.log('Submit values: ', values);
@@ -113,60 +128,43 @@ const schema = yup.object().shape({
         name: 'email',
         label: 'Email Address',
         component: 'TextField',
-        disabled: false,
-        props: {
-          required: true,
-          placeholder: 'Email Address',
-        },
+        props: { required: true, placeholder: 'Email Address' },
       },
       {
         name: 'password',
         label: 'Password',
         component: 'TextField',
-        disabled: false,
         props: { type: 'password', placeholder: 'Password' },
       },
     ],
     [
-      {
-        // render custom view by node
-        content: <Box>Render custom view</Box>,
-      },
-      {
-        // render custom views with function
-        content: () => <Box>Render custom view with render function</Box>,
-      },
+      { content: <Box>Render custom view</Box> },
+      { content: () => <Box>Render custom view with render function</Box> },
     ],
   ]}
 >
-  // custom button
   <Formzk.Native.Submit
-    render={(e, { formState: { isSubmitting } }) => {
-      return (
-        <Button disabled={isSubmitting} type="submit">
-          Submit
-        </Button>
-      );
-    }}
+    render={(e, { formState: { isSubmitting } }) => (
+      <Button disabled={isSubmitting} type="submit">Submit</Button>
+    )}
   />
   <Formzk.Native.Reset render={(e) => <Button onClick={e}>Reset</Button>} />
-  // mui button
   <Formzk.MUI.Submit text="Login" />
   <Formzk.MUI.Reset text="Clear" />
 </Formzk.MUI.Form>;
 ```
 
-To customize the width of columns, please use the `configLayoutProps` [property](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/core/Form/README.md?plain=1#L56) or `layoutProps` [property](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/core/Form/README.md?plain=1#L34) on config item
+### Controlling column width
 
-```ts
+Use the `configLayoutProps` [property](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/core/Form/README.md?plain=1#L56) for workspace-wide defaults, or the `layoutProps` [property](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/core/Form/README.md?plain=1#L34) on each config item to override per-column.
+
+**Both the legacy MUI v5 `xs/sm/md/lg/xl` shorthand AND the MUI v6+ `size` prop are accepted** — internally they're normalized to `size={{ ... }}`.
+
+```tsx
 <Formzk.MUI.Form<InputPayload>
   configLayoutProps={{
-    containerProps: { spacing: 1 }, // to adjust grid spacing (by default is 2)
-    itemProps: {
-      // <-- this will apply for all rows column (can be override by config item)
-      sm: 4,
-      md: 4,
-    },
+    containerProps: { spacing: 1 },
+    itemProps: { sm: 4, md: 4 }, // default per column (applies to all items)
   }}
   config={[
     [
@@ -174,50 +172,30 @@ To customize the width of columns, please use the `configLayoutProps` [property]
         name: 'email',
         label: 'Email Address',
         component: 'TextField',
-        labelType: 'InputLabel',
-        disabled: false,
-        props: {
-          required: true,
-          placeholder: 'Email Address',
-        },
-        layoutProps: {
-          // <-- this will override `configLayoutProps`
-          sm: 4,
-          md: 4,
-        },
+        layoutProps: { sm: 4, md: 4 }, // legacy shorthand
       },
       {
         name: 'password',
         label: 'Password',
         component: 'TextField',
-        labelType: 'InputLabel',
-        disabled: false,
-        props: { placeholder: 'Password' },
-        layoutProps: {
-          // <-- this
-          sm: 8,
-          md: 8,
-        },
+        layoutProps: { size: { sm: 8, md: 8 } }, // v6+ API (also supported)
       },
     ],
   ]}
 />
 ```
 
-In this example, the email input field occupies 4 columns in both small (sm) and medium (md) screen sizes, while the password input field occupies 8 columns in the same screen sizes
-
 ---
 
 ## Custom Layout
 
-If you prefer to create your own layout without using the config props, you can structure your form in the traditional manner. Here’s an example:
+If you prefer to create your own layout without the `config` prop, you can structure your form in the traditional manner:
 
-```ts
+```tsx
 import { Formzk } from '@formzk/mui';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Button } from '@mui/material';
-import { useRef } from 'react';
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -228,11 +206,7 @@ const schema = yup.object().shape({
   name="login-form"
   options={{
     resolver: yupResolver(schema),
-    defaultValues: {
-      email: 'xxx@gmail.com',
-      password: '',
-      rememberMe: false,
-    },
+    defaultValues: { email: 'xxx@gmail.com', password: '', rememberMe: false },
   }}
   onSubmit={(values) => {
     console.log('Submit values: ', JSON.stringify(values, null, 2));
@@ -242,102 +216,91 @@ const schema = yup.object().shape({
     name="email"
     label="Email Address"
     component="TextField"
-    labelType: 'InputLabel',
-    props={{
-      required: true,
-      placeholder: 'Email Address',
-    }}
+    labelType="InputLabel"
+    props={{ required: true, placeholder: 'Email Address' }}
   />
 
   <Formzk.MUI.Item
     name="password"
     label="Password"
     component="TextField"
-    labelType: 'InputLabel',
-    props={{
-      type: 'password',
-      placeholder: 'Password',
-    }}
+    labelType="InputLabel"
+    props={{ type: 'password', placeholder: 'Password' }}
   />
 
-  <Formzk.MUI.Item name="rememberMe" valueKey="checked" component="Checkbox" label="Remember me?" />
+  <Formzk.MUI.Item
+    name="rememberMe"
+    valueKey="checked"
+    component="Checkbox"
+    label="Remember me?"
+  />
 
   <Formzk.MUI.Reset text="Clear" />
   <Formzk.MUI.Submit text="Login" />
 </Formzk.MUI.Form>;
 ```
 
-In this example, the form components are arranged manually without relying on configuration properties. This approach allows you to freely design the form layout as per your requirements
+In this example, the form components are arranged manually without relying on configuration properties. This approach gives you free rein over layout.
 
 ---
 
 ## Available Components
 
-While developers can create their own input components, `@formzk/mui` comes with several built-in components designed to integrate seamlessly with the package. These components are tailored to provide a smooth and efficient form-building experience
+`@formzk/mui` ships with several built-in input components tailored for form usage, plus two layout-view helpers. You can still register your own components on top of these.
 
 ### Input Components
 
-The following input components are included and optimized for use with `@formzk/mui`
+The following input components are included and optimized for use with `@formzk/mui`:
 
-- Checkbox: A standard checkbox input. [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/Checkbox/README.md)
-- CheckboxGroup: A group of checkboxes for selecting multiple options [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/CheckboxGroup/README.md)
-- RadioGroup: A group of radio buttons for selecting one option from multiple choices [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/RadioGroup/README.md)
-- Switch: A toggle switch input for binary choices [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/Switch/README.md)
-- Select: A single selection dropdown from multiple options [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/Select/README.md)
+- **Checkbox** — a standard checkbox input. [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/Checkbox/README.md)
+- **CheckboxGroup** — a group of checkboxes for selecting multiple options. [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/CheckboxGroup/README.md) Accepts `string | number` option values.
+- **RadioGroup** — a group of radio buttons for selecting one option. [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/RadioGroup/README.md) Accepts `string | number` option values.
+- **Switch** — a toggle switch input for binary choices. [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/Switch/README.md)
+- **Select** — a single-selection dropdown. [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/components/Select/README.md) Accepts `string | number` option values.
 
-These components are designed to work effortlessly with `@formzk/mui`, ensuring consistency and ease of use. In the future, more input components will be added to expand the library's capabilities.
+Register them once at your app's entry point:
 
-To consume the component, can register components at the entry point of your application (e.g: app.tsx) or any other preferred location
-
-```ts
-import { Checkbox, CheckboxGroup, CheckboxGroupProps, CheckboxProps, Formzk, RadioGroup, RadioGroupProps, Select, SelectProps, Switch, SwitchProps } from '@formzk/mui';
+```tsx
+import {
+  Checkbox,
+  CheckboxGroup,
+  CheckboxGroupProps,
+  CheckboxProps,
+  Formzk,
+  RadioGroup,
+  RadioGroupProps,
+  Select,
+  SelectProps,
+  Switch,
+  SwitchProps,
+} from '@formzk/mui';
 import OutlinedInput, { OutlinedInputProps } from '@mui/material/OutlinedInput';
 
 <Formzk.Native.Provider
   config={[
-    {
-      name: 'TextField',
-      component: OutlinedInput,
-      props: {
-        fullWidth: true,
-      } as OutlinedInputProps,
-    },
-    {
-      name: 'Checkbox',
-      component: Checkbox,
-      props: {} as CheckboxProps,
-    },
-    {
-      name: 'Switch',
-      component: Switch,
-      props: {} as SwitchProps,
-    },
-    {
-      name: 'RadioGroup',
-      component: RadioGroup,
-      props: {} as RadioGroupProps,
-    },
-    {
-      name: 'CheckboxGroup',
-      component: CheckboxGroup,
-      props: {} as CheckboxGroupProps,
-    },
-    {
-      name: 'Select',
-      component: Select,
-      props: {} as SelectProps,
-    },
+    { name: 'TextField', component: OutlinedInput, props: { fullWidth: true } as OutlinedInputProps },
+    { name: 'Checkbox', component: Checkbox, props: {} as CheckboxProps },
+    { name: 'Switch', component: Switch, props: {} as SwitchProps },
+    { name: 'RadioGroup', component: RadioGroup, props: {} as RadioGroupProps },
+    { name: 'CheckboxGroup', component: CheckboxGroup, props: {} as CheckboxGroupProps },
+    { name: 'Select', component: Select, props: {} as SelectProps },
   ]}
 >
   {/* ... your component */}
 </Formzk.Native.Provider>;
 ```
 
-For module Augmentation
+For module augmentation:
 
 ```ts
 import { ComponentPropsMap as LibraryComponentPropsMap } from '@formzk/core';
-import { CheckboxGroupProps, CheckboxProps, RadioGroupProps, SelectProps, SwitchProps } from '@formzk/mui';
+import {
+  CheckboxGroupProps,
+  CheckboxProps,
+  RadioGroupProps,
+  SelectProps,
+  SwitchProps,
+} from '@formzk/mui';
 import { OutlinedInputProps } from '@mui/material/OutlinedInput';
 
 declare module '@formzk/core' {
@@ -354,13 +317,14 @@ declare module '@formzk/core' {
 
 ### Other Components
 
-In addition to input components, the package includes components focused on view rendering
+In addition to input components, the package includes layout helpers:
 
-- **GridRenderView**: A component for rendering views in a grid layout. [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/views/GridRenderView/README.md)
+- **GridRenderView** — renders views in a grid layout. [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/views/GridRenderView/README.md)
 
-  ```ts
+  ```tsx
   import { GridRenderView } from '@formzk/mui';
 
+  // legacy shorthand (still supported)
   <GridRenderView
     items={[
       [
@@ -369,63 +333,56 @@ In addition to input components, the package includes components focused on view
         { children: '1-3' },
         { children: '1-4' },
       ],
-
       [{ children: '2-1' }, { children: '2-2' }],
-      [{ children: '3-1' }, { children: '3-2' }],
     ]}
   />
 
+  // v6+ size API
   <GridRenderView
     items={[
-      {
-        items: [
-          { children: '1-1' },
-          { children: '1-2' },
-          { children: '1-3' },
-        ],
-      },
+      [
+        { children: '1-1', size: { xs: 12, md: 6 } },
+        { children: '1-2', size: { xs: 12, md: 6 } },
+      ],
+      [{ children: '2-1' }, { children: '2-2' }],
+    ]}
+  />
+
+  // with row wrapper props
+  <GridRenderView
+    items={[
+      { items: [{ children: '1-1' }, { children: '1-2' }, { children: '1-3' }] },
       { items: [{ children: '2-1' }, { children: '2-2' }] },
-      { items: [{ children: '3-1' }, { children: '3-2' }] },
     ]}
   />
   ```
 
-- **StackRenderView**: A component for rendering views in a stack layout. [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/views/StackRenderView/README.md)
+- **StackRenderView** — renders views in a stack layout. [(documentation)](https://github.com/louiskhenghao/formzk/blob/main/libs/mui/src/views/StackRenderView/README.md)
 
-  ```ts
+  ```tsx
   import { StackRenderView } from '@formzk/mui';
   import Button from '@mui/material/Button';
 
   <StackRenderView
     direction="row"
     items={[
-      {
-        key: 'button-one',
-        content: () => {
-          return <Button>Button One</Button>;
-        },
-      },
-      {
-        key: 'button-two',
-        content: () => {
-          return <Button>Button Two</Button>;
-        },
-      },
+      { key: 'button-one', content: () => <Button>Button One</Button> },
+      { key: 'button-two', content: () => <Button>Button Two</Button> },
     ]}
   />;
   ```
 
-These view rendering components help structure and organize your form layouts effectively, providing flexibility in design.
+These view components help structure and organize your form layouts effectively, providing flexibility in design.
 
 ---
 
 ### Snippets
 
-Below are some code snippets demonstrating how to utilize the registered input components within the package for quick integration and efficient usage.
+Below are some code snippets demonstrating how to utilize the registered input components within the package:
 
-1. With `Formzk.MUI.Item`
+1. With `Formzk.MUI.Item`:
 
-```ts
+```tsx
 // usage of `RadioGroup` component
 <Formzk.MUI.Item
   name="selection"
@@ -472,37 +429,34 @@ Below are some code snippets demonstrating how to utilize the registered input c
   valueKey="checked"
   layout="contained"
   label="Remember me?"
-  caption="Please check if you wants"
+  caption="Please check if you want"
 />
 
-// usage of `Select` component
+// usage of `Select` component (mixed string | number values are supported)
 <Formzk.MUI.Item
   name="select"
   label="Select Example"
   component="Select"
   props={{
     options: [
-      { label: 'One', value: '1', disabled: true },
-      { label: 'Two', value: '2' },
-      { label: 'Three', value: '3' },
-      { label: 'Four', value: '4' },
+      { label: 'One', value: 1, disabled: true },
+      { label: 'Two', value: 2 },
+      { label: 'Three', value: 3 },
       { label: 'One-str', value: '1-str' },
       { label: 'Two-str', value: '2-str' },
-      { label: 'Three-str', value: '3-str' },
-      { label: 'Four-str', value: '4-str' },
     ],
   }}
 />
 ```
 
-2. With `Formzk.MUI.Form` component `config` props
+2. With `Formzk.MUI.Form` `config` props:
 
-```ts
+```tsx
 <Formzk.MUI.Form
   config={[
     // first row
     [
-      // usage of `CheckboxGroup` component
+      // usage of `CheckboxGroup`
       {
         label: 'Multi Selection',
         name: 'multiSelection',
@@ -516,7 +470,7 @@ Below are some code snippets demonstrating how to utilize the registered input c
           ],
         },
       },
-      // usage of `RadioGroup` component
+      // usage of `RadioGroup`
       {
         label: 'Single Options',
         name: 'selection',
@@ -533,7 +487,7 @@ Below are some code snippets demonstrating how to utilize the registered input c
     ],
     // second row
     [
-      // usage of `Switch` component
+      // usage of `Switch`
       {
         name: 'enabled',
         label: 'Enable Action',
@@ -541,29 +495,26 @@ Below are some code snippets demonstrating how to utilize the registered input c
         valueKey: 'checked',
         layout: 'contained',
       },
-      // usage of `Checkbox` component
+      // usage of `Checkbox`
       {
         name: 'checked',
-        component: 'Switch',
+        component: 'Checkbox',
         valueKey: 'checked',
         label: 'Checkbox to check',
         layout: 'contained',
       },
-      // usage of `Select` component
+      // usage of `Select`
       {
         label: 'Select Example',
         name: 'select',
         component: 'Select',
         props: {
           options: [
-            { label: 'One', value: '1' },
-            { label: 'Two', value: '2' },
-            { label: 'Three', value: '3' },
-            { label: 'Four', value: '4' },
+            { label: 'One', value: 1 },
+            { label: 'Two', value: 2 },
+            { label: 'Three', value: 3 },
             { label: 'One-str', value: '1-str' },
             { label: 'Two-str', value: '2-str' },
-            { label: 'Three-str', value: '3-str' },
-            { label: 'Four-str', value: '4-str' },
           ],
         },
       },
