@@ -69,18 +69,15 @@
   "release": {
     "projects": ["core", "mui"],
     "projectsRelationship": "independent",
+    "releaseTagPattern": "{projectName}@{version}",
     "version": {
-      "conventionalCommits": true,
-      "fallbackCurrentVersionResolver": "disk",
+      "currentVersionResolver": "disk",
       "preserveLocalDependencyProtocols": false
     },
     "changelog": {
       "projectChangelogs": true,
       "workspaceChangelog": false,
       "automaticFromRef": true
-    },
-    "releaseTag": {
-      "pattern": "{projectName}@{version}"
     }
   },
   "analytics": false
