@@ -11,6 +11,7 @@
     },
     "nx-release-publish": {
       "executor": "@nx/js:release-publish",
+      "dependsOn": ["build"],
       "options": {
         "packageRoot": "dist/libs/core"
       }
