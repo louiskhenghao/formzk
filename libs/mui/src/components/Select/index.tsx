@@ -13,7 +13,7 @@ export const Select: React.FC<SelectProps> = (props) => {
   const { label, value, options, selectProps, itemProps, onChange } = props;
 
   // ================ STATE
-  const [innerState, setInnerState] = useState<string>(value ?? '');
+  const [innerState, setInnerState] = useState<string | number>(value ?? '');
 
   // ================ EFFECTS
   useEffect(() => {
@@ -21,8 +21,8 @@ export const Select: React.FC<SelectProps> = (props) => {
   }, [value]);
 
   // ================ EVENTS
-  const onHandleChange = (event: SelectChangeEvent) => {
-    const updates = event.target.value as string;
+  const onHandleChange = (event: SelectChangeEvent<string | number>) => {
+    const updates = event.target.value;
     setInnerState(updates);
     onChange?.(updates);
   };

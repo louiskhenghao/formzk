@@ -15,7 +15,11 @@ export type RadioGroupProps = Omit<MuiRadioGroupProps, 'children'> & {
   /**
    * option items
    */
-  options?: { label: ReactNode; value: string; disabled?: boolean }[];
+  options?: {
+    label: ReactNode;
+    value: string | number;
+    disabled?: boolean;
+  }[];
   /**
    * the value of the input
    */

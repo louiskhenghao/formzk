@@ -9,6 +9,13 @@ export type ComponentPropsOf<K> = [keyof ComponentPropsMap] extends [never]
   ? ComponentPropsMap[K]
   : any;
 
+// Fallback to `string` when ComponentPropsMap is not augmented — otherwise
+// `keyof ComponentPropsMap` is `never` and API surfaces like
+// `getComponent(name)` reject every argument.
+export type ComponentName = [keyof ComponentPropsMap] extends [never]
+  ? string
+  : keyof ComponentPropsMap;
+
 export type ComponentConfig<
   K extends keyof ComponentPropsMap = keyof ComponentPropsMap
 > = {
