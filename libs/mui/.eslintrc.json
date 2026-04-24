@@ -41,8 +41,14 @@
           "error",
           {
             "ignoredFiles": [
-              "{projectRoot}/rollup.config.{js,ts,mjs,mts}"
-            ]
+              "{projectRoot}/rollup.config.{js,ts,mjs,mts,cjs}"
+            ],
+            "ignoredDependencies": [
+              "tslib",
+              "@emotion/react",
+              "@emotion/styled"
+            ],
+            "checkMissingDependencies": false
           }
         ]
       }
