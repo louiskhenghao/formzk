@@ -84,6 +84,50 @@ yarn build:lib:core            # or build:lib:mui
 yarn release:core:publish      # or release:mui:publish
 ```
 
+## Controlling the bump level (patch / minor / major)
+
+### Default — inferred from commits
+
+With `version.conventionalCommits: true` (already set in `nx.json`), the bump level is computed from every commit since the last `<pkg>@<version>` tag:
+
+| Commit                                                 | Bump  |
+| ------------------------------------------------------ | ----- |
+| `fix(core): ...`, `perf(core): ...`                    | patch |
+| `feat(core): ...`                                      | minor |
+| Any type with `BREAKING CHANGE:` in body, or `feat!:`  | major |
+| `chore`, `docs`, `style`, `refactor`, `test`, `ci`     | none  |
+
+Unscoped commits (no `(core)` / `(mui)`) count toward **all** configured projects.
+
+### Explicit override — `--specifier`
+
+Any of the release scripts forward extra flags, so you can override the inferred bump:
+
+```sh
+# patch: 1.0.3 → 1.0.4
+yarn release:core --specifier=patch
+
+# minor: 1.0.3 → 1.1.0
+yarn release:core --specifier=minor
+
+# major: 1.0.3 → 2.0.0
+yarn release:core --specifier=major
+
+# prerelease: 1.0.3 → 1.0.4-beta.0
+yarn release:core --specifier=prerelease --preid=beta
+
+# pin an exact version
+yarn release:core --specifier=1.2.0
+```
+
+Always dry-run first:
+
+```sh
+yarn release:core:dry --specifier=major
+```
+
+Explicit `--specifier` wins over conventional-commit inference for that single run. Once the new tag exists, the next automatic run resumes counting commits since that tag.
+
 ## First release of a new package
 
 Set up `@jscutlery/semver` is no longer used — the first release of a brand-new adapter (e.g. `@formzk/tamagui`) needs the `--first-release` flag so Nx doesn't look for a prior tag:
