@@ -195,7 +195,7 @@ export function Index() {
             }}
           />
 
-          <Stack direction="row" marginTop={4}>
+          <Stack direction="row" sx={{ marginTop: 4 }}>
             <Formzk.MUI.Submit />
             <Formzk.MUI.Reset />
           </Stack>

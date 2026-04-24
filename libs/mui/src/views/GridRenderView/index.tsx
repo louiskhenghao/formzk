@@ -1,8 +1,36 @@
 import React, { useMemo } from 'react';
-import Grid from '@mui/material/Grid';
+import Grid, { GridProps, GridSize } from '@mui/material/Grid';
 import { isEmpty, isNil } from 'lodash';
 
 import { GridFlexItemType, GridRenderViewProps } from './props';
+
+type LegacyBreakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+const LEGACY_BREAKPOINTS: readonly LegacyBreakpoint[] = [
+  'xs',
+  'sm',
+  'md',
+  'lg',
+  'xl',
+];
+
+// Fold legacy `xs/sm/md/lg/xl` sugar into the v6+ `size={{...}}` object,
+// preserving any explicit `size` already set by the caller.
+const toGridProps = (item: GridFlexItemType): GridProps => {
+  const legacySize: Partial<Record<LegacyBreakpoint, GridSize>> = {};
+  const rest: Record<string, unknown> = {};
+  for (const key of Object.keys(item)) {
+    if (LEGACY_BREAKPOINTS.includes(key as LegacyBreakpoint)) {
+      const v = (item as Record<string, unknown>)[key] as GridSize | undefined;
+      if (v !== undefined) legacySize[key as LegacyBreakpoint] = v;
+    } else {
+      rest[key] = (item as Record<string, unknown>)[key];
+    }
+  }
+  if (rest.size === undefined && Object.keys(legacySize).length > 0) {
+    rest.size = legacySize as GridProps['size'];
+  }
+  return rest as GridProps;
+};
 
 /**
  * ===========================
@@ -22,16 +50,16 @@ export const GridRenderView: React.FC<GridRenderViewProps> = (props) => {
       item: GridFlexItemType;
     }) => {
       const { rowIndex, itemIndex, item, itemLength } = options;
-      return (
-        <Grid
-          key={`grid-item-${rowIndex}-${itemIndex}`}
-          item
-          xs={12}
-          sm={itemLength}
-          {...itemProps}
-          {...item}
-        />
-      );
+      const defaults: GridFlexItemType = {
+        xs: 12,
+        sm: itemLength as GridSize,
+      };
+      const merged = toGridProps({
+        ...defaults,
+        ...(itemProps ?? {}),
+        ...item,
+      });
+      return <Grid key={`grid-item-${rowIndex}-${itemIndex}`} {...merged} />;
     };
 
     // render grid rows

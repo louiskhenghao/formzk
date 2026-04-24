@@ -21,7 +21,7 @@ export const FormErrorsView: React.FC<FormErrorsViewProps> = (props) => {
         if (!hasError) return null;
         return (
           <Alert severity="error" {...containerProps}>
-            <AlertTitle {...titleProps} fontWeight="bold">
+            <AlertTitle {...titleProps} sx={{ fontWeight: 'bold' }}>
               {title}
             </AlertTitle>
             {/* error message */}
