@@ -1,0 +1,52 @@
+name: Release @formzk/mui
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'libs/mui/**'
+      - 'libs/core/**'
+      - 'package.json'
+      - 'yarn.lock'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: yarn
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Version + changelog + tag
+        run: npx nx release --projects=mui --skip-publish
+
+      - name: Push commit + tag
+        run: git push --follow-tags
+
+      - name: Build @formzk/mui
+        run: yarn build:lib:mui
+
+      - name: Publish to npm
+        run: npx nx release publish --projects=mui
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
