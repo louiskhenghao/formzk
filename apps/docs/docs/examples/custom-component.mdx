@@ -1,0 +1,136 @@
+---
+id: custom-component
+title: Registering a custom component
+sidebar_label: Custom component
+---
+
+import Playground from '@site/src/components/Playground';
+
+Any React component that accepts a `value` + `onChange` pair can be registered. This example wires a `react-color`-style swatch picker — completely custom, yet still benefits from validation, form state, and the declarative API.
+
+<Playground
+  withMui={false}
+  activeFile="components/ColorSwatch.tsx"
+  files={{
+    'App.tsx': `import React from 'react';
+import { Formzk, FormzkProvider } from '@formzk/core';
+import { ColorSwatch } from './components/ColorSwatch';
+
+const config = [{ name: 'ColorSwatch', component: ColorSwatch }];
+
+export default function App() {
+  return (
+    <FormzkProvider config={config}>
+      <div style={{ padding: 16, fontFamily: 'system-ui', maxWidth: 420 }}>
+        <h3>Pick your brand colors</h3>
+        <Formzk.Form
+          options={{ defaultValues: { primary: '#8b5cf6', accent: '#10b981' } }}
+          onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
+        >
+          <Formzk.Input
+            name="primary"
+            component="ColorSwatch"
+            props={{ label: 'Primary' }}
+          />
+          <Formzk.Input
+            name="accent"
+            component="ColorSwatch"
+            props={{ label: 'Accent' }}
+          />
+
+          <Formzk.Submit
+            render={(submit) => (
+              <button
+                onClick={submit}
+                style={{
+                  marginTop: 12,
+                  padding: '8px 16px',
+                  background: '#111',
+                  color: 'white',
+                  border: 0,
+                  borderRadius: 4,
+                }}
+              >
+                Save colors
+              </button>
+            )}
+          />
+        </Formzk.Form>
+      </div>
+    </FormzkProvider>
+  );
+}
+`,
+    'components/ColorSwatch.tsx': `import React from 'react';
+
+type Props = {
+  label?: string;
+  value?: string;
+  onChange?: (hex: string) => void;
+};
+
+const PRESETS = [
+  '#ef4444', '#f97316', '#facc15', '#10b981',
+  '#06b6d4', '#3b82f6', '#8b5cf6', '#ec4899',
+];
+
+export const ColorSwatch: React.FC<Props> = ({ label, value = '#000000', onChange }) => {
+  return (
+    <div style={{ margin: '8px 0 16px' }}>
+      {label && (
+        <div style={{ fontSize: 14, marginBottom: 6, color: '#555' }}>{label}</div>
+      )}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+        <div
+          style={{
+            width: 32,
+            height: 32,
+            background: value,
+            border: '2px solid #eee',
+            borderRadius: 6,
+          }}
+        />
+        <code style={{ fontFamily: 'monospace', fontSize: 13 }}>{value}</code>
+        <div style={{ display: 'flex', gap: 4, marginLeft: 8 }}>
+          {PRESETS.map((hex) => (
+            <button
+              key={hex}
+              type="button"
+              onClick={() => onChange?.(hex)}
+              aria-label={hex}
+              style={{
+                width: 22,
+                height: 22,
+                background: hex,
+                border: value === hex ? '2px solid #111' : '1px solid #ddd',
+                borderRadius: 4,
+                cursor: 'pointer',
+              }}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+`,
+    'types/formzk.d.ts': `// Augment ComponentPropsMap so TypeScript knows
+// what props ColorSwatch expects. In a real project
+// put this file somewhere in your \`include\` paths.
+import type { ColorSwatch } from '../components/ColorSwatch';
+
+declare module '@formzk/core' {
+  interface ComponentPropsMap {
+    ColorSwatch: React.ComponentProps<typeof ColorSwatch>;
+  }
+}
+export {};
+`,
+  }}
+/>
+
+### What to try
+
+- Click a swatch — form state updates, try submitting to see the current values.
+- Remove the `declare module` augmentation in `types/formzk.d.ts` — the form still runs (`ComponentPropsOf` falls back to `any`), you just lose autocomplete on `component="..."`.
+- Register a second custom component (e.g. a slider) and add a third `Formzk.Input` bound to it.

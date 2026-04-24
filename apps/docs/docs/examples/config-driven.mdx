@@ -1,0 +1,106 @@
+---
+id: config-driven
+title: Config-driven form (MUI)
+sidebar_label: Config-driven (MUI)
+---
+
+import Playground from '@site/src/components/Playground';
+
+The MUI adapter's `Formzk.MUI.Form` accepts a declarative `config` array. Each sub-array is a row, each object is a column. Great for form-builder screens or admin dashboards.
+
+<Playground
+  activeFile="App.tsx"
+  files={{
+    'App.tsx': `import React from 'react';
+import { Formzk } from '@formzk/mui';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import { Button, Box } from '@mui/material';
+
+const schema = yup.object({
+  email: yup.string().required().email(),
+  password: yup.string().required().min(8),
+  role: yup.string().required(),
+  remember: yup.boolean(),
+});
+
+export default function App() {
+  return (
+    <Formzk.Native.Provider
+      config={[
+        {
+          name: 'TextField',
+          component: OutlinedInput,
+          props: { fullWidth: true, size: 'small' },
+        },
+      ]}
+    >
+      <Box sx={{ p: 2, maxWidth: 640 }}>
+        <Formzk.MUI.Form
+          name="profile-form"
+          options={{
+            resolver: yupResolver(schema),
+            defaultValues: { email: '', password: '', role: '', remember: false },
+          }}
+          configLayoutProps={{ containerProps: { spacing: 2 } }}
+          config={[
+            [
+              {
+                name: 'email',
+                label: 'Email',
+                component: 'TextField',
+                props: { placeholder: 'you@example.com' },
+                layoutProps: { sm: 6 },
+              },
+              {
+                name: 'password',
+                label: 'Password',
+                component: 'TextField',
+                props: { type: 'password' },
+                layoutProps: { sm: 6 },
+              },
+            ],
+            [
+              {
+                name: 'role',
+                label: 'Role',
+                component: 'Select',
+                props: {
+                  options: [
+                    { label: 'Admin', value: 'admin' },
+                    { label: 'Editor', value: 'editor' },
+                    { label: 'Viewer', value: 'viewer' },
+                  ],
+                },
+                layoutProps: { sm: 8 },
+              },
+              {
+                name: 'remember',
+                component: 'Checkbox',
+                valueKey: 'checked',
+                layout: 'contained',
+                label: 'Remember me',
+                layoutProps: { sm: 4 },
+              },
+            ],
+          ]}
+          onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
+        >
+          <Formzk.MUI.Errors containerProps={{ sx: { my: 2 } }} />
+          <Formzk.MUI.Submit text="Save" />
+          <Formzk.MUI.Reset text="Clear" />
+        </Formzk.MUI.Form>
+      </Box>
+    </Formzk.Native.Provider>
+  );
+}
+`,
+  }}
+/>
+
+### What to try
+
+- Change a `layoutProps: { sm: 6 }` to `layoutProps: { sm: 12 }` to see the column take the full row.
+- Use the v6+ API: `layoutProps: { size: { xs: 12, sm: 6 } }`.
+- Add a third row with a `Switch` field — `{ name: 'enabled', component: 'Switch', valueKey: 'checked', label: 'Enabled', layout: 'contained' }`.
