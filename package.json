@@ -28,9 +28,9 @@
     "build:lib:core": "yarn build core",
     "build:lib:mui": "yarn build mui",
     "build:libs": "yarn build:lib:core && yarn build:lib:mui",
-    "release": "yarn nx run formzk:version --releaseAs=patch && yarn build:libs",
-    "release:minor": "yarn nx run formzk:version --releaseAs=minor && yarn build:libs",
-    "release:major": "yarn nx run formzk:version --releaseAs=major && yarn build:libs"
+    "release": "nx release",
+    "release:dry": "nx release --dry-run",
+    "release:publish": "nx release publish"
   },
   "private": true,
   "dependencies": {
@@ -55,7 +55,6 @@
     "@babel/core": "^7.14.5",
     "@babel/preset-react": "^7.14.5",
     "@emotion/babel-plugin": "^11.13.5",
-    "@jscutlery/semver": "^3.1.0",
     "@nx/cypress": "20.8.4",
     "@nx/eslint": "20.8.4",
     "@nx/eslint-plugin": "20.8.4",
