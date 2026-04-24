@@ -5,6 +5,14 @@
   "description": "A powerful and flexible core library for form management in React applications, providing a headless form state management solution",
   "author": "Louis Loo <louiskhenghao@gmail.com> (https://github.com/louiskhenghao)",
   "homepage": "https://github.com/louiskhenghao/formzk#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/louiskhenghao/formzk.git",
+    "directory": "libs/core"
+  },
+  "bugs": {
+    "url": "https://github.com/louiskhenghao/formzk/issues"
+  },
   "keywords": [
     "forms",
     "react",
@@ -13,5 +21,25 @@
     "react-hook-form",
     "validation",
     "headless"
-  ]
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.esm.mjs",
+      "require": "./index.cjs.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "tslib": "^2.3.0"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-hook-form": ">=7.40.0"
+  }
 }
