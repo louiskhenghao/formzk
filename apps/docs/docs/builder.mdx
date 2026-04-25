@@ -1,0 +1,23 @@
+---
+id: builder
+title: UI Builder
+sidebar_label: UI Builder
+---
+
+import Builder from '@site/src/components/Builder';
+
+Visually configure a Formzk form, see it run live, then **copy** or **download** the generated `App.tsx` to drop straight into your project.
+
+- Pick a mode — `@formzk/core` for headless / native HTML inputs, `@formzk/mui` for the MUI adapter.
+- Add fields from the **Add field** menu. Each type lists in groups (Text, Choice, TextField MUI, Pre-wired MUI, Custom MUI wrappers).
+- Click a field in the list to edit its **Properties** on the left (name, label, options, layout, default value, …).
+- Reorder with **↑ / ↓**, delete with **×**.
+- The **Preview** tab runs the generated form in Sandpack — the same npm packages you'd `npm install` yourself. The **Code** tab shows the source. Use **Copy** or **Download App.tsx** to take it with you.
+
+<Builder />
+
+### Notes
+
+- Switching mode resets the form (the generated code shape is fundamentally different).
+- The custom MUI wrappers (Autocomplete / Slider / Rating) ship as small `value`/`onChange` adapters in the generated code — they're a complete example of the contract Formzk expects from any third-party component.
+- `defaultValue` is type-aware: booleans for Checkbox/Switch, numbers for number/slider/rating, comma-separated for `CheckboxGroup`.
