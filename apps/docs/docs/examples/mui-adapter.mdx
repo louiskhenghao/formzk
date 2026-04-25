@@ -1,21 +1,39 @@
 ---
 id: mui-adapter
-title: MUI adapter — all inputs
-sidebar_label: MUI inputs
+title: MUI adapter — all inputs (MUI)
+sidebar_label: MUI inputs (MUI)
 ---
 
 import Playground from '@site/src/components/Playground';
 
-Showcase of every pre-wired input shipping with `@formzk/mui` — `TextField`, `Checkbox`, `Switch`, `RadioGroup`, `CheckboxGroup`, `Select`. All values flow into the same form state and log on submit.
+**Package:** `@formzk/mui` (also pulls in `@formzk/core`)
+
+Every pre-wired input shipping with `@formzk/mui` — plus the `TextField` you register yourself via the `Native.Provider`. The components shipped from the adapter are:
+
+- **`Checkbox`** — single checkbox with `valueKey="checked"`.
+- **`CheckboxGroup`** — multi-select checkboxes bound to an array.
+- **`RadioGroup`** — single-value radio list, supports string or numeric `value`.
+- **`Switch`** — single toggle with `valueKey="checked"`.
+- **`Select`** — dropdown, supports string or numeric `value`.
+
+All values flow into a single form state and log on submit. Each input is shown twice where it makes sense — once with the default `wrapped` layout (FormControl + label), once with the alternative `contained` layout, so you can compare them side by side.
 
 <Playground
   activeFile="App.tsx"
-  editorHeight={560}
+  editorHeight={620}
   files={{
     'App.tsx': `import React from 'react';
-import { Formzk } from '@formzk/mui';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import { Box, Stack } from '@mui/material';
+import { Formzk, Checkbox, CheckboxGroup, RadioGroup, Switch, Select } from '@formzk/mui';
+import TextField from '@mui/material/TextField';
+import { Box, Divider, Stack, Typography } from '@mui/material';
+
+const Section = ({ title, children }) => (
+  <Box sx={{ mt: 3 }}>
+    <Typography variant="overline" color="text.secondary">{title}</Typography>
+    <Divider sx={{ mb: 1 }} />
+    <Stack spacing={2}>{children}</Stack>
+  </Box>
+);
 
 export default function App() {
   return (
@@ -23,84 +41,157 @@ export default function App() {
       config={[
         {
           name: 'TextField',
-          component: OutlinedInput,
+          component: TextField,
           props: { fullWidth: true, size: 'small' },
         },
+        { name: 'Checkbox', component: Checkbox },
+        { name: 'CheckboxGroup', component: CheckboxGroup },
+        { name: 'RadioGroup', component: RadioGroup },
+        { name: 'Switch', component: Switch },
+        { name: 'Select', component: Select }
       ]}
     >
-      <Box sx={{ p: 2, maxWidth: 640 }}>
+      <Box sx={{ p: 2, maxWidth: 720 }}>
         <Formzk.MUI.Form
           name="showcase"
           options={{
             defaultValues: {
               email: '',
+              password: '',
+              age: 0,
+              bio: '',
+              eventDate: '',
               terms: false,
               notify: true,
               role: 'viewer',
-              permissions: [],
+              permissions: ['read'],
               plan: 2,
+              priority: 1,
             },
           }}
           onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
         >
-          <Formzk.MUI.Item name="email" label="Email" component="TextField" />
+          {/* TextField (registered via Native.Provider) — the same OutlinedInput
+              powering every text-style field via different \`type\` props. */}
+          <Section title="TextField (registered)">
+            <Formzk.MUI.Item
+              name="email"
+              label="Email"
+              component="TextField"
+              props={{ placeholder: 'you@example.com' }}
+              caption="Default 'wrapped' layout"
+            />
+            <Formzk.MUI.Item
+              name="password"
+              label="Password"
+              component="TextField"
+              props={{ type: 'password' }}
+            />
+            <Formzk.MUI.Item
+              name="age"
+              label="Age"
+              component="TextField"
+              props={{ type: 'number' }}
+            />
+            <Formzk.MUI.Item
+              name="bio"
+              label="Bio"
+              component="TextField"
+              props={{ multiline: true, minRows: 2, placeholder: 'Tell us about yourself…' }}
+            />
+            <Formzk.MUI.Item
+              name="eventDate"
+              label="Event date"
+              component="TextField"
+              props={{ type: 'date' }}
+            />
+          </Section>
 
-          <Formzk.MUI.Item
-            name="terms"
-            component="Checkbox"
-            valueKey="checked"
-            layout="contained"
-            label="I accept the terms"
-          />
+          {/* Checkbox — single boolean field, shown in both layouts. */}
+          <Section title="Checkbox">
+            <Formzk.MUI.Item
+              name="terms"
+              component="Checkbox"
+              valueKey="checked"
+              layout="contained"
+              label="I accept the terms (contained layout)"
+            />
+          </Section>
 
-          <Formzk.MUI.Item
-            name="notify"
-            component="Switch"
-            valueKey="checked"
-            layout="contained"
-            label="Email notifications"
-          />
+          {/* Switch — boolean toggle, contained layout puts label inline. */}
+          <Section title="Switch">
+            <Formzk.MUI.Item
+              name="notify"
+              component="Switch"
+              valueKey="checked"
+              layout="contained"
+              label="Email notifications (contained layout)"
+            />
+          </Section>
 
-          <Formzk.MUI.Item
-            name="role"
-            label="Role"
-            component="RadioGroup"
-            props={{
-              options: [
-                { label: 'Admin', value: 'admin' },
-                { label: 'Editor', value: 'editor' },
-                { label: 'Viewer', value: 'viewer' },
-              ],
-            }}
-          />
+          {/* RadioGroup — single value from a list, string options. */}
+          <Section title="RadioGroup">
+            <Formzk.MUI.Item
+              name="role"
+              label="Role"
+              component="RadioGroup"
+              props={{
+                options: [
+                  { label: 'Admin', value: 'admin' },
+                  { label: 'Editor', value: 'editor' },
+                  { label: 'Viewer', value: 'viewer' },
+                ],
+              }}
+            />
+          </Section>
 
-          <Formzk.MUI.Item
-            name="permissions"
-            label="Permissions"
-            component="CheckboxGroup"
-            props={{
-              options: [
-                { label: 'Read', value: 'read' },
-                { label: 'Write', value: 'write' },
-                { label: 'Delete', value: 'delete' },
-              ],
-            }}
-          />
+          {/* CheckboxGroup — multi-select bound to an array. */}
+          <Section title="CheckboxGroup">
+            <Formzk.MUI.Item
+              name="permissions"
+              label="Permissions"
+              component="CheckboxGroup"
+              props={{
+                options: [
+                  { label: 'Read', value: 'read' },
+                  { label: 'Write', value: 'write' },
+                  { label: 'Delete', value: 'delete' },
+                ],
+              }}
+            />
+          </Section>
 
-          <Formzk.MUI.Item
-            name="plan"
-            label="Subscription plan"
-            component="Select"
-            props={{
-              options: [
-                { label: 'Free (0)', value: 0 },
-                { label: 'Pro (1)', value: 1 },
-                { label: 'Enterprise (2)', value: 2 },
-              ],
-            }}
-          />
+          {/* Select — both numeric and string options work since v1.1. */}
+          <Section title="Select">
+            <Formzk.MUI.Item
+              name="plan"
+              label="Subscription plan (numeric values)"
+              component="Select"
+              props={{
+                options: [
+                  { label: 'Free (0)', value: 0 },
+                  { label: 'Pro (1)', value: 1 },
+                  { label: 'Enterprise (2)', value: 2 },
+                ],
+              }}
+            />
+            <Formzk.MUI.Item
+              name="priority"
+              label="Priority"
+              component="Select"
+              caption="Disabled options are still rendered, just unselectable"
+              props={{
+                options: [
+                  { label: 'Low', value: 0 },
+                  { label: 'Normal', value: 1 },
+                  { label: 'High', value: 2 },
+                  { label: 'Critical (admins only)', value: 3, disabled: true },
+                ],
+              }}
+            />
+          </Section>
 
-          <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
+          <Stack direction="row" spacing={1} sx={{ mt: 3 }}>
             <Formzk.MUI.Submit text="Save" />
             <Formzk.MUI.Reset text="Reset" />
           </Stack>
@@ -116,5 +207,6 @@ export default function App() {
 ### What to try
 
 - Mix numeric and string `value`s in `Select` / `RadioGroup` options — both are supported since v1.1.
-- Change `layout` from the default `wrapped` to `contained` on `TextField` to see the label move into a help-text style.
+- Change `layout` from the default `wrapped` to `contained` on any item to see how the label placement changes.
 - Add a `caption="extra help"` prop to any `Formzk.MUI.Item` to show auxiliary text under the field.
+- Submit the form and look at the resulting JSON — every value type (string, number, boolean, array) round-trips correctly.

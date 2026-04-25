@@ -6,13 +6,15 @@ sidebar_label: Config-driven (MUI)
 
 import Playground from '@site/src/components/Playground';
 
+**Package:** `@formzk/mui` (also pulls in `@formzk/core`)
+
 The MUI adapter's `Formzk.MUI.Form` accepts a declarative `config` array. Each sub-array is a row, each object is a column. Great for form-builder screens or admin dashboards.
 
 <Playground
   activeFile="App.tsx"
   files={{
     'App.tsx': `import React from 'react';
-import { Formzk } from '@formzk/mui';
+import { Formzk, Select, Checkbox } from '@formzk/mui';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -33,6 +35,15 @@ export default function App() {
           name: 'TextField',
           component: OutlinedInput,
           props: { fullWidth: true, size: 'small' },
+        },
+        {
+          name: 'Select',
+          component: Select,
+          props: { fullWidth: true, size: 'small' },
+        },
+        {
+          name: 'Checkbox',
+          component: Checkbox,
         },
       ]}
     >
@@ -73,7 +84,6 @@ export default function App() {
                     { label: 'Viewer', value: 'viewer' },
                   ],
                 },
-                layoutProps: { sm: 8 },
               },
               {
                 name: 'remember',
@@ -81,7 +91,6 @@ export default function App() {
                 valueKey: 'checked',
                 layout: 'contained',
                 label: 'Remember me',
-                layoutProps: { sm: 4 },
               },
             ],
           ]}

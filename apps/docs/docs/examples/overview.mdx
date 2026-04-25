@@ -12,9 +12,14 @@ Live, editable examples that run fully in your browser via [Sandpack](https://sa
 
 ## Pages
 
-- [**Basic form**](./basic-form) — the smallest possible `@formzk/core` setup with yup validation and a custom input component. No MUI.
-- [**Config-driven form (MUI)**](./config-driven) — declarative `config` prop layout with the MUI adapter.
-- [**MUI adapter — all inputs**](./mui-adapter) — every pre-wired input: `TextField`, `Checkbox`, `Switch`, `RadioGroup`, `CheckboxGroup`, `Select`.
-- [**Custom component registration**](./custom-component) — register a bespoke color-swatch picker and augment `ComponentPropsMap` for full type-safety.
+Each entry is tagged with the package it demonstrates — `core` examples only need `@formzk/core`, `mui` examples additionally pull in `@formzk/mui`.
+
+- [**Basic form**](./basic-form) `core` — the smallest possible `@formzk/core` setup with yup validation and a custom input component. No MUI.
+- [**Config-driven form**](./config-driven) `mui` — declarative `config` prop layout with the MUI adapter.
+- [**MUI adapter — all inputs**](./mui-adapter) `mui` — every pre-wired input: `TextField`, `Checkbox`, `Switch`, `RadioGroup`, `CheckboxGroup`, `Select`.
+- [**Custom component registration**](./custom-component) `core` — register a bespoke color-swatch picker and augment `ComponentPropsMap` for full type-safety.
+- [**Multi-step onboarding wizard**](./multi-step-form) `mui` — Stepper-driven form with per-step validation via `trigger()`, sharing one form instance across steps.
+- [**Insurance claim form**](./claim-form) `mui` — a real-world config-driven form with a conditional field that appears based on another field's value.
+- [**Custom components showcase**](./custom-components-showcase) `mui` — multiple custom field components (currency, rating, chips) with a live JSON preview powered by `useWatch`.
 
 > Each sandbox pulls `@formzk/core` and `@formzk/mui` from npm — the very same packages you'd install in your own project. So anything that works here works in your app.
