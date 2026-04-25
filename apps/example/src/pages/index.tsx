@@ -1,113 +1,122 @@
-import { useRef } from 'react';
-import {
-  CloneElement,
-  Formzk,
-  FormzkFormRefProps,
-  useFormzk,
-} from '@formzk/core';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Button } from '@mui/material';
-import * as yup from 'yup';
+import Link from 'next/link';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActionArea from '@mui/material/CardActionArea';
+import CardContent from '@mui/material/CardContent';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
-type InputPayload = {
-  email: string;
-  password: string;
+type ExampleEntry = {
+  href: string;
+  title: string;
+  description: string;
+  tags: string[];
 };
 
-const schema = yup.object().shape({
-  email: yup
-    .string()
-    .required('Email is required')
-    .email('Invalid email address'),
-  password: yup
-    .string()
-    .required('Password is required')
-    .min(8, 'Minimum length is 8 characters'),
-});
+const examples: ExampleEntry[] = [
+  {
+    href: '/core',
+    title: '@formzk/core basics',
+    description:
+      'Headless core with custom-rendered inputs, error display and ref-based control.',
+    tags: ['core', 'CloneElement', 'render-prop'],
+  },
+  {
+    href: '/mui',
+    title: '@formzk/mui — individual items',
+    description:
+      'Build a form by composing Formzk.MUI.Item children. Demonstrates TextField, Checkbox, Switch, Radio and CheckboxGroup.',
+    tags: ['mui', 'composition'],
+  },
+  {
+    href: '/mui-config',
+    title: '@formzk/mui — config-driven layout',
+    description:
+      'Declarative 2D config + grid layout. Reusable via a useFormConfig hook.',
+    tags: ['mui', 'config', 'grid'],
+  },
+  {
+    href: '/onboarding',
+    title: 'Multi-step onboarding wizard',
+    description:
+      'Stepper with per-step validation via form.trigger(), shared form state, and a JSON review step.',
+    tags: ['multi-step', 'wizard', 'trigger'],
+  },
+  {
+    href: '/claim',
+    title: 'Insurance claim submission',
+    description:
+      'Real-world form with conditional fields, currency input, rating, file uploads and consent.',
+    tags: ['conditional', 'file-upload', 'currency'],
+  },
+  {
+    href: '/custom-components',
+    title: 'Custom components showcase',
+    description:
+      'Build custom field components (Slider, Rating, Color, Date, Currency, Chips, FileUpload) and register them via the Provider.',
+    tags: ['custom', 'provider', 'registry'],
+  },
+];
 
-export function Index() {
-  useFormzk();
-  const ref = useRef<FormzkFormRefProps<InputPayload>>(null);
-
+export function LandingPage() {
   return (
     <div className="wrapper">
       <div className="container">
         <div id="welcome">
-          <h1>@formzk/core example 👋</h1>
+          <h1>Formzk Playground</h1>
         </div>
+        <Typography
+          variant="body1"
+          color="text.secondary"
+          sx={{ marginTop: 2, marginBottom: 4 }}
+        >
+          A collection of interactive examples showing how to build forms with
+          <code> @formzk/core </code> and <code> @formzk/mui </code>. Pick an
+          example below.
+        </Typography>
 
-        <Formzk.Form<InputPayload>
-          ref={ref}
-          options={{
-            resolver: yupResolver(schema),
-            // defaultValues: {
-            //   email: 'louiskhenghao@gmail.com',
-            //   password: '',
-            // },
-          }}
-          onSubmit={(values) => {
-            console.log('Formzk.Form submit values ---->', values);
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: {
+              xs: '1fr',
+              sm: 'repeat(2, minmax(0, 1fr))',
+            },
+            gap: 2,
           }}
         >
-          <div>
-            <Formzk.Input
-              name="email"
-              component="MyTextField"
-              field={{
-                defaultValue: 'louiskhenghao@gmail.com',
-              }}
-            />
-          </div>
-          <div>
-            <Formzk.Input
-              name="password"
-              component="MyTextField"
-              field={{
-                defaultValue: '12345678910',
-              }}
-              render={(comp, { fieldState }) => {
-                const error = fieldState.error?.message;
-                return (
-                  <CloneElement
-                    placeholder="Password"
-                    error={!!error}
-                    helperText={error}
+          {examples.map((example) => (
+            <Card key={example.href} variant="outlined">
+              <CardActionArea
+                component={Link}
+                href={example.href}
+                sx={{ height: '100%' }}
+              >
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    {example.title}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ marginBottom: 2 }}
                   >
-                    {comp}
-                  </CloneElement>
-                );
-              }}
-            />
-          </div>
-          <div>
-            <Formzk.Input
-              name="rememberMe"
-              component="MyCheckbox"
-              props={{ label: 'Remember Me?' }}
-            />
-          </div>
-
-          <Formzk.Errors
-            render={(hasError, errors) => {
-              if (!hasError) return null;
-              return (
-                <div style={{ padding: '0.5rem', background: '#f87171' }}>
-                  <ul>
-                    {errors.map((e, i) => (
-                      <li key={i}>{e}</li>
+                    {example.description}
+                  </Typography>
+                  <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: 'wrap' }}>
+                    {example.tags.map((tag) => (
+                      <Chip key={tag} label={tag} size="small" />
                     ))}
-                  </ul>
-                </div>
-              );
-            }}
-          />
-
-          <Formzk.Submit render={(e) => <Button onClick={e}>Submit</Button>} />
-          <Formzk.Reset render={(e) => <Button onClick={e}>Reset</Button>} />
-        </Formzk.Form>
+                  </Stack>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          ))}
+        </Box>
       </div>
     </div>
   );
 }
 
-export default Index;
+export default LandingPage;

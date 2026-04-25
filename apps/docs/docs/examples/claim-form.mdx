@@ -1,0 +1,198 @@
+---
+id: claim-form
+title: Insurance claim submission (MUI)
+sidebar_label: Claim form (MUI)
+---
+
+import Playground from '@site/src/components/Playground';
+
+**Package:** `@formzk/mui` (also pulls in `@formzk/core`)
+
+A real-world form built declaratively with `Formzk.MUI.Form`'s `config` prop. It mixes inputs, selects, switches, and a **conditional field** that only appears when the category is `Other`.
+
+The trick for conditional fields: a small inner component subscribes to the relevant field via `useWatch` and is mounted as a `content` item in the config. It shows or hides itself based on the watched value while staying inside the same form context.
+
+<Playground
+  activeFile="App.tsx"
+  editorHeight={620}
+  files={{
+    'App.tsx': `import React from 'react';
+import { useWatch } from 'react-hook-form';
+import { Formzk, Select, Switch, Checkbox } from '@formzk/mui';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import { Box, Divider, Stack, Typography } from '@mui/material';
+
+const schema = yup.object({
+  policyNumber: yup.string().required('Policy number is required'),
+  claimantName: yup.string().required('Required'),
+  email: yup.string().required().email('Invalid email'),
+  incidentDate: yup.string().required('Date is required'),
+  category: yup.string().oneOf(['auto', 'health', 'property', 'other']).required(),
+  otherCategory: yup.string().when('category', {
+    is: 'other',
+    then: (s) => s.required('Please specify the category'),
+    otherwise: (s) => s.optional(),
+  }),
+  amount: yup.number().typeError('Enter a number').required().min(1, 'Must be > 0'),
+  description: yup.string().required().min(20, 'Min 20 characters'),
+  injuriesReported: yup.boolean().required(),
+  consent: yup.boolean().oneOf([true], 'You must confirm before submitting').required(),
+});
+
+// Subscribes to \`category\` via useWatch and renders the extra input only
+// when the user picks "Other". Stays inside the form context, so the input
+// it renders is a regular Formzk.MUI.Item bound to \`otherCategory\`.
+const ConditionalOther = () => {
+  const category = useWatch({ name: 'category' });
+  if (category !== 'other') return null;
+  return (
+    <Formzk.MUI.Item
+      name="otherCategory"
+      label="Specify category"
+      component="TextField"
+      props={{ placeholder: 'e.g. equipment damage' }}
+    />
+  );
+};
+
+const config = [
+  [
+    {
+      name: 'policyNumber',
+      label: 'Policy number',
+      component: 'TextField',
+      props: { placeholder: 'POL-123456' },
+      layoutProps: { sm: 6 },
+    },
+    {
+      name: 'incidentDate',
+      label: 'Incident date',
+      component: 'TextField',
+      props: { type: 'date' },
+      layoutProps: { sm: 6 },
+    },
+  ],
+  [
+    { name: 'claimantName', label: 'Claimant name', component: 'TextField' },
+  ],
+  [
+    {
+      name: 'email',
+      label: 'Email',
+      component: 'TextField',
+      props: { placeholder: 'you@example.com' },
+      layoutProps: { sm: 6 },
+    },
+    {
+      name: 'amount',
+      label: 'Claimed amount',
+      component: 'TextField',
+      props: { type: 'number', placeholder: '0' },
+      layoutProps: { sm: 6 },
+    },
+  ],
+  [
+    {
+      name: 'category',
+      label: 'Claim category',
+      component: 'Select',
+      props: {
+        options: [
+          { label: 'Auto', value: 'auto' },
+          { label: 'Health', value: 'health' },
+          { label: 'Property', value: 'property' },
+          { label: 'Other', value: 'other' },
+        ],
+      },
+    },
+  ],
+  // Custom 'content' item — renders any JSX inside the grid layout.
+  [{ content: <ConditionalOther />, layoutProps: { xs: 12 } }],
+  [
+    {
+      name: 'description',
+      label: 'Describe what happened',
+      component: 'TextField',
+      props: { multiline: true, minRows: 3, placeholder: 'Time, location, sequence of events…' },
+    },
+  ],
+  [
+    {
+      name: 'injuriesReported',
+      component: 'Switch',
+      valueKey: 'checked',
+      props: { label: 'Were any injuries reported?' },
+      layoutProps: { sm: 6 },
+    },
+    {
+      name: 'consent',
+      component: 'Checkbox',
+      valueKey: 'checked',
+      props: { label: 'I confirm the information is accurate' },
+      layoutProps: { sm: 6 },
+    },
+  ],
+];
+
+export default function App() {
+  return (
+    <Formzk.Native.Provider
+      config={[
+        { name: 'TextField', component: OutlinedInput, props: { fullWidth: true, size: 'small' } },
+        { name: 'Select', component: Select },
+        { name: 'Switch', component: Switch },
+        { name: 'Checkbox', component: Checkbox },
+      ]}
+    >
+      <Box sx={{ p: 2, maxWidth: 720 }}>
+        <Typography variant="h6" sx={{ mb: 1 }}>Submit a claim</Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Selecting <b>Other</b> reveals an extra input — that's the conditional render.
+        </Typography>
+
+        <Formzk.MUI.Form
+          name="claim-form"
+          options={{
+            mode: 'onTouched',
+            resolver: yupResolver(schema),
+            defaultValues: {
+              policyNumber: '',
+              claimantName: '',
+              email: '',
+              incidentDate: '',
+              category: 'auto',
+              otherCategory: '',
+              amount: 0,
+              description: '',
+              injuriesReported: false,
+              consent: false,
+            },
+          }}
+          configLayoutProps={{ containerProps: { spacing: 2 } }}
+          config={config}
+          onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
+        >
+          <Box sx={{ mt: 2 }}>
+            <Formzk.MUI.Errors title="Please fix these issues" />
+          </Box>
+          <Divider sx={{ my: 3 }} />
+          <Stack direction="row" spacing={2} sx={{ justifyContent: 'flex-end' }}>
+            <Formzk.MUI.Reset text="Clear" />
+            <Formzk.MUI.Submit text="Submit claim" />
+          </Stack>
+        </Formzk.MUI.Form>
+      </Box>
+    </Formzk.Native.Provider>
+  );
+}
+`,
+  }}
+/>
+
+### What to try
+
+- Change **Claim category** to **Other** — the additional `Specify category` input appears, and yup's conditional `when()` rule now requires it.
+- Submit with empty required fields — every error is collected by `Formzk.MUI.Errors`.
+- Add a new row to `config` with another field (e.g. `policyHolderPhone`) without touching JSX — that's the value of config-driven layout.

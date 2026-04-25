@@ -1,0 +1,196 @@
+---
+id: custom-components-showcase
+title: Custom components showcase (MUI)
+sidebar_label: Custom components showcase (MUI)
+---
+
+import Playground from '@site/src/components/Playground';
+
+**Package:** `@formzk/mui` (also pulls in `@formzk/core`)
+
+A collection of bespoke field components — currency input, star rating, tag chips — registered alongside the MUI adapter and bound to a single form. Each accepts `value` + `onChange`, the only contract Formzk needs.
+
+A small sidebar subscribes to the whole form via `useWatch` and renders a live JSON preview, which is a handy debug tool while building any form.
+
+<Playground
+  activeFile="App.tsx"
+  editorHeight={620}
+  files={{
+    'App.tsx': `import React from 'react';
+import { FormProvider, useForm, useWatch } from 'react-hook-form';
+import { Formzk } from '@formzk/mui';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Rating from '@mui/material/Rating';
+import { Box, Stack, Typography } from '@mui/material';
+import { CurrencyInput } from './components/CurrencyInput';
+import { ChipsInput } from './components/ChipsInput';
+
+const RatingInput = ({ value, onChange, ...rest }) => (
+  <Rating
+    {...rest}
+    value={value ?? null}
+    onChange={(_, next) => onChange?.(next)}
+  />
+);
+
+// Subscribes to every field via useWatch and renders a dark, sticky JSON
+// preview that updates on every keystroke. Lives outside <Formzk.MUI.Form>,
+// so we wrap the whole grid in <FormProvider> and share one form instance.
+const LivePreview = () => {
+  const values = useWatch();
+  return (
+    <Box sx={{ p: 1.5, bgcolor: '#0d1117', borderRadius: 1, position: 'sticky', top: 16 }}>
+      <Typography variant="overline" sx={{ color: '#c9d1d9' }}>Live form value</Typography>
+      <Box
+        component="pre"
+        sx={{
+          m: 0, p: 1, color: '#f0f6fc', fontSize: 12,
+          bgcolor: '#161b22', borderRadius: 1, maxHeight: 360, overflow: 'auto',
+        }}
+      >
+        {JSON.stringify(values, null, 2)}
+      </Box>
+    </Box>
+  );
+};
+
+export default function App() {
+  const form = useForm({
+    defaultValues: {
+      productName: 'Pro plan',
+      price: 4900,
+      rating: 4,
+      tags: ['react', 'forms'],
+    },
+  });
+
+  return (
+    <Formzk.Native.Provider
+      config={[
+        { name: 'TextField', component: OutlinedInput, props: { fullWidth: true, size: 'small' } },
+        { name: 'CurrencyInput', component: CurrencyInput },
+        { name: 'RatingInput', component: RatingInput },
+        { name: 'ChipsInput', component: ChipsInput },
+      ]}
+    >
+      <FormProvider {...form}>
+        <Box
+          sx={{
+            p: 2,
+            display: 'grid',
+            gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
+            gap: 3,
+          }}
+        >
+          <Formzk.MUI.Form
+            name="custom-showcase"
+            form={form}
+            onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
+          >
+            <Stack spacing={2}>
+              <Formzk.MUI.Item name="productName" label="Product name" component="TextField" />
+              <Formzk.MUI.Item
+                name="price"
+                label="Price (USD cents)"
+                component="CurrencyInput"
+                caption="Numeric value with currency adornment"
+              />
+              <Formzk.MUI.Item
+                name="rating"
+                label="How would you rate this?"
+                component="RatingInput"
+              />
+              <Formzk.MUI.Item
+                name="tags"
+                label="Tags"
+                component="ChipsInput"
+                caption="Press Enter or comma to add a tag"
+              />
+            </Stack>
+
+            <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
+              <Formzk.MUI.Submit text="Save" />
+              <Formzk.MUI.Reset text="Reset" />
+            </Stack>
+          </Formzk.MUI.Form>
+
+          <LivePreview />
+        </Box>
+      </FormProvider>
+    </Formzk.Native.Provider>
+  );
+}
+`,
+    'components/CurrencyInput.tsx': `import React from 'react';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
+
+export const CurrencyInput = ({ value, onChange, currency = 'USD', ...rest }) => (
+  <OutlinedInput
+    fullWidth
+    size="small"
+    {...rest}
+    type="number"
+    startAdornment={<InputAdornment position="start">{currency}</InputAdornment>}
+    value={value ?? ''}
+    onChange={(e) => {
+      const raw = e.target.value;
+      onChange?.(raw === '' ? null : Number(raw));
+    }}
+  />
+);
+`,
+    'components/ChipsInput.tsx': `import React, { useState } from 'react';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Chip from '@mui/material/Chip';
+import { Box } from '@mui/material';
+
+export const ChipsInput = ({ value = [], onChange, placeholder = 'Add a tag…' }) => {
+  const [draft, setDraft] = useState('');
+  const commit = () => {
+    const t = draft.trim();
+    if (!t) return;
+    if (!value.includes(t)) onChange?.([...value, t]);
+    setDraft('');
+  };
+  return (
+    <Box>
+      <OutlinedInput
+        fullWidth
+        size="small"
+        placeholder={placeholder}
+        value={draft}
+        onChange={(e) => setDraft(e.target.value)}
+        onBlur={commit}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ',') {
+            e.preventDefault();
+            commit();
+          } else if (e.key === 'Backspace' && draft === '' && value.length) {
+            onChange?.(value.slice(0, -1));
+          }
+        }}
+      />
+      {value.length > 0 && (
+        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mt: 1 }}>
+          {value.map((tag) => (
+            <Chip
+              key={tag}
+              label={tag}
+              onDelete={() => onChange?.(value.filter((t) => t !== tag))}
+            />
+          ))}
+        </Box>
+      )}
+    </Box>
+  );
+};
+`,
+  }}
+/>
+
+### What to try
+
+- Edit any field and watch the right-hand JSON preview update on the next keystroke — it's powered by `useWatch`.
+- Open `components/CurrencyInput.tsx` — note that it just speaks `value` / `onChange`. That's the only contract a custom component needs to be Formzk-compatible.
+- Add a fourth custom component (e.g. a slider) — register it in the Provider config and bind a `Formzk.MUI.Item` to it.

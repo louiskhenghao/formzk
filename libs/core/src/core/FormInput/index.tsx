@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { ComponentType, Fragment } from 'react';
 import { Controller, FieldValues } from 'react-hook-form';
 
 import { ComponentPropsMap } from '../../@types';
@@ -42,6 +42,13 @@ export const FormzkFormInput = <
     return null;
   }
 
+  // Cast away the registry's collapsed-union prop typing for the JSX call.
+  // When `ComponentPropsMap` is augmented with structurally-incompatible
+  // entries (e.g. one with `value: string`, another with `value: string[]`),
+  // the union becomes unspreadable. Per-field typing is still enforced on
+  // the public `props` API via `ComponentPropsOf<K>`.
+  const RenderedComponent = Component.component as ComponentType<any>;
+
   return (
     <Controller
       name={name}
@@ -51,7 +58,7 @@ export const FormzkFormInput = <
       render={({ field, fieldState, formState }) => {
         // reusable view variable
         const view = (
-          <Component.component
+          <RenderedComponent
             {...inputProps}
             {...Component.props}
             disabled={disabled}

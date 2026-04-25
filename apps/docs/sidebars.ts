@@ -9,10 +9,41 @@ const sidebars: SidebarsConfig = {
       link: { type: 'doc', id: 'examples/overview' },
       items: [
         'examples/overview',
-        'examples/basic-form',
-        'examples/config-driven',
-        'examples/mui-adapter',
-        'examples/custom-component',
+        {
+          type: 'doc',
+          id: 'examples/basic-form',
+          label: 'Basic form (core)',
+        },
+        {
+          type: 'doc',
+          id: 'examples/custom-component',
+          label: 'Custom component (core)',
+        },
+        {
+          type: 'doc',
+          id: 'examples/config-driven',
+          label: 'Config-driven (mui)',
+        },
+        {
+          type: 'doc',
+          id: 'examples/mui-adapter',
+          label: 'MUI inputs (mui)',
+        },
+        {
+          type: 'doc',
+          id: 'examples/multi-step-form',
+          label: 'Multi-step wizard (mui)',
+        },
+        {
+          type: 'doc',
+          id: 'examples/claim-form',
+          label: 'Claim form (mui)',
+        },
+        {
+          type: 'doc',
+          id: 'examples/custom-components-showcase',
+          label: 'Custom components showcase (mui)',
+        },
       ],
     },
     {
