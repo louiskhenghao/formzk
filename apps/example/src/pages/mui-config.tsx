@@ -5,6 +5,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Stack from '@mui/material/Stack';
 import * as yup from 'yup';
 
+import { BackToHome, LiveFormPreview } from '../components';
+
 type InputPayload = {
   email: string;
   password: string;
@@ -57,7 +59,7 @@ export const useFormConfig = (
         name: 'password',
         component: 'TextField',
         disabled: disabled,
-        props: { placeholder: 'Password' },
+        props: { placeholder: 'Password', type: 'password' },
         layoutProps: {
           sm: 9,
         },
@@ -68,17 +70,17 @@ export const useFormConfig = (
         valueKey: 'checked',
         name: 'rememberMe',
         component: 'Checkbox',
-        label: 'Remember me?',
         disabled: disabled,
         caption: 'Please check if you wants',
+        props: { label: 'Remember me?' },
       },
       {
         valueKey: 'checked',
         name: 'switch',
         component: 'Switch',
-        label: 'Switch',
         disabled: disabled,
         caption: 'Please check if you wants',
+        props: { label: 'Switch' },
       },
     ],
     [
@@ -146,6 +148,7 @@ export function Index() {
   return (
     <div className="wrapper">
       <div className="container">
+        <BackToHome />
         <Formzk.MUI.Form<InputPayload>
           name="login-form"
           ref={ref}
@@ -198,6 +201,10 @@ export function Index() {
           <Stack direction="row" sx={{ marginTop: 4 }}>
             <Formzk.MUI.Submit />
             <Formzk.MUI.Reset />
+          </Stack>
+
+          <Stack sx={{ marginTop: 3 }}>
+            <LiveFormPreview<InputPayload> />
           </Stack>
 
           <Select

@@ -5,6 +5,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from '@mui/material';
 import * as yup from 'yup';
 
+import { BackToHome, LiveFormPreview } from '../components';
+
 type InputPayload = {
   email: string;
   password: string;
@@ -38,6 +40,7 @@ export function Index() {
   return (
     <div className="wrapper">
       <div className="container">
+        <BackToHome />
         <div id="welcome">
           <h1>Welcome example 👋</h1>
         </div>
@@ -85,18 +88,18 @@ export function Index() {
             valueKey="checked"
             name="rememberMe"
             component="Checkbox"
-            label="Remember me?"
             disabled={disabled}
             caption="Please check if you wants"
+            props={{ label: 'Remember me?' }}
           />
 
           <Formzk.MUI.Item
             valueKey="checked"
-            label="Switch"
             name="switch"
             disabled={disabled}
             component="Switch"
             caption="Please check if you wants"
+            props={{ label: 'Switch' }}
           />
 
           <Formzk.MUI.Item
@@ -145,6 +148,10 @@ export function Index() {
               </Button>
             )}
           />
+
+          <div style={{ marginTop: 24 }}>
+            <LiveFormPreview<InputPayload> />
+          </div>
         </Formzk.MUI.Form>
       </div>
     </div>
