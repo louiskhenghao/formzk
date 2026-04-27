@@ -1,42 +1,110 @@
-# @formzk
+# formzk
 
-## Introduction
+[![@formzk/core on npm](https://img.shields.io/npm/v/@formzk/core.svg?label=%40formzk%2Fcore)](https://www.npmjs.com/package/@formzk/core)
+[![@formzk/mui on npm](https://img.shields.io/npm/v/@formzk/mui.svg?label=%40formzk%2Fmui)](https://www.npmjs.com/package/@formzk/mui)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-In the modern development landscape, building flexible and reusable form components is crucial for creating scalable applications. `@formzk` was developed to meet this need by providing a headless form library that integrates seamlessly with react-hook-form. Designed to work across both web and mobile projects (React, Next.js, React Native), `@formzk` enables developers to create consistent, maintainable, and scalable form solutions.
+A headless React form library built on top of [react-hook-form](https://react-hook-form.com/), with **swappable UI adapters**. Declare your form once and render it through any UI stack — native HTML, Material UI, or your own component set.
 
-## Vision
+> **Documentation:** **https://louiskhenghao.github.io/formzk/**
 
-The vision of `@formzk` is to simplify form management in modern applications by offering a robust and flexible foundation. By decoupling form logic from presentation, developers can focus on building dynamic and responsive UIs without being bogged down by repetitive form setup tasks. This library aims to be the go-to solution for developers looking to create highly customizable and reusable form components, fostering better code organization and reusability.
+## Why formzk?
 
----
-
-## Available Packages
-
-### @formzk/core
-
-`@formzk/core` was born out of the necessity to overcome the limitations of existing form solutions that often tightly couple form logic with UI components. This coupling can lead to duplicated code and hinder the flexibility needed to adapt to different use cases. By leveraging the power of react-hook-form and introducing a headless architecture, @formzk/core allows developers to register and manage form components globally, ensuring consistency and reducing redundancy. This results in cleaner, more maintainable code and a more efficient development process.
-
-Please refer to [documentation](./libs/core/README.md)
-
-### @formzk/mui
-
-`@formzk/mui` was created to bridge the gap between headless form management and Material-UI's rich component library. While @formzk/core provides the foundation for flexible form logic, developers often need to invest additional effort to integrate UI components. @formzk/mui addresses this by offering a set of ready-to-use, pre-configured Material-UI components that work seamlessly with the @formzk/core architecture. This reduces the overhead of setting up forms and ensures that developers can leverage the full potential of Material-UI with the powerful form handling capabilities of @formzk/core.
-
-Please refer to [documentation](./libs/mui/README.md)
-
-### @formzk/tamagui
-
-upcoming
+- **Headless core, swappable adapters** — `@formzk/core` owns form state, validation, and a component registry. UI adapters plug in on top.
+- **Strongly typed** — augment `ComponentPropsMap` once via declaration merging and every `<Formzk.Input component="..." />` gets autocomplete and prop type-safety.
+- **Layer-thin** — the core is a declarative wrapper around `useForm` / `Controller`, no hidden state.
+- **Config-driven layout** — the MUI adapter lets you describe an entire form (rows, columns, fields) as a single config array.
 
 ---
 
-### Example
+## Packages
 
-Check out examples of implementation in Next.js project.
+| Package | Version | Description |
+| ------- | ------- | ----------- |
+| [`@formzk/core`](./libs/core/README.md) | [![npm](https://img.shields.io/npm/v/@formzk/core.svg)](https://www.npmjs.com/package/@formzk/core) | Headless form state, validation, and component registry. |
+| [`@formzk/mui`](./libs/mui/README.md) | [![npm](https://img.shields.io/npm/v/@formzk/mui.svg)](https://www.npmjs.com/package/@formzk/mui) | Material UI adapter — pre-wired inputs, layout helpers, error views. Supports MUI v5–v9. |
+| `@formzk/tamagui` | — | Upcoming. |
 
-| Example                            | Link                                                                                                |
-| ---------------------------------- | --------------------------------------------------------------------------------------------------- |
-| Setup Module Augmentation          | [Checkout](https://github.com/louiskhenghao/formzk/blob/main/apps/example/index.d.ts#L16)           |
-| Usage of @formzk/core              | [Checkout](https://github.com/louiskhenghao/formzk/blob/main/apps/example/src/pages/index.tsx)      |
-| Usage of @formzk/mui               | [Checkout](https://github.com/louiskhenghao/formzk/blob/main/apps/example/src/pages/mui.tsx)        |
-| Usage of @formzk/mui (with config) | [Checkout](https://github.com/louiskhenghao/formzk/blob/main/apps/example/src/pages/mui-config.tsx) |
+---
+
+## Install
+
+```sh
+# headless core
+yarn add @formzk/core react-hook-form
+
+# optional — Material UI adapter
+yarn add @formzk/mui @mui/material @emotion/react @emotion/styled
+
+# optional — yup validation
+yarn add yup @hookform/resolvers
+```
+
+## Quick start
+
+```tsx
+import { Formzk } from '@formzk/core';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+type LoginPayload = { email: string; password: string };
+
+const schema = yup.object({
+  email: yup.string().required().email(),
+  password: yup.string().required().min(8),
+});
+
+export function LoginForm() {
+  return (
+    <Formzk.Form<LoginPayload>
+      options={{ resolver: yupResolver(schema) }}
+      onSubmit={(values) => console.log(values)}
+    >
+      <Formzk.Input name="email" component="MyTextField" />
+      <Formzk.Input name="password" component="MyTextField" />
+      <Formzk.Submit render={(submit) => <button onClick={submit}>Sign in</button>} />
+    </Formzk.Form>
+  );
+}
+```
+
+You register the components referenced by `component="..."` once at your app entry — see [Registering components](https://louiskhenghao.github.io/formzk/docs/core/register-components).
+
+---
+
+## UI Builder
+
+The docs site ships with an interactive **[UI Builder](https://louiskhenghao.github.io/formzk/docs/builder)** that lets you visually compose a form, preview it live in Sandpack, and copy or download the generated `App.tsx` straight into your project.
+
+---
+
+## Examples
+
+Live runnable examples are on the docs site under [Examples](https://louiskhenghao.github.io/formzk/docs/examples/overview). The Next.js source for each is in [`apps/example`](./apps/example):
+
+| Example | Source |
+| ------- | ------ |
+| Module augmentation setup | [`apps/example/index.d.ts`](./apps/example/index.d.ts) |
+| `@formzk/core` basics | [`apps/example/src/pages/core.tsx`](./apps/example/src/pages/core.tsx) |
+| `@formzk/mui` basics | [`apps/example/src/pages/mui.tsx`](./apps/example/src/pages/mui.tsx) |
+| `@formzk/mui` with `config` layout | [`apps/example/src/pages/mui-config.tsx`](./apps/example/src/pages/mui-config.tsx) |
+| Multi-step claim form | [`apps/example/src/pages/claim.tsx`](./apps/example/src/pages/claim.tsx) |
+| Custom-component adapter | [`apps/example/src/pages/custom-components.tsx`](./apps/example/src/pages/custom-components.tsx) |
+| Onboarding flow | [`apps/example/src/pages/onboarding.tsx`](./apps/example/src/pages/onboarding.tsx) |
+
+Run the example app locally:
+
+```sh
+yarn install
+yarn example:dev   # http://localhost:3333
+```
+
+---
+
+## Contributing
+
+PRs welcome — including new UI adapters (Tamagui, Mantine, Chakra, …). See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for setup, commit conventions, and the checklist for adding a new adapter package.
+
+## License
+
+[MIT](./LICENSE) © Louis Loo
