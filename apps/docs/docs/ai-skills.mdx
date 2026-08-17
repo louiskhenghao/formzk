@@ -1,0 +1,50 @@
+---
+id: ai-skills
+title: AI coding skills (Claude Code)
+sidebar_label: AI coding skills
+---
+
+# AI coding skills
+
+formzk ships a suite of [Claude Code skills](https://code.claude.com/docs/en/skills) in the repo's [`skills/`](https://github.com/louiskhenghao/formzk/tree/main/skills) folder. A skill is a small instruction package (`SKILL.md` + reference files) that an AI coding agent loads automatically when a task matches — so instead of guessing at formzk's API, the agent follows the same registry pattern, type augmentation, and gotchas documented on this site.
+
+Every developer has different UI preferences, and the skills respect that: they **detect your app's UI library** and route accordingly — MUI apps get `@formzk/mui`, Tamagui apps get `@formzk/tamagui`, and everything else (Chakra, Ant Design, shadcn, your own design system) is guided to `@formzk/core` with custom-registered components.
+
+## The suite
+
+| Skill | What it does | Example prompt |
+| --- | --- | --- |
+| `formzk-implement` | Builds forms with formzk in your app. Detects your UI kit from `package.json`, installs the right packages, sets up the provider, type augmentation, form, inputs, and verification. | "Add a signup form with email, password, and a terms checkbox using formzk" |
+| `formzk-custom-component` | Wraps any React component to formzk's `value`/`onChange` contract, registers it, and augments `ComponentPropsMap` for typed usage. | "Make my StarRating component work inside a formzk form" |
+| `formzk-new-adapter` | Scaffolds a new `@formzk/<kit>` adapter package inside the formzk monorepo, following the contributing checklist and the `libs/mui` anatomy. | "Scaffold a @formzk/chakra adapter" |
+
+If your UI kit has no official adapter, `formzk-implement` guides the agent to the core route — and points power users at [CONTRIBUTING.md](https://github.com/louiskhenghao/formzk/blob/main/CONTRIBUTING.md#adding-a-new-adapter-package) to upstream their wrappers as a new adapter (which `formzk-new-adapter` automates).
+
+## Installation
+
+Copy the skill folders you want into your project's `.claude/skills/` directory:
+
+```bash
+# per-project (recommended)
+npx degit louiskhenghao/formzk/skills/formzk-implement .claude/skills/formzk-implement
+npx degit louiskhenghao/formzk/skills/formzk-custom-component .claude/skills/formzk-custom-component
+```
+
+Or with a plain clone:
+
+```bash
+git clone --depth 1 https://github.com/louiskhenghao/formzk /tmp/formzk
+cp -r /tmp/formzk/skills/formzk-implement .claude/skills/
+```
+
+To make a skill available in **all** your projects, copy it to `~/.claude/skills/` instead.
+
+Then just ask your agent for a form — the skill triggers automatically:
+
+> Add a login form using formzk
+
+## Notes
+
+- `formzk-new-adapter` is for working **inside a clone of the formzk repo** (contributing an adapter), not for app development. In the repo itself, all three skills are already active via `.claude/skills/` symlinks.
+- Each skill is self-contained — install only what you need.
+- The skills use the standard `SKILL.md` format, so other AI agents that read that format can use them too.
