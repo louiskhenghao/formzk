@@ -45,6 +45,6 @@
     "@formzk/core": ">=1.0.0",
     "react": ">=18",
     "react-hook-form": ">=7.40.0",
-    "tamagui": ">=1.100.0 <2"
+    "tamagui": ">=1.100.0 <3"
   }
 }
