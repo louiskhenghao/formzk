@@ -10,8 +10,9 @@ slug: /getting-started
 
 - `@formzk/core` — framework-agnostic form state, validation, and component registry.
 - `@formzk/mui` — Material UI adapter (inputs, layout, error views).
+- `@formzk/tamagui` — Tamagui adapter for web **and** React Native (inputs, layout, error views).
 
-Bring your own UI by registering components against `@formzk/core`, or use the MUI adapter for a batteries-included experience.
+Bring your own UI by registering components against `@formzk/core`, or use an adapter for a batteries-included experience.
 
 ## Install
 
@@ -23,6 +24,12 @@ Optional: use the MUI adapter.
 
 ```sh
 yarn add @formzk/mui @mui/material @emotion/react @emotion/styled
+```
+
+Optional: use the Tamagui adapter (web & React Native).
+
+```sh
+yarn add @formzk/tamagui tamagui
 ```
 
 ## Quick start
@@ -57,8 +64,8 @@ Register the input components you referenced via `component="..."` — see [Regi
 
 ## Why formzk?
 
-- Same form declaration works across UI stacks — swap `@formzk/mui` for a different adapter without rewriting your forms.
+- Same form declaration works across UI stacks — swap `@formzk/mui` for `@formzk/tamagui` (or your own adapter) without rewriting your forms.
 - Strongly-typed: augment `ComponentPropsMap` via declaration merging to get autocomplete on every `component="..."` usage.
 - Layer-thin: the core is a declarative wrapper around `useForm` / `Controller` — no hidden state.
 
-Next: read the [@formzk/core overview](./core/overview) or jump to the [MUI adapter guide](./mui/overview).
+Next: read the [@formzk/core overview](./core/overview) or jump to the [MUI](./mui/overview) or [Tamagui](./tamagui/overview) adapter guide.

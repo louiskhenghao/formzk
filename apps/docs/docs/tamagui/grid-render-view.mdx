@@ -1,0 +1,58 @@
+---
+id: grid-render-view
+title: GridRenderView (Tamagui)
+sidebar_label: GridRenderView
+---
+
+# GridRenderView
+
+The Tamagui flavor of `GridRenderView` lays out form items with **stacks instead of a 12-column grid** — rows are `XStack`, items are `YStack`. Each item takes a `span` which is a **flex weight**: two items with span `2` and `1` split the row 2:1. Omitted spans default to `1`, so items share the row equally. Because it's plain flexbox, the same layout math works on web and React Native.
+
+```tsx
+import { GridRenderView } from '@formzk/tamagui';
+
+<GridRenderView
+  containerProps={{ gap: '$3' }}
+  items={[
+    [
+      { span: 2, children: <Field1 /> },
+      { span: 1, children: <Field2 /> },
+    ],
+    [{ children: <FullWidthField /> }],
+  ]}
+/>;
+```
+
+## Props
+
+| Prop             | Type                                                              | Description                                   |
+| ---------------- | ----------------------------------------------------------------- | --------------------------------------------- |
+| `items`          | `(GridFlexItemType[] \| { props?, items: GridFlexItemType[] })[]` | Rows of items.                                |
+| `containerProps` | `GridFlexRowType` (XStack props)                                  | Default props applied to every row.           |
+| `itemProps`      | `GridFlexItemType` (YStack props + `span`)                        | Default props applied to every item.          |
+
+A row can also be an object `{ props, items }` to style a single row.
+
+## Responsive stacking
+
+There are no `xs/sm/md` size props — use Tamagui media-query props on the row to stack items vertically on small screens:
+
+```tsx
+<GridRenderView
+  containerProps={{
+    flexDirection: 'column',
+    $gtSm: { flexDirection: 'row' },
+  }}
+  items={...}
+/>
+```
+
+The same works per-row via `{ props: { ... }, items: [...] }`, and inside `Formzk.Tamagui.Form` via `configLayoutProps={{ containerProps: { ... } }}`.
+
+## Coming from @formzk/mui?
+
+| MUI adapter                        | Tamagui adapter                       |
+| ---------------------------------- | ------------------------------------- |
+| `layoutProps: { xs: 12, sm: 6 }`   | `layoutProps: { span: 1 }` (weights)  |
+| `containerProps: { spacing: 2 }`   | `containerProps: { gap: '$2' }`       |
+| Breakpoints per item               | Media-query props per row             |
