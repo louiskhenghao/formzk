@@ -23,7 +23,7 @@ A headless React form library built on top of [react-hook-form](https://react-ho
 | ------- | ------- | ----------- |
 | [`@formzk/core`](./libs/core/README.md) | [![npm](https://img.shields.io/npm/v/@formzk/core.svg)](https://www.npmjs.com/package/@formzk/core) | Headless form state, validation, and component registry. |
 | [`@formzk/mui`](./libs/mui/README.md) | [![npm](https://img.shields.io/npm/v/@formzk/mui.svg)](https://www.npmjs.com/package/@formzk/mui) | Material UI adapter — pre-wired inputs, layout helpers, error views. Supports MUI v5–v9. |
-| [`@formzk/tamagui`](./libs/tamagui/README.md) | — | Tamagui adapter — cross-platform (web & React Native) inputs, layout helpers, error views. Supports Tamagui v1. |
+| [`@formzk/tamagui`](./libs/tamagui/README.md) | — | Tamagui adapter — cross-platform (web & React Native) inputs, layout helpers, error views. Supports Tamagui v1 & v2. |
 
 ---
 

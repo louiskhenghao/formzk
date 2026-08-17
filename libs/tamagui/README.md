@@ -29,10 +29,10 @@ Full documentation: **https://louiskhenghao.github.io/formzk/**
 | React             | `>= 18` (React 18 & 19)  |
 | react-hook-form   | `>= 7.40`                |
 | @formzk/core      | `>= 1.0`                 |
-| tamagui           | `>= 1.100 < 2` (v1 line) |
+| tamagui           | `>= 1.100 < 3` (v1 & v2) |
 | Node.js (tooling) | `>= 18`                  |
 
-> Works with React 18 and 19 (this workspace runs React 19). The package tracks Tamagui's `1.x` line, which supports both React versions; Tamagui `2.x` is not supported yet. All components are cross-platform — the same code renders on web (react-native-web) and native React Native.
+> Works with React 18 and 19, and with Tamagui v1 and v2. Note that Tamagui `2.x` itself requires React 19, while the `1.x` line also runs on React 18. All components are cross-platform — the same code renders on web (react-native-web) and native React Native.
 
 ---
 
