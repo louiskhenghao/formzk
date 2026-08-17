@@ -6,7 +6,15 @@ import {
   SelectProps,
   SwitchProps,
 } from '@formzk/mui';
+import {
+  CheckboxGroupProps as TamaguiCheckboxGroupProps,
+  CheckboxProps as TamaguiCheckboxProps,
+  RadioGroupProps as TamaguiRadioGroupProps,
+  SelectProps as TamaguiSelectProps,
+  SwitchProps as TamaguiSwitchProps,
+} from '@formzk/tamagui';
 import { InputProps, OutlinedInputProps } from '@mui/material';
+import { InputProps as TamaguiInputProps } from 'tamagui';
 
 import {
   ChipsInputProps,
@@ -44,5 +52,11 @@ declare module '@formzk/core' {
     DateInput: DateInputProps;
     FileUpload: FileUploadProps;
     ChipsInput: ChipsInputProps;
+    TamaguiInput: TamaguiInputProps;
+    TamaguiCheckbox: TamaguiCheckboxProps;
+    TamaguiCheckboxGroup: TamaguiCheckboxGroupProps;
+    TamaguiRadioGroup: TamaguiRadioGroupProps;
+    TamaguiSwitch: TamaguiSwitchProps;
+    TamaguiSelect: TamaguiSelectProps;
   }
 }

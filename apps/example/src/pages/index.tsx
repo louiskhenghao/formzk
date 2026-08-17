@@ -37,6 +37,13 @@ const examples: ExampleEntry[] = [
     tags: ['mui', 'config', 'grid'],
   },
   {
+    href: '/tamagui',
+    title: '@formzk/tamagui showcase',
+    description:
+      'Cross-platform Tamagui adapter — Input, Checkbox, Switch, RadioGroup, CheckboxGroup and Select with a page-scoped component registry.',
+    tags: ['tamagui', 'cross-platform', 'adapter'],
+  },
+  {
     href: '/onboarding',
     title: 'Multi-step onboarding wizard',
     description:
