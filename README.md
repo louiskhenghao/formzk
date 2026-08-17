@@ -4,7 +4,7 @@
 [![@formzk/mui on npm](https://img.shields.io/npm/v/@formzk/mui.svg?label=%40formzk%2Fmui)](https://www.npmjs.com/package/@formzk/mui)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-A headless React form library built on top of [react-hook-form](https://react-hook-form.com/), with **swappable UI adapters**. Declare your form once and render it through any UI stack — native HTML, Material UI, or your own component set.
+A headless React form library built on top of [react-hook-form](https://react-hook-form.com/), with **swappable UI adapters**. Declare your form once and render it through any UI stack — native HTML, Material UI, Tamagui, or your own component set.
 
 > **Documentation:** **https://louiskhenghao.github.io/formzk/**
 
@@ -23,7 +23,7 @@ A headless React form library built on top of [react-hook-form](https://react-ho
 | ------- | ------- | ----------- |
 | [`@formzk/core`](./libs/core/README.md) | [![npm](https://img.shields.io/npm/v/@formzk/core.svg)](https://www.npmjs.com/package/@formzk/core) | Headless form state, validation, and component registry. |
 | [`@formzk/mui`](./libs/mui/README.md) | [![npm](https://img.shields.io/npm/v/@formzk/mui.svg)](https://www.npmjs.com/package/@formzk/mui) | Material UI adapter — pre-wired inputs, layout helpers, error views. Supports MUI v5–v9. |
-| `@formzk/tamagui` | — | Upcoming. |
+| [`@formzk/tamagui`](./libs/tamagui/README.md) | — | Tamagui adapter — cross-platform (web & React Native) inputs, layout helpers, error views. Supports Tamagui v1 & v2. |
 
 ---
 
@@ -35,6 +35,9 @@ yarn add @formzk/core react-hook-form
 
 # optional — Material UI adapter
 yarn add @formzk/mui @mui/material @emotion/react @emotion/styled
+
+# optional — Tamagui adapter (web & React Native)
+yarn add @formzk/tamagui tamagui
 
 # optional — yup validation
 yarn add yup @hookform/resolvers

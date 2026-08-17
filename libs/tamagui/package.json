@@ -1,0 +1,53 @@
+{
+  "name": "@formzk/tamagui",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "A powerful form management library integrating Tamagui components with @formzk/core, providing seamless cross-platform (web & React Native) form creation and management.",
+  "author": "Louis Loo <louiskhenghao@gmail.com> (https://github.com/louiskhenghao)",
+  "homepage": "https://github.com/louiskhenghao/formzk#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/louiskhenghao/formzk.git",
+    "directory": "libs/tamagui"
+  },
+  "bugs": {
+    "url": "https://github.com/louiskhenghao/formzk/issues"
+  },
+  "keywords": [
+    "forms",
+    "react",
+    "react-native",
+    "tamagui",
+    "form-management",
+    "form-builder",
+    "input-components",
+    "ui-library",
+    "react-hook-form",
+    "yup",
+    "validation"
+  ],
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.esm.mjs",
+      "require": "./index.cjs.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "peerDependencies": {
+    "@formzk/core": ">=1.0.0",
+    "react": ">=18",
+    "react-hook-form": ">=7.40.0",
+    "tamagui": ">=1.100.0 <3"
+  }
+}

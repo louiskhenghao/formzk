@@ -27,7 +27,7 @@ Full documentation: **https://louiskhenghao.github.io/formzk/**
 
 | Peer                          | Supported range |
 | ----------------------------- | --------------- |
-| React                         | `>= 18`         |
+| React                         | `>= 18` (React 18 & 19) |
 | react-hook-form               | `>= 7.40`       |
 | @formzk/core                  | `>= 1.0`        |
 | @mui/material                 | `>= 5 <10` (MUI v5, v6, v7, v8, v9) |

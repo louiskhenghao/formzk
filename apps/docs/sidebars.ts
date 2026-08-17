@@ -59,6 +59,12 @@ const sidebars: SidebarsConfig = {
       link: { type: 'doc', id: 'mui/overview' },
       items: ['mui/overview', 'mui/grid-render-view'],
     },
+    {
+      type: 'category',
+      label: '@formzk/tamagui',
+      link: { type: 'doc', id: 'tamagui/overview' },
+      items: ['tamagui/overview', 'tamagui/grid-render-view'],
+    },
     'migration-guide',
     'faq',
   ],

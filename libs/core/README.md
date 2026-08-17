@@ -31,7 +31,7 @@ Full documentation: **https://louiskhenghao.github.io/formzk/**
 
 | Peer              | Supported range |
 | ----------------- | --------------- |
-| React             | `>= 18`         |
+| React             | `>= 18` (React 18 & 19) |
 | react-hook-form   | `>= 7.40`       |
 | Node.js (tooling) | `>= 18`         |
 

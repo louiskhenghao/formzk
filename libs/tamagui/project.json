@@ -1,0 +1,41 @@
+{
+  "name": "tamagui",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/tamagui/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "nx-release-publish": {
+      "executor": "@nx/js:release-publish",
+      "dependsOn": ["build"],
+      "options": {
+        "packageRoot": "dist/libs/tamagui"
+      }
+    },
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/tamagui",
+        "tsConfig": "libs/tamagui/tsconfig.lib.json",
+        "project": "libs/tamagui/package.json",
+        "entryFile": "libs/tamagui/src/index.ts",
+        "format": ["cjs", "esm"],
+        "external": ["@formzk/core", "tamagui", "react", "react-hook-form"],
+        "rollupConfig": "libs/tamagui/rollup.config.cjs",
+        "compiler": "babel",
+        "assets": [
+          {
+            "glob": "libs/tamagui/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    }
+  }
+}

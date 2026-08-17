@@ -1,0 +1,99 @@
+---
+id: overview
+title: '@formzk/tamagui — Overview'
+sidebar_label: Overview
+---
+
+# @formzk/tamagui
+
+[Tamagui](https://tamagui.dev) adapter for `@formzk/core` — the same form declaration you use on the web, rendered through cross-platform Tamagui primitives. One codebase for **web (react-native-web) and native React Native**. Ships:
+
+- Pre-wired input components (`Checkbox`, `CheckboxGroup`, `RadioGroup`, `Switch`, `Select`).
+- Higher-level views (`Formzk.Tamagui.Item`, `Formzk.Tamagui.Errors`, `Formzk.Tamagui.Submit`, `Formzk.Tamagui.Reset`).
+- Layout helpers (`GridRenderView`, `StackRenderView`) built on `XStack` / `YStack`.
+
+## Peer deps
+
+```sh
+yarn add @formzk/core @formzk/tamagui react-hook-form tamagui
+```
+
+Compatible with **Tamagui v1 & v2** and **React 18 / 19** (Tamagui v2 itself requires React 19). Your app must be wrapped in a configured `TamaguiProvider` — see the [Tamagui installation guide](https://tamagui.dev/docs/intro/installation).
+
+## Setup
+
+Register the Tamagui inputs (and any Tamagui components you want addressable by name) once at the root:
+
+```tsx
+import { Formzk, Checkbox, Select, Switch } from '@formzk/tamagui';
+import { Input, TextArea } from 'tamagui';
+
+<Formzk.Tamagui.Provider
+  config={[
+    { name: 'Input', component: Input },
+    { name: 'TextArea', component: TextArea },
+    { name: 'Checkbox', component: Checkbox },
+    { name: 'Select', component: Select },
+    { name: 'Switch', component: Switch },
+  ]}
+>
+  <App />
+</Formzk.Tamagui.Provider>;
+```
+
+## Minimal example
+
+```tsx
+import { Formzk } from '@formzk/tamagui';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+const schema = yup.object({
+  email: yup.string().required().email(),
+  password: yup.string().required().min(8),
+});
+
+export function LoginForm() {
+  return (
+    <Formzk.Tamagui.Form
+      options={{ resolver: yupResolver(schema) }}
+      onSubmit={(v) => console.log(v)}
+    >
+      <Formzk.Tamagui.Item name="email" label="Email" component="Input" />
+      <Formzk.Tamagui.Item name="password" label="Password" component="Input" />
+      <Formzk.Tamagui.Submit />
+    </Formzk.Tamagui.Form>
+  );
+}
+```
+
+`Formzk.Tamagui.Item` supports the same `layout` modes as the MUI adapter: `none`, `normal`, `contained` and `wrapped` (default — label above, caption/error below).
+
+## Config-driven forms
+
+`Formzk.Tamagui.Form` accepts a declarative `config` array and renders fields via `GridRenderView`:
+
+```tsx
+const config = [
+  [
+    { name: 'email', label: 'Email', component: 'Input', layoutProps: { span: 1 } },
+    { name: 'password', label: 'Password', component: 'Input', layoutProps: { span: 1 } },
+  ],
+  [{ name: 'rememberMe', component: 'Switch', layout: 'none', props: { label: 'Remember me' } }],
+  [{ content: <Formzk.Tamagui.Errors /> }],
+  [
+    { content: <Formzk.Tamagui.Reset /> },
+    { content: <Formzk.Tamagui.Submit />, layoutProps: { span: 2 } },
+  ],
+];
+
+<Formzk.Tamagui.Form config={config} onSubmit={(v) => console.log(v)} />;
+```
+
+See [`GridRenderView`](./grid-render-view) for how `layoutProps.span` works — it is a flex weight, not a 12-column size.
+
+## Platform notes
+
+- All components render on web and native from the same code.
+- Tamagui's `Select` needs an `Adapt`/`Sheet` setup to present its content on native; on web it works out of the box (or pass `selectProps={{ native: 'web' }}` for a native `<select>`).
+- Submission is wired through `onPress` / Tamagui's `Form` element, so it works without a DOM `<form>`.

@@ -80,6 +80,7 @@ const config: Config = {
             { label: 'Getting started', to: '/docs/getting-started' },
             { label: '@formzk/core', to: '/docs/core/overview' },
             { label: '@formzk/mui', to: '/docs/mui/overview' },
+            { label: '@formzk/tamagui', to: '/docs/tamagui/overview' },
           ],
         },
         {

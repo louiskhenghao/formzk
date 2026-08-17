@@ -17,7 +17,8 @@
     "baseUrl": ".",
     "paths": {
       "@formzk/core": ["libs/core/src/index.ts"],
-      "@formzk/mui": ["libs/mui/src/index.ts"]
+      "@formzk/mui": ["libs/mui/src/index.ts"],
+      "@formzk/tamagui": ["libs/tamagui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

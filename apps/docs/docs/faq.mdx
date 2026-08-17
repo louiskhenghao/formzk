@@ -7,7 +7,7 @@ title: FAQ
 
 ### Why not just use `react-hook-form` directly?
 
-You can, and for single-app single-UI projects it's often simpler. `formzk` shines when you want the **same form declaration** to render across multiple UI stacks (MUI today, Tamagui tomorrow), or when you have a large catalog of custom input components and want strongly-typed `component="..."` references.
+You can, and for single-app single-UI projects it's often simpler. `formzk` shines when you want the **same form declaration** to render across multiple UI stacks (MUI and Tamagui both ship as adapters), or when you have a large catalog of custom input components and want strongly-typed `component="..."` references.
 
 ### Does formzk own my form state?
 
@@ -24,6 +24,10 @@ Partially. Grid layout is rewritten for v6+. Most inputs still work on v5 but ar
 ### Does formzk support React 19?
 
 Yes. React 18 and 19 are both supported in the current release line.
+
+### Does formzk work in React Native?
+
+Yes — use [`@formzk/tamagui`](./tamagui/overview). It builds on Tamagui primitives, so the same form declaration renders on web (react-native-web) and native React Native. `@formzk/core` itself is renderer-agnostic.
 
 ### Can I write my own adapter?
 
