@@ -67,7 +67,7 @@
   },
   "useInferencePlugins": false,
   "release": {
-    "projects": ["core", "mui"],
+    "projects": ["core", "mui", "tamagui"],
     "projectsRelationship": "independent",
     "releaseTagPattern": "{projectName}@{version}",
     "version": {

@@ -27,7 +27,8 @@
     "example:run": "yarn start example --prod --port=3333",
     "build:lib:core": "yarn build core",
     "build:lib:mui": "yarn build mui",
-    "build:libs": "yarn build:lib:core && yarn build:lib:mui",
+    "build:lib:tamagui": "yarn build tamagui",
+    "build:libs": "yarn build:lib:core && yarn build:lib:mui && yarn build:lib:tamagui",
     "docs:install": "cd apps/docs && yarn install",
     "docs:dev": "cd apps/docs && yarn start",
     "docs:build": "cd apps/docs && yarn install --frozen-lockfile && yarn build",
@@ -39,7 +40,10 @@
     "release:core:publish": "nx release publish --projects=core",
     "release:mui": "nx release --projects=mui",
     "release:mui:dry": "nx release --projects=mui --dry-run",
-    "release:mui:publish": "nx release publish --projects=mui"
+    "release:mui:publish": "nx release publish --projects=mui",
+    "release:tamagui": "nx release --projects=tamagui",
+    "release:tamagui:dry": "nx release --projects=tamagui --dry-run",
+    "release:tamagui:publish": "nx release publish --projects=tamagui"
   },
   "private": true,
   "dependencies": {
