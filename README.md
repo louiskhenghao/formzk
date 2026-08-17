@@ -81,6 +81,12 @@ The docs site ships with an interactive **[UI Builder](https://louiskhenghao.git
 
 ---
 
+## AI coding skills
+
+Using Claude Code (or another agent that reads the `SKILL.md` format)? Copy the skills in [`skills/`](./skills) into your project's `.claude/skills/` and your agent learns how to implement formzk correctly — see [AI coding skills](https://louiskhenghao.github.io/formzk/docs/ai-skills).
+
+---
+
 ## Examples
 
 Live runnable examples are on the docs site under [Examples](https://louiskhenghao.github.io/formzk/docs/examples/overview). The Next.js source for each is in [`apps/example`](./apps/example):
