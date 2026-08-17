@@ -4,6 +4,7 @@ const sidebars: SidebarsConfig = {
   docs: [
     'getting-started',
     'builder',
+    'ai-skills',
     {
       type: 'category',
       label: 'Examples & playground',
