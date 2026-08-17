@@ -1,0 +1,173 @@
+---
+id: tamagui-adapter
+title: Tamagui adapter — all inputs (Tamagui)
+sidebar_label: Tamagui inputs (tamagui)
+---
+
+import Playground from '@site/src/components/Playground';
+
+**Package:** `@formzk/tamagui` (also pulls in `@formzk/core` and `tamagui`)
+
+Every pre-wired input shipping with `@formzk/tamagui`, plus Tamagui's own `Input` registered via the `Native.Provider`. The same code runs on web (react-native-web) and native React Native — this sandbox runs the web build. The components shipped from the adapter are:
+
+- **`Checkbox`** — single checkbox with `valueKey="checked"`.
+- **`CheckboxGroup`** — multi-select checkboxes bound to an array.
+- **`RadioGroup`** — single-value radio list, supports string or numeric `value`.
+- **`Switch`** — single toggle with `valueKey="checked"`.
+- **`Select`** — dropdown, supports string or numeric `value`.
+
+The app is wrapped in `TamaguiProvider` with the stock `@tamagui/config` theme; all values flow into one form state and show on submit.
+
+<Playground
+  activeFile="App.tsx"
+  editorHeight={620}
+  withMui={false}
+  dependencies={{
+    '@formzk/tamagui': '^1.0',
+    tamagui: '^2.7.7',
+    '@tamagui/config': '^2.7.7',
+    'react-native-web': '0.19.13',
+    react: '^19.0.0',
+    'react-dom': '^19.0.0',
+  }}
+  files={{
+    'App.tsx': `import React from 'react';
+import { createTamagui, TamaguiProvider, Input, Separator, SizableText, XStack, YStack } from 'tamagui';
+import { defaultConfig } from '@tamagui/config/v4';
+import {
+  Formzk,
+  Checkbox,
+  CheckboxGroup,
+  RadioGroup,
+  Switch,
+  Select,
+} from '@formzk/tamagui';
+
+const tamaguiConfig = createTamagui(defaultConfig);
+
+const Section = ({ title, children }) => (
+  <YStack marginTop="$4" gap="$2">
+    <SizableText size="$2" textTransform="uppercase" color="$color10">
+      {title}
+    </SizableText>
+    <Separator />
+    {children}
+  </YStack>
+);
+
+export default function App() {
+  return (
+    <TamaguiProvider config={tamaguiConfig} defaultTheme="light">
+      <Formzk.Native.Provider
+        config={[
+          { name: 'Input', component: Input },
+          { name: 'Checkbox', component: Checkbox },
+          { name: 'CheckboxGroup', component: CheckboxGroup },
+          { name: 'RadioGroup', component: RadioGroup },
+          { name: 'Switch', component: Switch },
+          { name: 'Select', component: Select },
+        ]}
+      >
+        <YStack padding="$4" maxWidth={640}>
+          <Formzk.Tamagui.Form
+            options={{
+              defaultValues: {
+                username: '',
+                agree: false,
+                permissions: ['read'],
+                role: 'editor',
+                notify: true,
+                plan: 'pro',
+              },
+            }}
+            onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
+          >
+            <Formzk.Tamagui.Item
+              name="username"
+              label="Username"
+              component="Input"
+              caption="Registered Tamagui Input"
+              props={{ placeholder: 'jane.doe' }}
+            />
+
+            <Section title="Checkbox & Switch">
+              <Formzk.Tamagui.Item
+                name="agree"
+                label="I agree to the terms"
+                component="Checkbox"
+                valueKey="checked"
+                layout="contained"
+              />
+              <Formzk.Tamagui.Item
+                name="notify"
+                label="Email notifications"
+                component="Switch"
+                valueKey="checked"
+                layout="contained"
+              />
+            </Section>
+
+            <Section title="Groups">
+              <Formzk.Tamagui.Item
+                name="permissions"
+                label="Permissions"
+                component="CheckboxGroup"
+                props={{
+                  options: [
+                    { label: 'Read', value: 'read' },
+                    { label: 'Write', value: 'write' },
+                    { label: 'Admin', value: 'admin' },
+                  ],
+                }}
+              />
+              <Formzk.Tamagui.Item
+                name="role"
+                label="Role"
+                component="RadioGroup"
+                props={{
+                  options: [
+                    { label: 'Viewer', value: 'viewer' },
+                    { label: 'Editor', value: 'editor' },
+                    { label: 'Owner', value: 'owner' },
+                  ],
+                }}
+              />
+            </Section>
+
+            <Section title="Select">
+              <Formzk.Tamagui.Item
+                name="plan"
+                label="Subscription plan"
+                component="Select"
+                props={{
+                  placeholder: 'Pick a plan',
+                  options: [
+                    { label: 'Free', value: 'free' },
+                    { label: 'Pro', value: 'pro' },
+                    { label: 'Enterprise', value: 'enterprise' },
+                  ],
+                }}
+              />
+            </Section>
+
+            <Formzk.Tamagui.Errors containerProps={{ marginTop: '$3' }} />
+
+            <XStack gap="$2" marginTop="$4">
+              <Formzk.Tamagui.Submit text="Save" />
+              <Formzk.Tamagui.Reset text="Reset" />
+            </XStack>
+          </Formzk.Tamagui.Form>
+        </YStack>
+      </Formzk.Native.Provider>
+    </TamaguiProvider>
+  );
+}
+`,
+  }}
+/>
+
+### Notes
+
+- `Formzk.Tamagui.Item` wraps each input with label / caption / error presentation — the `layout` prop switches between `wrapped` (default), `contained`, `normal` and `none`.
+- On native platforms Tamagui's `Select` needs an `Adapt`/`Sheet` setup to present its content; on web (like this sandbox) it works out of the box.
+- Values submit as their registered types — `CheckboxGroup` emits an array, `RadioGroup`/`Select` preserve numeric option values.

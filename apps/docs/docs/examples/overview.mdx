@@ -12,11 +12,12 @@ Live, editable examples that run fully in your browser via [Sandpack](https://sa
 
 ## Pages
 
-Each entry is tagged with the package it demonstrates — `core` examples only need `@formzk/core`, `mui` examples additionally pull in `@formzk/mui`.
+Each entry is tagged with the package it demonstrates — `core` examples only need `@formzk/core`, `mui` examples additionally pull in `@formzk/mui`, and `tamagui` examples pull in `@formzk/tamagui` + `tamagui`.
 
 - [**Basic form**](./basic-form) `core` — the smallest possible `@formzk/core` setup with yup validation and a custom input component. No MUI.
 - [**Config-driven form**](./config-driven) `mui` — declarative `config` prop layout with the MUI adapter.
 - [**MUI adapter — all inputs**](./mui-adapter) `mui` — every pre-wired input: `TextField`, `Checkbox`, `Switch`, `RadioGroup`, `CheckboxGroup`, `Select`.
+- [**Tamagui adapter — all inputs**](./tamagui-adapter) `tamagui` — every pre-wired cross-platform input: `Input`, `Checkbox`, `Switch`, `RadioGroup`, `CheckboxGroup`, `Select`.
 - [**Custom component registration**](./custom-component) `core` — register a bespoke color-swatch picker and augment `ComponentPropsMap` for full type-safety.
 - [**Multi-step onboarding wizard**](./multi-step-form) `mui` — Stepper-driven form with per-step validation via `trigger()`, sharing one form instance across steps.
 - [**Insurance claim form**](./claim-form) `mui` — a real-world config-driven form with a conditional field that appears based on another field's value.

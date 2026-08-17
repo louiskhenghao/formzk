@@ -8,7 +8,7 @@
  * App.tsx the developer can copy or download.
  */
 
-export type Mode = 'core' | 'mui';
+export type Mode = 'core' | 'mui' | 'tamagui';
 
 export type Option = { label: string; value: string };
 
@@ -316,6 +316,117 @@ export const REGISTRY: Record<string, FieldTypeMeta> = {
     }),
     editableProps: ['name', 'label', 'caption', 'layout', 'defaultValue'],
   },
+
+  // ─── tamagui presets ────────────────────────────────────
+  TamaguiInput: {
+    id: 'TamaguiInput',
+    label: 'Input',
+    group: 'Input (Tamagui)',
+    mode: 'tamagui',
+    defaults: () => ({
+      ...baseString('TamaguiInput', 'username', 'Username'),
+      layout: 'wrapped',
+    }),
+    editableProps: ['name', 'label', 'placeholder', 'caption', 'layout', 'defaultValue'],
+  },
+  TamaguiPassword: {
+    id: 'TamaguiPassword',
+    label: 'Input (password)',
+    group: 'Input (Tamagui)',
+    mode: 'tamagui',
+    defaults: () => ({
+      ...baseString('TamaguiPassword', 'password', 'Password'),
+      layout: 'wrapped',
+    }),
+    editableProps: ['name', 'label', 'placeholder', 'caption', 'layout', 'defaultValue'],
+  },
+  TamaguiNumber: {
+    id: 'TamaguiNumber',
+    label: 'Input (number)',
+    group: 'Input (Tamagui)',
+    mode: 'tamagui',
+    defaults: () => ({
+      ...baseNumber('TamaguiNumber', 'amount', 'Amount'),
+      layout: 'wrapped',
+    }),
+    editableProps: ['name', 'label', 'placeholder', 'caption', 'layout', 'defaultValue'],
+  },
+  TamaguiTextArea: {
+    id: 'TamaguiTextArea',
+    label: 'TextArea',
+    group: 'Input (Tamagui)',
+    mode: 'tamagui',
+    defaults: () => ({
+      ...baseString('TamaguiTextArea', 'bio', 'Bio'),
+      layout: 'wrapped',
+      rows: 3,
+    }),
+    editableProps: ['name', 'label', 'placeholder', 'caption', 'rows', 'layout', 'defaultValue'],
+  },
+  TamaguiCheckbox: {
+    id: 'TamaguiCheckbox',
+    label: 'Checkbox',
+    group: 'Pre-wired (Tamagui)',
+    mode: 'tamagui',
+    defaults: () => ({
+      type: 'TamaguiCheckbox',
+      name: 'agree',
+      label: 'I agree to the terms',
+      defaultValue: false as boolean,
+      valueKey: 'checked',
+      layout: 'contained',
+    }),
+    editableProps: ['name', 'label', 'caption', 'layout', 'defaultValue'],
+  },
+  TamaguiSwitch: {
+    id: 'TamaguiSwitch',
+    label: 'Switch',
+    group: 'Pre-wired (Tamagui)',
+    mode: 'tamagui',
+    defaults: () => ({
+      type: 'TamaguiSwitch',
+      name: 'notify',
+      label: 'Email notifications',
+      defaultValue: true as boolean,
+      valueKey: 'checked',
+      layout: 'contained',
+    }),
+    editableProps: ['name', 'label', 'caption', 'layout', 'defaultValue'],
+  },
+  TamaguiRadioGroup: {
+    id: 'TamaguiRadioGroup',
+    label: 'RadioGroup',
+    group: 'Pre-wired (Tamagui)',
+    mode: 'tamagui',
+    defaults: () => ({
+      ...baseOptions('TamaguiRadioGroup', 'role', 'Role', 'one'),
+      layout: 'wrapped',
+    }),
+    editableProps: ['name', 'label', 'options', 'caption', 'layout', 'defaultValue'],
+  },
+  TamaguiCheckboxGroup: {
+    id: 'TamaguiCheckboxGroup',
+    label: 'CheckboxGroup',
+    group: 'Pre-wired (Tamagui)',
+    mode: 'tamagui',
+    defaults: () => ({
+      ...baseOptions('TamaguiCheckboxGroup', 'permissions', 'Permissions', []),
+      layout: 'wrapped',
+    }),
+    editableProps: ['name', 'label', 'options', 'caption', 'layout'],
+  },
+  TamaguiSelect: {
+    id: 'TamaguiSelect',
+    label: 'Select',
+    group: 'Pre-wired (Tamagui)',
+    mode: 'tamagui',
+    defaults: () => ({
+      ...baseOptions('TamaguiSelect', 'plan', 'Subscription plan', 'one'),
+      placeholder: 'Pick a plan',
+      layout: 'wrapped',
+    }),
+    editableProps: ['name', 'label', 'placeholder', 'options', 'caption', 'layout', 'defaultValue'],
+  },
 };
 
 export const newField = (typeId: string): Field => {
@@ -497,9 +608,23 @@ function escape(s: string): string {
 
 function defaultValueLiteral(f: Field): string {
   if (f.defaultValue !== undefined) return stringify(f.defaultValue);
-  if (f.type === 'checkbox' || f.type === 'Checkbox' || f.type === 'Switch') return 'false';
-  if (f.type === 'CheckboxGroup') return '[]';
-  if (f.type === 'number' || f.type === 'NumberField' || f.type === 'Slider' || f.type === 'Rating') return '0';
+  if (
+    f.type === 'checkbox' ||
+    f.type === 'Checkbox' ||
+    f.type === 'Switch' ||
+    f.type === 'TamaguiCheckbox' ||
+    f.type === 'TamaguiSwitch'
+  )
+    return 'false';
+  if (f.type === 'CheckboxGroup' || f.type === 'TamaguiCheckboxGroup') return '[]';
+  if (
+    f.type === 'number' ||
+    f.type === 'NumberField' ||
+    f.type === 'Slider' ||
+    f.type === 'Rating' ||
+    f.type === 'TamaguiNumber'
+  )
+    return '0';
   return '""';
 }
 
@@ -723,8 +848,140 @@ ${fieldJsx || '            {/* No fields yet — add one from the left panel. */
 `;
 }
 
+// ─── tamagui codegen ──────────────────────────────────────
+
+const TAMAGUI_INPUT_VARIANTS = new Set([
+  'TamaguiInput',
+  'TamaguiPassword',
+  'TamaguiNumber',
+]);
+
+// Components shipped by @formzk/tamagui as named exports; registered under
+// their plain names so the generated code reads naturally.
+const TAMAGUI_PREWIRED: Record<string, string> = {
+  TamaguiCheckbox: 'Checkbox',
+  TamaguiSwitch: 'Switch',
+  TamaguiRadioGroup: 'RadioGroup',
+  TamaguiCheckboxGroup: 'CheckboxGroup',
+  TamaguiSelect: 'Select',
+};
+
+function renderTamaguiField(f: Field): string {
+  const isInputVariant = TAMAGUI_INPUT_VARIANTS.has(f.type);
+  const component = isInputVariant
+    ? 'Input'
+    : f.type === 'TamaguiTextArea'
+    ? 'TextArea'
+    : TAMAGUI_PREWIRED[f.type] ?? f.type;
+
+  const attrs: string[] = [`name=${stringify(f.name)}`];
+  if (f.label) attrs.push(`label=${stringify(f.label)}`);
+  attrs.push(`component=${stringify(component)}`);
+  if (f.valueKey && f.valueKey !== 'value') attrs.push(`valueKey=${stringify(f.valueKey)}`);
+  if (f.layout && f.layout !== 'wrapped') attrs.push(`layout=${stringify(f.layout)}`);
+  if (f.caption) attrs.push(`caption=${stringify(f.caption)}`);
+
+  const props: Record<string, unknown> = {};
+  if (f.type === 'TamaguiPassword') props.secureTextEntry = true;
+  if (f.type === 'TamaguiNumber') props.keyboardType = 'numeric';
+  if (f.type === 'TamaguiTextArea') props.numberOfLines = f.rows ?? 3;
+  if (f.placeholder) props.placeholder = f.placeholder;
+  if (
+    f.options &&
+    (f.type === 'TamaguiRadioGroup' ||
+      f.type === 'TamaguiCheckboxGroup' ||
+      f.type === 'TamaguiSelect')
+  ) {
+    props.options = f.options;
+  }
+
+  const propsAttr = Object.keys(props).length ? ` props=${jsxProps(props)}` : '';
+
+  return `              <Formzk.Tamagui.Item ${attrs.join(' ')}${propsAttr} />`;
+}
+
+export function generateTamaguiCode(fields: Field[]): string {
+  const usedPrewired = Array.from(
+    new Set(fields.map((f) => TAMAGUI_PREWIRED[f.type]).filter(Boolean))
+  );
+  const usesInput = fields.some((f) => TAMAGUI_INPUT_VARIANTS.has(f.type));
+  const usesTextArea = fields.some((f) => f.type === 'TamaguiTextArea');
+
+  const tamaguiImports = [
+    'createTamagui',
+    'TamaguiProvider',
+    ...(usesInput ? ['Input'] : []),
+    ...(usesTextArea ? ['TextArea'] : []),
+    'XStack',
+    'YStack',
+  ];
+
+  const formzkImport =
+    usedPrewired.length > 0
+      ? `import { Formzk, ${usedPrewired.join(', ')} } from '@formzk/tamagui';`
+      : `import { Formzk } from '@formzk/tamagui';`;
+
+  const providerEntries = [
+    ...(usesInput ? [`        { name: 'Input', component: Input }`] : []),
+    ...(usesTextArea
+      ? [`        { name: 'TextArea', component: TextArea, props: { multiline: true } }`]
+      : []),
+    ...usedPrewired.map((t) => `        { name: ${stringify(t)}, component: ${t} }`),
+  ].join(',\n');
+
+  const defaults = fields
+    .map((f) => `                ${stringify(f.name)}: ${defaultValueLiteral(f)}`)
+    .join(',\n');
+
+  const fieldJsx = fields.map(renderTamaguiField).join('\n');
+
+  return `import React from 'react';
+import { ${tamaguiImports.join(', ')} } from 'tamagui';
+import { defaultConfig } from '@tamagui/config/v4';
+${formzkImport}
+
+const tamaguiConfig = createTamagui(defaultConfig);
+
+export default function App() {
+  return (
+    <TamaguiProvider config={tamaguiConfig} defaultTheme="light">
+      <Formzk.Native.Provider
+        config={[
+${providerEntries || '        // No fields yet — add one from the left panel.'}
+        ]}
+      >
+        <YStack padding="$4" maxWidth={640}>
+          <Formzk.Tamagui.Form
+            options={{
+              defaultValues: {
+${defaults}
+              },
+            }}
+            onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
+          >
+            <YStack gap="$2">
+${fieldJsx || '              {/* No fields yet — add one from the left panel. */}'}
+            </YStack>
+
+            <Formzk.Tamagui.Errors containerProps={{ marginTop: '$3' }} />
+
+            <XStack gap="$2" marginTop="$3">
+              <Formzk.Tamagui.Submit text="Save" />
+              <Formzk.Tamagui.Reset text="Reset" />
+            </XStack>
+          </Formzk.Tamagui.Form>
+        </YStack>
+      </Formzk.Native.Provider>
+    </TamaguiProvider>
+  );
+}
+`;
+}
+
 export function generateCode(mode: Mode, fields: Field[]): string {
-  return mode === 'core' ? generateCoreCode(fields) : generateMuiCode(fields);
+  if (mode === 'core') return generateCoreCode(fields);
+  if (mode === 'tamagui') return generateTamaguiCode(fields);
+  return generateMuiCode(fields);
 }
 
 // re-export for tests / introspection

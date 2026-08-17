@@ -32,6 +32,11 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'doc',
+          id: 'examples/tamagui-adapter',
+          label: 'Tamagui inputs (tamagui)',
+        },
+        {
+          type: 'doc',
           id: 'examples/multi-step-form',
           label: 'Multi-step wizard (mui)',
         },

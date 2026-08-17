@@ -91,6 +91,7 @@ Live runnable examples are on the docs site under [Examples](https://louiskhengh
 | `@formzk/core` basics | [`apps/example/src/pages/core.tsx`](./apps/example/src/pages/core.tsx) |
 | `@formzk/mui` basics | [`apps/example/src/pages/mui.tsx`](./apps/example/src/pages/mui.tsx) |
 | `@formzk/mui` with `config` layout | [`apps/example/src/pages/mui-config.tsx`](./apps/example/src/pages/mui-config.tsx) |
+| `@formzk/tamagui` showcase | [`apps/example/src/pages/tamagui.tsx`](./apps/example/src/pages/tamagui.tsx) |
 | Multi-step claim form | [`apps/example/src/pages/claim.tsx`](./apps/example/src/pages/claim.tsx) |
 | Custom-component adapter | [`apps/example/src/pages/custom-components.tsx`](./apps/example/src/pages/custom-components.tsx) |
 | Onboarding flow | [`apps/example/src/pages/onboarding.tsx`](./apps/example/src/pages/onboarding.tsx) |
