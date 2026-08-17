@@ -26,6 +26,33 @@ const SANDPACK_DEPS_MUI = {
   '@emotion/styled': '^11',
 };
 
+// Tamagui v2: its web build has no bare `react-native` imports (v1's did,
+// which the Sandpack bundler cannot resolve). v2 needs React 19, so the
+// template's react/react-dom are overridden. react-native-web stays because
+// a few subpackages (AlertDialog, Image) require it directly on web.
+const SANDPACK_DEPS_TAMAGUI = {
+  '@formzk/core': '^1.0',
+  '@formzk/tamagui': '^1.0',
+  'react-hook-form': '^7.40',
+  tamagui: '^2.7.7',
+  '@tamagui/config': '^2.7.7',
+  'react-native-web': '0.19.13',
+  react: '^19.0.0',
+  'react-dom': '^19.0.0',
+};
+
+const SANDPACK_DEPS: Record<Mode, Record<string, string>> = {
+  core: SANDPACK_DEPS_CORE,
+  mui: SANDPACK_DEPS_MUI,
+  tamagui: SANDPACK_DEPS_TAMAGUI,
+};
+
+const SEED_FIELD: Record<Mode, string> = {
+  core: 'text',
+  mui: 'TextField',
+  tamagui: 'TamaguiInput',
+};
+
 function BuilderInner() {
   const { colorMode } = useColorMode();
 
@@ -70,7 +97,7 @@ function BuilderInner() {
       return;
     }
     setMode(next);
-    const seed = next === 'core' ? 'text' : 'TextField';
+    const seed = SEED_FIELD[next];
     const f = newField(seed);
     setFields([f]);
     setSelectedId(f.id);
@@ -142,6 +169,13 @@ function BuilderInner() {
             onClick={() => switchMode('mui')}
           >
             @formzk/mui
+          </button>
+          <button
+            type="button"
+            className={`${styles.modeButton} ${mode === 'tamagui' ? styles.modeButtonActive : ''}`}
+            onClick={() => switchMode('tamagui')}
+          >
+            @formzk/tamagui
           </button>
         </div>
 
@@ -278,7 +312,7 @@ function BuilderInner() {
               wrapContent: true,
             }}
             customSetup={{
-              dependencies: mode === 'core' ? SANDPACK_DEPS_CORE : SANDPACK_DEPS_MUI,
+              dependencies: SANDPACK_DEPS[mode],
             }}
           />
         </div>
@@ -389,13 +423,17 @@ function DefaultValueEditor({
   const isBool =
     field.type === 'checkbox' ||
     field.type === 'Checkbox' ||
-    field.type === 'Switch';
+    field.type === 'Switch' ||
+    field.type === 'TamaguiCheckbox' ||
+    field.type === 'TamaguiSwitch';
   const isNumber =
     field.type === 'number' ||
     field.type === 'NumberField' ||
     field.type === 'Slider' ||
-    field.type === 'Rating';
-  const isMulti = field.type === 'CheckboxGroup';
+    field.type === 'Rating' ||
+    field.type === 'TamaguiNumber';
+  const isMulti =
+    field.type === 'CheckboxGroup' || field.type === 'TamaguiCheckboxGroup';
 
   if (isBool) {
     return (
